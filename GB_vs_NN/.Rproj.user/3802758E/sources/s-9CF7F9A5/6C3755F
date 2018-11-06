@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1541515925844.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3433707133",
+    "id" : "6C3755F",
+    "lastKnownWriteTime" : 1541517442,
+    "last_content_update" : 1541517442293,
+    "path" : "~/project_gradient_boosting/GB_vs_NN/gradient_boosting.R",
+    "project_path" : "gradient_boosting.R",
+    "properties" : {
+        "cursorPosition" : "28,37",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
