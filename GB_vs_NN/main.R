@@ -2,7 +2,7 @@ source("load_data.R")
 source("gradient_boosting.R")
 source("testing.R")
 
-data <- getDataFirstN()
+data <- getDataFirstN(500)
 
 split <- splitTrainTestSet(data)
 summary(split)
@@ -13,4 +13,6 @@ model <- trainXGBoost(train[,-ncol(train)], as.numeric(train[,ncol(train)]) - 1)
 
 predictions <- classifyXGBoost(model, test[,-ncol(test)])
 
-print(predictions)
+validateOutput(predictions, as.numeric(test[,ncol(test)]) - 1)
+
+
