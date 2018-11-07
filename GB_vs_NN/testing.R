@@ -5,8 +5,6 @@ splitTrainTestSet <- function(data, test_portion = .1){
   
   test_indices <- sample(nrow(data), size = size)
   
-  print(test_indices)
-  
   test = data[test_indices,]
   
   train = data[-test_indices,]
@@ -27,8 +25,7 @@ validateOutput <- function(test_output, real_labels){
     }
   }
   
-  print("Correct: ")
-  print(correct)
-  print("Incorrect: ")
-  print(incorrect)
+  print(paste("Correct: ", correct))
+  print(paste("Incorrect: ", incorrect))
+  print(paste("Precision ", correct/(correct + incorrect), "%"))
 }
