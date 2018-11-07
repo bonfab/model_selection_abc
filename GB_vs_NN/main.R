@@ -3,7 +3,7 @@ source("gradient_boosting.R")
 source("testing.R")
 source("neural_net.R")
 
-data <- getDataFirstN(1500)
+data <- getDataFirstN(300)
 
 split <- splitTrainTestSet(data)
 train <- split[[1]]
@@ -26,6 +26,4 @@ runNN <- function(train, test){
 }
 
 runNN(train, test)
-
-
 

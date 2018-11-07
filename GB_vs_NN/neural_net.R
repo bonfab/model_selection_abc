@@ -1,14 +1,14 @@
-library(keras)
+library("keras")
 
-trainNN(train_data, train_label, iterations = 30){
+trainNN <- function(train_data, train_label, iterations = 30){
   
   dim <- nrow(train_data)
   
   model <- keras_model_sequential()
   model %>%
-    layer_dense(units = dim, activation = "softmax", input_shape = c(dim)) %>%
+    layer_dense(units = dim, activation = "softmax", input_shape = c(1, dim)) %>%
     layer_dense(units = dim*2, activation = "softmax") %>%
-    layer_dense(units = length(unique(train_label), activation = "softmax"))
+    layer_dense(units = length(unique(train_label)), activation = "softmax")
   
   model %>% compile(
     loss = "categorical_crossentropy",
@@ -26,7 +26,7 @@ trainNN(train_data, train_label, iterations = 30){
     
 }
 
-classifyNN(model, test_data){
+classifyNN <- function(model, test_data){
   return(model %>% predict_classes(test_data))
 }
 
