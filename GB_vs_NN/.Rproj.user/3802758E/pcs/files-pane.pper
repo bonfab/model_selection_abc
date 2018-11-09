@@ -1,5 +1,5 @@
 {
-    "path" : "~/project_gradient_boosting/GB_vs_NN",
+    "path" : "~/sshMounts/krakenator/model_selection_abc/GB_vs_NN",
     "sortOrder" : [
         {
             "ascending" : true,

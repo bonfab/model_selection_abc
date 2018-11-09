@@ -1,4 +1,18 @@
 
+noramlizeData <- function(data){
+  
+  for(i in 1:ncol(data)){
+    
+    if(is.numeric(data[1, i])){
+      data[, i] <- data[, i ] / max(data[, i])
+    }
+  }
+  
+  return(data)
+  
+}
+
+
 splitTrainTestSet <- function(data, test_portion = .1){
   
   size = ceiling(test_portion * nrow(data))
@@ -29,3 +43,9 @@ validateOutput <- function(test_output, real_labels){
   print(paste("Incorrect: ", incorrect))
   print(paste("Precision ", correct/(correct + incorrect), "%"))
 }
+
+
+crossValidate <- function(prediction_function, model, data, number_folds = 10){
+  
+}
+

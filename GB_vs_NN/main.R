@@ -3,7 +3,10 @@ source("gradient_boosting.R")
 source("testing.R")
 source("neural_net.R")
 
-data <- getDataFirstN(300)
+#data <- getDataFirstN(10000)
+data <- getData()
+
+#data <- noramlizeData(data)
 
 split <- splitTrainTestSet(data)
 train <- split[[1]]
@@ -19,11 +22,19 @@ runXGBoost <- function(train, test){
   
 }
 
+
 runNN <- function(train, test){
   
-  model <- trainNN(train[,-ncol(train)], as.numeric(train[,ncol(train)]) - 1)
+  model <- trainNN(train[,-ncol(train)], as.numeric(train[,ncol(train)]) - 1, 40)
+  
+  predictions <- classifyNN(model, test[,-ncol(test)])
+  
+  validateOutput(predictions, as.numeric(test[,ncol(test)]) - 1)
   
 }
 
-runNN(train, test)
+source("neural_net.R")
+findParametersNN(train[,-ncol(train)], as.numeric(train[,ncol(train)]) - 1)
+
+
 
