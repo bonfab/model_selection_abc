@@ -26,15 +26,16 @@ trainNN <- function(train_data, train_label, iterations = 30){
 }
 
 
-findParametersNN <- function(train_data, train_label, iterations = 30){
+findParametersNN <- function(data, iterations = 30){
   
   n_classes <- length(unique(train_label))
   
   drop_out_max <- 0.3
   hidden_max <- 2
-  node_max <- 4*ncol(train_data)
+  node_max <- 3*ncol(train_data)
   
   max_precision <- 0
+  best_model <- NULL
   
   for(hidden in seq(1, hidden_max)){
     
@@ -50,13 +51,12 @@ findParametersNN <- function(train_data, train_label, iterations = 30){
     print(helper[1])
     print(tracker %% 2)
     
+    count <- 0
+    
     while(helper[1] <= node_max){
       
       
       while(TRUE){
-        
-        ######### doesn't work, tracker pointer moves incorrectly
-        
         
         if(tracker %% 2 == 1){
           helper[tracker] <- helper[tracker] + 1
@@ -66,7 +66,7 @@ findParametersNN <- function(train_data, train_label, iterations = 30){
           }
           
         } else {
-          helper[tracker] <- helper[tracker] + 0.01
+          helper[tracker] <- helper[tracker] + 0.02
           
           if(helper[tracker] > drop_out_max){
             break
@@ -77,6 +77,15 @@ findParametersNN <- function(train_data, train_label, iterations = 30){
         # TODO crossvalidate
         #
         
+        precision <- crossValidate(makeModelNN, data, trainNN, classifyNN)
+        
+        if(precision > max_precision){
+          max_precision <- precision
+          best_model <- helper
+        }
+        
+        count <- count + 1
+        
         print(helper)
         
         if(tracker < length(helper)){
@@ -85,17 +94,16 @@ findParametersNN <- function(train_data, train_label, iterations = 30){
       }
       
       if(tracker > 1){
-        print("bla")
-        print(basis)
         print(((tracker + 1) %% 2) + 1)
-        print("bla")
         helper[tracker] = basis[((tracker + 1) %% 2) +1]
         tracker <- tracker - 1
       }
       
-      
     }
   }
+  
+  return(best_model)
+  
 }
 
 

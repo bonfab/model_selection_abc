@@ -42,10 +42,55 @@ validateOutput <- function(test_output, real_labels){
   print(paste("Correct: ", correct))
   print(paste("Incorrect: ", incorrect))
   print(paste("Precision ", correct/(correct + incorrect), "%"))
-}
-
-
-crossValidate <- function(prediction_function, model, data, number_folds = 10){
   
+  return(correct/(correct + incorrect))
 }
+
+
+crossValidate <- function(model, data, train, predict, number_folds = 10){
+  
+  split <- floor(nrows(data) / number_folds)
+  
+  precision_sum <- 0
+  
+  for(i in 1:number_folds){
+    
+    if(i < 2){
+      
+      indices <- 1:i*split
+      train_split <- data[-indices,]
+      validate_split <- data[indices]
+      
+      train(train_split[,-ncol(train_split)], as.numeric(train_split[, ncol(train_split)]) - 1)
+      precisions_sum <- precision_sum + validateOutput(predict(model, validate_split[,-ncol(validate_split)]), as.numeric(validate_split[, ncol(validate_split)]) - 1)
+      
+      
+    } else if(i > number_folds-1){
+      
+      indices <- (i-1)*split:nrow(data)
+      train_split <- data[-indices,]
+      validate_split <- data[indices]
+      
+      train(train_split[,-ncol(train_split)], as.numeric(train_split[, ncol(train_split)]) - 1)
+      precisions_sum <- precision_sum + validateOutput(predict(model, validate_split[,-ncol(validate_split)]), as.numeric(validate_split[, ncol(validate_split)]) - 1)
+    
+    } else {
+      
+      indices <- (i-1)*split:i*split
+      train_split <- data[-indices,]
+      validate_split <- data[indices]
+      
+      train(train_split[,-ncol(train_split)], as.numeric(train_split[, ncol(train_split)]) - 1)
+      precisions_sum <- precision_sum + validateOutput(predict(model, validate_split[,-ncol(validate_split)]), as.numeric(validate_split[, ncol(validate_split)]) - 1)
+      
+    }
+  }
+  
+  return(precision_sum/number_folds)
+}
+
+permutateData <- function(data){
+  return(data[sample(nrow(data)),])
+}
+
 

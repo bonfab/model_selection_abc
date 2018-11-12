@@ -1,5 +1,5 @@
 source("load_data.R")
-source("gradient_boosting.R")
+#source("gradient_boosting.R")
 source("testing.R")
 source("neural_net.R")
 
@@ -33,7 +33,7 @@ runNN <- function(train, test){
   
 }
 
-source("neural_net.R")
+#source("neural_net.R")
 findParametersNN(train[,-ncol(train)], as.numeric(train[,ncol(train)]) - 1)
 
 
