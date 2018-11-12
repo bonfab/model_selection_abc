@@ -3,8 +3,8 @@ source("gradient_boosting.R")
 source("testing.R")
 source("neural_net.R")
 
-#data <- getDataFirstN(10000)
-data <- getData()
+data <- getDataFirstN(100)
+#data <- getData()
 
 #data <- noramlizeData(data)
 

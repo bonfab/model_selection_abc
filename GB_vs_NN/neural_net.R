@@ -30,8 +30,8 @@ findParametersNN <- function(train_data, train_label, iterations = 30){
   
   n_classes <- length(unique(train_label))
   
-  drop_out_max <- 0.4
-  hidden_max <- 3
+  drop_out_max <- 0.3
+  hidden_max <- 2
   node_max <- 4*ncol(train_data)
   
   max_precision <- 0
@@ -53,30 +53,46 @@ findParametersNN <- function(train_data, train_label, iterations = 30){
     while(helper[1] <= node_max){
       
       
-      while((helper[tracker] <= node_max && tracker %% 2 == 1) || (helper[tracker] <= drop_out_max)){
+      while(TRUE){
         
         ######### doesn't work, tracker pointer moves incorrectly
         
         
         if(tracker %% 2 == 1){
           helper[tracker] <- helper[tracker] + 1
+          
+          if(helper[tracker] > node_max){
+            break
+          }
+          
         } else {
           helper[tracker] <- helper[tracker] + 0.01
+          
+          if(helper[tracker] > drop_out_max){
+            break
+          }
+          
         }
         
-        #
         # TODO crossvalidate
         #
         
         print(helper)
         
         if(tracker < length(helper)){
-          tracker <- tracker + 1
+          tracker <- length(helper)
         }
       }
       
-      helper[tracker] = basis[(tracker %% 2) + 1]
-      tracker <- tracker - 1
+      if(tracker > 1){
+        print("bla")
+        print(basis)
+        print(((tracker + 1) %% 2) + 1)
+        print("bla")
+        helper[tracker] = basis[((tracker + 1) %% 2) +1]
+        tracker <- tracker - 1
+      }
+      
       
     }
   }
