@@ -1,6 +1,7 @@
 library("keras")
 
-trainNN <- function(train_data, train_label, iterations = 30){
+
+trainNNd <- function(train_data, train_label, iterations = 30){
   
   dim <- ncol(train_data)
   n_classes <- length(unique(train_label))
@@ -23,6 +24,40 @@ trainNN <- function(train_data, train_label, iterations = 30){
   )
   
   return(fitModelNN(model, train_data, train_label, iterations))
+}
+
+
+makeNN <- function(model_vec, dim, n_classes){
+  
+  model <- keras_model_sequential()
+  
+  for(i in seq(1, length(model_vec))){
+    
+    if(i %% 2 == 1){
+      
+      if(i == 1){
+        layer_dense(model, units = model_vec[i], activation = "relu", input_shape = c(dim))
+      } else {
+        layer_dense(model, units = model_vec[i], activation = "relu")
+      }
+      
+    } else
+      layer_dropout(model, rate = model_vec[i])
+  }
+  
+  layer_dense(model, units = n_classes, activation = "softmax")
+  return(model)
+}
+
+trainNN <- function(model, train_data, train_label, iterations = 30){
+  
+  model %>% compile(
+    loss = "categorical_crossentropy",
+    optimizer = optimizer_rmsprop(),
+    metrics = "accuracy"
+  )
+  
+  return(fitModelNN(model, train_data, train_label, iterations, validation_split = 0))
 }
 
 
@@ -59,7 +94,7 @@ findParametersNN <- function(data, iterations = 30){
       while(TRUE){
         
         if(tracker %% 2 == 1){
-          helper[tracker] <- helper[tracker] + 1
+          helper[tracker] <- helper[tracker] + 2
           
           if(helper[tracker] > node_max){
             break
@@ -74,10 +109,8 @@ findParametersNN <- function(data, iterations = 30){
           
         }
         
-        # TODO crossvalidate
-        #
         
-        precision <- crossValidate(makeModelNN, data, trainNN, classifyNN)
+        precision <- crossValidate(makeNN(helper), data, trainNN, classifyNN)
         
         if(precision > max_precision){
           max_precision <- precision

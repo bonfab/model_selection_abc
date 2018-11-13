@@ -3,14 +3,14 @@ source("load_data.R")
 source("testing.R")
 source("neural_net.R")
 
-data <- getDataFirstN(100)
-#data <- getData()
+#data <- getDataFirstN(100)
+data <- getData()
 
 #data <- noramlizeData(data)
 
-split <- splitTrainTestSet(data)
-train <- split[[1]]
-test <- split[[2]]
+#split <- splitTrainTestSet(data)
+#train <- split[[1]]
+#test <- split[[2]]
 
 runXGBoost <- function(train, test){
   
@@ -34,7 +34,8 @@ runNN <- function(train, test){
 }
 
 #source("neural_net.R")
-findParametersNN(train[,-ncol(train)], as.numeric(train[,ncol(train)]) - 1)
-
-
-
+#findParametersNN(train[,-ncol(train)], as.numeric(train[,ncol(train)]) - 1)
+data <- permutateData(data)
+model <- makeNN(c(2*ncol(data), 0.04, 2*ncol(data), 0.06), ncol(data) - 1, length(unique(data[,ncol(data)])))
+#print(model)
+print(crossValidate(model, data, trainNN, classifyNN))

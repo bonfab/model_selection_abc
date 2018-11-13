@@ -31,11 +31,14 @@ validateOutput <- function(test_output, real_labels){
   correct <- 0
   incorrect <- 0
   
+  print(test_output)
+  print(real_labels)
+  
   for(i in 1:length(test_output)){
     if(test_output[i] == real_labels[i]){
       correct <- correct +1
     } else {
-      incorrect <- incorrect +1
+      incorrect <- incorrect + 1
     }
   }
   
@@ -49,7 +52,9 @@ validateOutput <- function(test_output, real_labels){
 
 crossValidate <- function(model, data, train, predict, number_folds = 10){
   
-  split <- floor(nrows(data) / number_folds)
+  #print(data)
+  
+  split <- floor(nrow(data) / number_folds)
   
   precision_sum <- 0
   
@@ -57,31 +62,32 @@ crossValidate <- function(model, data, train, predict, number_folds = 10){
     
     if(i < 2){
       
-      indices <- 1:i*split
+      indices <- 1: (i*split)
       train_split <- data[-indices,]
-      validate_split <- data[indices]
+      validate_split <- data[indices,]
       
-      train(train_split[,-ncol(train_split)], as.numeric(train_split[, ncol(train_split)]) - 1)
-      precisions_sum <- precision_sum + validateOutput(predict(model, validate_split[,-ncol(validate_split)]), as.numeric(validate_split[, ncol(validate_split)]) - 1)
+      train(model, train_split[,-ncol(train_split)], as.numeric(train_split[, ncol(train_split)]) - 1)
+      precision_sum <- precision_sum + validateOutput(predict(model, validate_split[,-ncol(validate_split)]), as.numeric(validate_split[, ncol(validate_split)]) - 1)
       
       
     } else if(i > number_folds-1){
       
-      indices <- (i-1)*split:nrow(data)
+      indices <- ((i-1)*split) :nrow(data)
       train_split <- data[-indices,]
-      validate_split <- data[indices]
+      validate_split <- data[indices,]
       
-      train(train_split[,-ncol(train_split)], as.numeric(train_split[, ncol(train_split)]) - 1)
-      precisions_sum <- precision_sum + validateOutput(predict(model, validate_split[,-ncol(validate_split)]), as.numeric(validate_split[, ncol(validate_split)]) - 1)
+      train(model, train_split[,-ncol(train_split)], as.numeric(train_split[, ncol(train_split)]) - 1)
+      precision_sum <- precision_sum + validateOutput(predict(model, validate_split[,-ncol(validate_split)]), as.numeric(validate_split[, ncol(validate_split)]) - 1)
     
     } else {
       
-      indices <- (i-1)*split:i*split
+      indices <- ((i-1)*split) : (i*split)
       train_split <- data[-indices,]
-      validate_split <- data[indices]
+      validate_split <- data[indices,]
       
-      train(train_split[,-ncol(train_split)], as.numeric(train_split[, ncol(train_split)]) - 1)
-      precisions_sum <- precision_sum + validateOutput(predict(model, validate_split[,-ncol(validate_split)]), as.numeric(validate_split[, ncol(validate_split)]) - 1)
+      
+      train(model, train_split[,-ncol(train_split)], as.numeric(train_split[, ncol(train_split)]) - 1)
+      precision_sum <- precision_sum + validateOutput(predict(model, validate_split[,-ncol(validate_split)]), as.numeric(validate_split[, ncol(validate_split)]) - 1)
       
     }
   }
