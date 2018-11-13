@@ -31,9 +31,6 @@ validateOutput <- function(test_output, real_labels){
   correct <- 0
   incorrect <- 0
   
-  print(test_output)
-  print(real_labels)
-  
   for(i in 1:length(test_output)){
     if(test_output[i] == real_labels[i]){
       correct <- correct +1
