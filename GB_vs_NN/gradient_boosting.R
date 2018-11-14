@@ -6,7 +6,7 @@ trainXGBoost <- function(train_data, train_label, iterations = 300){
   
   params <- list(
     objective = "multi:softmax",
-    #eval_metric = "mlogloss",
+    eval_metric = "mlogloss",
     nthread = 12,
     num_class = length(unique(train_label)),
     eta_decay = .999,

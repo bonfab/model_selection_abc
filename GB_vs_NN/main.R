@@ -44,7 +44,7 @@ out <- classifyABC(test[,-ncol(test)], train[,-ncol(train)], train[,ncol(train)]
 
 precision <- validateOutput(out, test[,ncol(test)])
 
-output_file <- file("output.txt")
+output_file <- file("output_gradientBoosting.txt")
 writeLines(toString(precision), output_file)
 close(output_file)
 
