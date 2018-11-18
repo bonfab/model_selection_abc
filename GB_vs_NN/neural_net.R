@@ -8,9 +8,9 @@ trainNNd <- function(train_data, train_label, iterations = 30){
   
   model <- keras_model_sequential()
   model %>%
-    layer_dense(units = 2*dim, activation = "relu", input_shape = c(dim)) %>%
+    layer_dense(units = ceiling(3*dim /2), activation = "relu", input_shape = c(dim)) %>%
     #layer_dropout(rate = 0.05) %>%
-    layer_dense(units = 3*dim, activation = "relu") %>%
+    layer_dense(units = 2*dim, activation = "relu") %>%
     #layer_dropout(rate = 0.1) %>%
     #layer_dense(units = 2*dim, activation = "relu") %>%
     #layer_dropout(rate = 0.1) %>%

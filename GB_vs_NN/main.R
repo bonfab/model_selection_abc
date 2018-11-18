@@ -1,10 +1,10 @@
 source("load_data.R")
-#source("gradient_boosting.R")
+source("gradient_boosting.R")
 source("testing.R")
 source("neural_net.R")
 source("abc_NN.R")
 
-data <- getDataFirstN(50000)
+data <- getDataFirstN(2000)
 #data <- getData()
 
 #data <- noramlizeData(data)
@@ -15,7 +15,7 @@ test <- split[[2]]
 
 runXGBoost <- function(train, test){
   
-  model <- trainXGBoost(train[,-ncol(train)], as.numeric(train[,ncol(train)]) - 1, 800)
+  model <- trainXGBoost(train[,-ncol(train)], as.numeric(train[,ncol(train)]) - 1, 200)
   
   predictions <- classifyXGBoost(model, test[,-ncol(test)])
   
@@ -26,7 +26,7 @@ runXGBoost <- function(train, test){
 
 runNN <- function(train, test){
   
-  model <- trainNN(train[,-ncol(train)], as.numeric(train[,ncol(train)]) - 1, 40)
+  model <- trainNNd(train[,-ncol(train)], as.numeric(train[,ncol(train)]) - 1, 30)
   
   predictions <- classifyNN(model, test[,-ncol(test)])
   
@@ -34,19 +34,22 @@ runNN <- function(train, test){
   
 }
 
+runXGBoost(train, test)
+#runNN(train, test)
+
 #source("neural_net.R")
 #findParametersNN(train[,-ncol(train)], as.numeric(train[,ncol(train)]) - 1)
 #data <- permutateData(data)
 #model <- makeNN(c(2*ncol(data), 0.04, 2*ncol(data), 0.06), ncol(data) - 1, length(unique(data[,ncol(data)])))
 #print(crossValidate(model, data, trainNN, classifyNN))
 
-out <- classifyABC(test[,-ncol(test)], train[,-ncol(train)], train[,ncol(train)])
+#out <- classifyABC(test[,-ncol(test)], train[,-ncol(train)], train[,ncol(train)])
 
-precision <- validateOutput(out, test[,ncol(test)])
+#precision <- validateOutput(out, test[,ncol(test)])
 
-output_file <- file("output_gradientBoosting.txt")
-writeLines(toString(precision), output_file)
-close(output_file)
+#output_file <- file("output_gradientBoosting.txt")
+#writeLines(toString(precision), output_file)
+#close(output_file)
 
 #t1 <- as.numeric(Sys.time())
 

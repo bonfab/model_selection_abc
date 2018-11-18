@@ -26,12 +26,29 @@ splitTrainTestSet <- function(data, test_portion = .1){
   return(list(train, test))
 }
 
+createConfusionMatrix <- function(classes){
+  columns <- as.character(classes)
+  rows <- as.character(classes)
+  
+  confusion_matrix <- data.frame(row.names = rows)
+  for(name in columns){
+    confusion_matrix[name] <- numeric(length(rows))
+  }
+  
+  return(confusion_matrix)
+}
+
 validateOutput <- function(test_output, real_labels){
   
   correct <- 0
   incorrect <- 0
   
+  confusion <- createConfusionMatrix(sort(unique(real_labels)))
+  
   for(i in 1:length(test_output)){
+    
+    confusion[as.character(test_output[i]), as.character(real_labels[i])] <- confusion[as.character(test_output[i]), as.character(real_labels[i])] + 1
+    
     if(test_output[i] == real_labels[i]){
       correct <- correct +1
     } else {
@@ -42,6 +59,8 @@ validateOutput <- function(test_output, real_labels){
   print(paste("Correct: ", correct))
   print(paste("Incorrect: ", incorrect))
   print(paste("Precision ", correct/(correct + incorrect), "%"))
+  
+  View(confusion)
   
   return(correct/(correct + incorrect))
 }

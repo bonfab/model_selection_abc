@@ -1,6 +1,6 @@
 library(xgboost)
 
-trainXGBoost <- function(train_data, train_label, iterations = 300){
+trainXGBoost <- function(train_data, train_label, iterations = 200){
  
   dtrain <- xgb.DMatrix(data = as.matrix(train_data), label = as.matrix(train_label))
   
@@ -10,12 +10,13 @@ trainXGBoost <- function(train_data, train_label, iterations = 300){
     nthread = 12,
     num_class = length(unique(train_label)),
     eta_decay = .999,
-    eta = .02,
-    gamma = 1.15,
-    max_depth = 20,
-    min_child_weight = .9,
-    subsample = .7,
-    colsample_bytree = .6,
+    eta = 0.07,
+    gamma = .63,
+    max_depth = 6,
+    min_child_weight = .66,
+    #subsample = .9,
+    colsample_bytree = .75,
+    lambda = 1.5,
     feature_selector = "thrifty"
   )
   
