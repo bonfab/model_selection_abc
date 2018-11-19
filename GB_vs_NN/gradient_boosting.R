@@ -24,6 +24,34 @@ trainXGBoost <- function(train_data, train_label, iterations = 200){
   return(bstDMatrix)
 }
 
+trainXGBoostBinary <- function(train_data, train_label, iterations = 200){
+  
+  print(dim(train_data))
+  print(length(train_label))
+  
+  dtrain <- xgb.DMatrix(data = as.matrix(train_data), label = as.matrix(train_label))
+
+params <- list(
+  booster = "gbtree",
+  objective = "binary:logistic",
+  #eval_metric = "error",
+  nthread = 8,
+  #num_class = length(unique(train_label)),
+  eta_decay = .999,
+  eta = 0.07,
+  gamma = .63,
+  max_depth = 6,
+  min_child_weight = .66,
+  #subsample = .9,
+  colsample_bytree = .75,
+  lambda = 1.5,
+  feature_selector = "thrifty"
+)
+
+bstDMatrix <- xgboost(param = params, data = dtrain, nrounds = iterations)
+return(bstDMatrix)
+}
+
 
 classifyXGBoost <- function(model, test_data){
   

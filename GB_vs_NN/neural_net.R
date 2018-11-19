@@ -90,7 +90,6 @@ findParametersNN <- function(data, iterations = 30){
     
     while(helper[1] <= node_max){
       
-      
       while(TRUE){
         
         if(tracker %% 2 == 1){
