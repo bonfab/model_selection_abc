@@ -4,7 +4,8 @@ source("testing.R")
 source("neural_net.R")
 source("abc_NN.R")
 
-data <- getDataFirstN(2000)
+data <- getDataFirstN(20000)
+data <- mergeAM_SIandIM_SC(data)
 #data <- getData()
 
 #data <- noramlizeData(data)
@@ -17,9 +18,11 @@ runXGBoost <- function(train, test){
   
   model <- trainXGBoost(train[,-ncol(train)], as.numeric(train[,ncol(train)]) - 1, 200)
   
-  predictions <- classifyXGBoost(model, test[,-ncol(test)])
+  return(classifyXGBoost(model, test[,-ncol(test)]))
   
-  validateOutput(predictions, as.numeric(test[,ncol(test)]) - 1)
+  #predictions <- classifyXGBoost(model, test[,-ncol(test)])
+  
+  #validateOutput(predictions, as.numeric(test[,ncol(test)]) - 1)
   
 }
 
@@ -28,13 +31,50 @@ runNN <- function(train, test){
   
   model <- trainNNd(train[,-ncol(train)], as.numeric(train[,ncol(train)]) - 1, 30)
   
-  predictions <- classifyNN(model, test[,-ncol(test)])
+  return(classifyNN(model, test[,-ncol(test)]))
   
-  validateOutput(predictions, as.numeric(test[,ncol(test)]) - 1)
+  #predictions <- classifyNN(model, test[,-ncol(test)])
   
 }
 
-runXGBoost(train, test)
+stack <- function(model1, model2, data){
+  
+  folds <- makeFolds(nrow(data), 5)
+  
+  metaData <- data.frame(data)
+  metaLabels <- metaData[,ncol(metaData)]
+  metaFeatures <- metaData[,-ncol(metaData)]
+  model1_predict <- rep(NULL, nrow(metaData))
+  
+  
+  
+  for(indices in folds){
+
+    predict <- model1(train[-indices,], train[indices,])
+    model1_predict[indices] <- predict 
+  }
+  
+  print(unique(model1_predict))
+  
+  metaData <- cbind(cbind(metaFeatures, model1_predict), metaLabels)
+  
+  split <- splitTrainTestSet(metaData, .05)
+  train <- split[[1]]
+  test <- split[[2]]
+  
+  predictions <- model2(train, test)
+  
+  validateOutput(predictions, as.numeric(test[,ncol(test)]) - 1)
+}
+
+stack(runXGBoost, runNN, data)
+
+
+#validateOutput(runXGBoost(train, test), as.numeric(test[,ncol(test)]) - 1)
+#validateOutput(runNN(train, test), as.numeric(test[,ncol(test)]) - 1)
+
+useful <- function(){
+#runXGBoost(train, test)
 #runNN(train, test)
 
 #source("neural_net.R")
@@ -57,5 +97,5 @@ runXGBoost(train, test)
 
 #t2 <- as.numeric(Sys.time())
 #print(t2 - t1)
-
+}
 

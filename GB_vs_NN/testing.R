@@ -65,12 +65,34 @@ validateOutput <- function(test_output, real_labels){
   return(correct/(correct + incorrect))
 }
 
+makeFolds <- function(data_rows, num_folds = 10){
+  
+  folds <- list()
+  split <- floor(data_rows / num_folds)
+  
+  for(i in 1:num_folds){
+    
+    if(i < 2){
+      indices <- 1:(i*split)
+      
+    } else if(i > num_folds-1){
+      indices <- (((i-1)*split)+1) :data_rows
+      
+    } else {
+      indices <- (((i-1)*split) + 1) : (i*split)
+    }
+    
+    folds[[i]] <- indices
+  }
+  return(folds)
+}
+
 
 crossValidate <- function(model, data, train, predict, number_folds = 10){
   
   #print(data)
   
-  split <- floor(nrow(data) / number_folds)
+  
   
   precision_sum <- 0
   
@@ -114,5 +136,6 @@ crossValidate <- function(model, data, train, predict, number_folds = 10){
 permutateData <- function(data){
   return(data[sample(nrow(data)),])
 }
+
 
 

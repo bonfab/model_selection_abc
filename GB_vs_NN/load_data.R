@@ -38,3 +38,19 @@ getDataFirstN <- function(size = 100, dir = "../data/4models"){
   return(combined)
 }
 
+mergeAM_SIandIM_SC <- function(data){
+  
+  merge <- function(theory){
+    theory <- as.character(theory)
+    if(theory == 'am' || theory == 'si'){
+      return('am_si')
+    } else{
+      return('im_sc')
+    }
+  }
+  
+  data[,ncol(data)] <- as.factor(sapply(data[,ncol(data)], merge))
+  
+  return(data)
+}
+
