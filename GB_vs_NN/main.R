@@ -1,12 +1,12 @@
 source("load_data.R")
-source("gradient_boosting.R")
+#source("gradient_boosting.R")
 source("testing.R")
-source("neural_net.R")
-source("abc_NN.R")
+#source("neural_net.R")
+#source("abc_NN.R")
 
 #data <- getDataFirstN(20000)
-data <- mergeAM_SIandIM_SC(data)
-#data <- getData()
+#data <- mergeAM_SIandIM_SC(data)
+data <- getData()
 
 #data <- noramlizeData(data)
 
