@@ -4,8 +4,8 @@ source("testing.R")
 source("neural_net.R")
 source("abc_NN.R")
 
-data <- getDataFirstN(20000)
-#data <- mergeAM_SIandIM_SC(data)
+#data <- getDataFirstN(20000)
+data <- mergeAM_SIandIM_SC(data)
 #data <- getData()
 
 #data <- noramlizeData(data)
@@ -53,8 +53,8 @@ stack <- function(model1, model2, data){
   folds <- makeFolds(nrow(data), 5)
   
   #metaData <- data.frame(data)
-  labels <- metaData[,ncol(data)]
-  features <- metaData[,-ncol(data)]
+  labels <- data[,ncol(data)]
+  features <- data[,-ncol(data)]
   model1_predict <- rep(NULL, nrow(data))
   
   
@@ -99,14 +99,14 @@ addFeatureModelCategory <- function(data, model){
 
 
 
-data <- addFeatureModelCategory(data, runXGBoostBinary)
+#data <- addFeatureModelCategory(data, runXGBoostBinary)
 
-stack(runXGBoost, runNN, data)
+#stack(runXGBoost, runNN, data)
 
 #View(data)
 
 
-#validateOutput(runXGBoost(train, test), as.numeric(test[,ncol(test)]) - 1)
+validateOutput(runXGBoost(train, test), as.numeric(test[,ncol(test)]) - 1)
 #validateOutput(runNN(train, test), as.numeric(test[,ncol(test)]) - 1)
 #validateOutput(as.numeric(runXGBoostBinary(train, test) > 0.5), as.numeric(test[,ncol(test)]) - 1)
 

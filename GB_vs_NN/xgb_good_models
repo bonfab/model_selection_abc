@@ -1,0 +1,16 @@
+ params <- list(
+    objective = "multi:softmax",
+    eval_metric = "mlogloss",
+    nthread = 12,
+    num_class = length(unique(train_label)),
+    eta_decay = .999,
+    eta = 0.07,
+    gamma = .63,
+    max_depth = 6,
+    min_child_weight = .66,
+    #subsample = .9,
+    colsample_bytree = .75,
+    lambda = 1.5,
+    feature_selector = "thrifty",
+    nrounds = 200
+  )

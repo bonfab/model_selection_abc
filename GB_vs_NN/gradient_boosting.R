@@ -4,6 +4,7 @@ trainXGBoost <- function(train_data, train_label, iterations = 200){
  
   dtrain <- xgb.DMatrix(data = as.matrix(train_data), label = as.matrix(train_label))
   
+  
   params <- list(
     objective = "multi:softmax",
     eval_metric = "mlogloss",
@@ -17,7 +18,8 @@ trainXGBoost <- function(train_data, train_label, iterations = 200){
     #subsample = .9,
     colsample_bytree = .75,
     lambda = 1.5,
-    feature_selector = "thrifty"
+    feature_selector = "thrifty",
+    nrounds = 200
   )
   
   bstDMatrix <- xgboost(param = params, data = dtrain, nrounds = iterations)
@@ -25,9 +27,6 @@ trainXGBoost <- function(train_data, train_label, iterations = 200){
 }
 
 trainXGBoostBinary <- function(train_data, train_label, iterations = 200){
-  
-  print(dim(train_data))
-  print(length(train_label))
   
   dtrain <- xgb.DMatrix(data = as.matrix(train_data), label = as.matrix(train_label))
 
@@ -56,4 +55,12 @@ return(bstDMatrix)
 classifyXGBoost <- function(model, test_data){
   
   return(predict(model, as.matrix(test_data)))
+}
+
+
+parameterSearch <- function(){
+  
+  
+  
+  
 }
