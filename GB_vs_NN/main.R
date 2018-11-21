@@ -2,11 +2,14 @@ source("load_data.R")
 source("testing.R")
 source("gradient_boosting.R")
 source("neural_net.R")
-source("abc_NN.R")
+#source("abc_NN.R")
 #Sys.setlocale("LC_MESSAGES", "en_US.utf8")
 
 
-data <- getDataFirstN(2000)
+data <- getDataFirstN(30000)
+
+data <- permutateData(data)
+
 #data <- mergeAM_SIandIM_SC(data)
 #data <- getData()
 
@@ -18,7 +21,7 @@ test <- split[[2]]
 
 runXGBoost <- function(train, test){
   
-  model <- trainXGBoost(train[,-ncol(train)], as.numeric(train[,ncol(train)]) - 1, 200)
+  model <- trainXGBoost(train[,-ncol(train)], as.numeric(train[,ncol(train)]) - 1, 300)
   
   return(classifyXGBoost(model, test[,-ncol(test)]))
   
@@ -30,9 +33,9 @@ runXGBoost <- function(train, test){
 
 runXGBoostBinary <- function(train, test){
   
-  model <- trainXGBoostBinary(train[,-ncol(train)], as.numeric(train[,ncol(train)]) - 1, 200)
+  model <- trainXGBoostBinary(train[,-ncol(train)], train[,ncol(train)], 300)
   
-  return(classifyXGBoost(model, test[,-ncol(test)]))
+  return(classifyXGBoost(model, test[,-ncol(test)]) > 0.5)
   
   #predictions <- classifyXGBoost(model, test[,-ncol(test)])
   
@@ -91,7 +94,7 @@ addFeatureModelCategory <- function(data, model){
   prediction_category <- rep(NULL, nrow(data))
   
   for(indices in folds){
-    prediction_category[indices] <- as.numeric(model(data[-indices,], data[indices,]) > 0.5)
+    prediction_category[indices] <- as.numeric(model(data[-indices,], data[indices,]))
   }
   
   metaData <- cbind(cbind(features, prediction_category), real_labels)
@@ -99,8 +102,36 @@ addFeatureModelCategory <- function(data, model){
   return(metaData)
 }
 
+addBinaryFeatures <- function(data, model){
+  
+  folds <- makeFolds(nrow(data), 5)
+  real_labels <- data[,ncol(data)]
+  classes <- unique(real_labels)
+  features <- data[,-ncol(data)]
+  
+  predictions <- matrix(-1, nrow = nrow(data), ncol = length(classes))
+  
+  bin_labels <- sapply(classes, makeClassLabel, true_labels = real_labels)
+  
+  bin_data <- cbind(features, bin_labels)
+  
+  sup <- 1:length(classes)
+  
+  for(fold in folds){
+    for(i in 1:length(classes)){
+      exclude <- sup[-i] + ncol(features)
+      
+      predictions[fold, i] <- model(bin_data[-fold,-exclude], bin_data[fold, -exclude])
+    }
+  }
+  
+  features <- cbind(features, predictions)
 
+  return(cbind(features, real_labels))
+}
 
+data <- addBinaryFeatures(data, runXGBoostBinary)
+#View(data)
 #data <- addFeatureModelCategory(data, runXGBoostBinary)
 
 #stack(runXGBoost, runNN, data)
@@ -113,6 +144,7 @@ addFeatureModelCategory <- function(data, model){
 #validateOutput(as.numeric(runXGBoostBinary(train, test) > 0.5), as.numeric(test[,ncol(test)]) - 1)
 
 crossValidate(data, runXGBoost)
+
 
 useful <- function(){
 #runXGBoost(train, test)

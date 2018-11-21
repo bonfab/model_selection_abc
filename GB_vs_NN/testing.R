@@ -89,19 +89,22 @@ makeFolds <- function(data_rows, num_folds = 10){
 }
 
 
-crossValidate <- function(data, run, number_folds = 5){
+crossValidate <- function(data, runModel, number_folds = 5){
 
   folds <- makeFolds(nrow(data), number_folds)
   
-  pre <- lapply(folds, function(x) validateOutput(run(data[-x,], data[x,]), as.numeric(data[x,ncol(data)]) - 1))
+  #validate_run <- function(x){
+  #  return(validateOutput(runModel(data[-x,], data[x,]), as.numeric(data[x,ncol(data)]) - 1))
+  #}
+  
+  pre <- lapply(folds, function(x) validateOutput(runModel(data[-x,], data[x,]), as.numeric(data[x,ncol(data)]) - 1))
+  
+  #clust <- makeCluster(detectCores() - 2, type = "FORK")
+  
+  #pre <- parLapply(clust, folds, function(x) validateOutput(runModel(data[-x,], data[x,]), as.numeric(data[x,ncol(data)]) - 1))
+  
   precision <- Reduce('+', pre)/number_folds
-  #no_cores <- detectCores() - 2
-  
-  #clust <- makeCluster(no_cores)
-  
-  #precision <- sum(parLapply(clust, folds, function(x) validateOutput(run(data[-x,], data[x,]), as.numeric(data[x,ncol(data)]) - 1))) / number_folds
-  
-  print(paste("Precision ", precision, "%"))
+  print(paste("Precision ", precision))
   
   return(precision)
 }

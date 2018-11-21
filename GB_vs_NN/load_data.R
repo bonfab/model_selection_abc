@@ -54,3 +54,17 @@ mergeAM_SIandIM_SC <- function(data){
   return(data)
 }
 
+
+makeClassLabel <- function(class, true_labels){
+  
+  new_labels <- sapply(true_labels, function(x){
+    if(x == class){
+      return(1)
+    } else {
+      return(0)
+    }
+  })
+  
+  return(new_labels)
+}
+
