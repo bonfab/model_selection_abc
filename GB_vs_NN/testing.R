@@ -1,3 +1,4 @@
+library(parallel)
 
 noramlizeData <- function(data){
   
@@ -43,11 +44,11 @@ validateOutput <- function(test_output, real_labels){
   correct <- 0
   incorrect <- 0
   
-  confusion <- createConfusionMatrix(sort(unique(real_labels)))
+  #confusion <- createConfusionMatrix(sort(unique(real_labels)))
   
   for(i in 1:length(test_output)){
     
-    confusion[as.character(test_output[i]), as.character(real_labels[i])] <- confusion[as.character(test_output[i]), as.character(real_labels[i])] + 1
+    #confusion[as.character(test_output[i]), as.character(real_labels[i])] <- confusion[as.character(test_output[i]), as.character(real_labels[i])] + 1
     
     if(test_output[i] == real_labels[i]){
       correct <- correct +1
@@ -56,11 +57,11 @@ validateOutput <- function(test_output, real_labels){
     }
   }
   
-  print(paste("Correct: ", correct))
-  print(paste("Incorrect: ", incorrect))
-  print(paste("Precision ", correct/(correct + incorrect), "%"))
+  #print(paste("Correct: ", correct))
+  #print(paste("Incorrect: ", incorrect))
+  #print(paste("Precision ", correct/(correct + incorrect), "%"))
   
-  View(confusion)
+  #View(confusion)
   
   return(correct/(correct + incorrect))
 }
@@ -88,50 +89,23 @@ makeFolds <- function(data_rows, num_folds = 10){
 }
 
 
-crossValidate <- function(model, data, train, predict, number_folds = 10){
+crossValidate <- function(data, run, number_folds = 5){
+
+  folds <- makeFolds(nrow(data), number_folds)
   
-  #print(data)
+  pre <- lapply(folds, function(x) validateOutput(run(data[-x,], data[x,]), as.numeric(data[x,ncol(data)]) - 1))
+  precision <- Reduce('+', pre)/number_folds
+  #no_cores <- detectCores() - 2
   
+  #clust <- makeCluster(no_cores)
   
+  #precision <- sum(parLapply(clust, folds, function(x) validateOutput(run(data[-x,], data[x,]), as.numeric(data[x,ncol(data)]) - 1))) / number_folds
   
-  precision_sum <- 0
+  print(paste("Precision ", precision, "%"))
   
-  for(i in 1:number_folds){
-    
-    if(i < 2){
-      
-      indices <- 1: (i*split)
-      train_split <- data[-indices,]
-      validate_split <- data[indices,]
-      
-      train(model, train_split[,-ncol(train_split)], as.numeric(train_split[, ncol(train_split)]) - 1)
-      precision_sum <- precision_sum + validateOutput(predict(model, validate_split[,-ncol(validate_split)]), as.numeric(validate_split[, ncol(validate_split)]) - 1)
-      
-      
-    } else if(i > number_folds-1){
-      
-      indices <- ((i-1)*split) :nrow(data)
-      train_split <- data[-indices,]
-      validate_split <- data[indices,]
-      
-      train(model, train_split[,-ncol(train_split)], as.numeric(train_split[, ncol(train_split)]) - 1)
-      precision_sum <- precision_sum + validateOutput(predict(model, validate_split[,-ncol(validate_split)]), as.numeric(validate_split[, ncol(validate_split)]) - 1)
-    
-    } else {
-      
-      indices <- ((i-1)*split) : (i*split)
-      train_split <- data[-indices,]
-      validate_split <- data[indices,]
-      
-      
-      train(model, train_split[,-ncol(train_split)], as.numeric(train_split[, ncol(train_split)]) - 1)
-      precision_sum <- precision_sum + validateOutput(predict(model, validate_split[,-ncol(validate_split)]), as.numeric(validate_split[, ncol(validate_split)]) - 1)
-      
-    }
-  }
-  
-  return(precision_sum/number_folds)
+  return(precision)
 }
+
 
 permutateData <- function(data){
   return(data[sample(nrow(data)),])

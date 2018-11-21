@@ -1,11 +1,13 @@
 source("load_data.R")
-source("gradient_boosting.R")
 source("testing.R")
+source("gradient_boosting.R")
 source("neural_net.R")
 source("abc_NN.R")
+#Sys.setlocale("LC_MESSAGES", "en_US.utf8")
 
-#data <- getDataFirstN(20000)
-data <- mergeAM_SIandIM_SC(data)
+
+data <- getDataFirstN(2000)
+#data <- mergeAM_SIandIM_SC(data)
 #data <- getData()
 
 #data <- noramlizeData(data)
@@ -106,9 +108,11 @@ addFeatureModelCategory <- function(data, model){
 #View(data)
 
 
-validateOutput(runXGBoost(train, test), as.numeric(test[,ncol(test)]) - 1)
+#validateOutput(runXGBoost(train, test), as.numeric(test[,ncol(test)]) - 1)
 #validateOutput(runNN(train, test), as.numeric(test[,ncol(test)]) - 1)
 #validateOutput(as.numeric(runXGBoostBinary(train, test) > 0.5), as.numeric(test[,ncol(test)]) - 1)
+
+crossValidate(data, runXGBoost)
 
 useful <- function(){
 #runXGBoost(train, test)
