@@ -3,7 +3,7 @@ source("testing.R")
 source("gradient_boosting.R")
 source("neural_net.R")
 #source("abc_NN.R")
-#Sys.setlocale("LC_MESSAGES", "en_US.utf8")
+Sys.setlocale("LC_MESSAGES", "en_US.utf8")
 
 
 data <- getDataFirstN(30000)
