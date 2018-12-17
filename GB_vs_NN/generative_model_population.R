@@ -11,7 +11,52 @@ generate_simple <- function(K, number_locus, pop_size = 100, alpha = .1, beta = 
   return(pop)
 }
 
-generate_correlated <- function(K, number_locus, pop_size = 25, number_alleles = 8, alphas = NULL){
+generate_admixture <- function(K, number_locus, pop_size = 100, alpha = 1, beta = 1, concentration = 1.5){
+  
+  set_alphas <- function(pop){
+    alphas <- rep(1, K)
+    alphas[pop] <- concentration
+    return(alphas)
+  }
+  
+  #set.seed(1)
+  admixture <- function(){
+    prob_locus <- rbeta(K, alpha, beta)
+    
+    sapply(1:K, function(p) replicate(pop_size, rbinom(1, 2, sum(prob_locus * rdirichlet(1, set_alphas(p))[1,]))))
+    #replicate(pop_size, rbinom(1, 2, sum(prob_locus * rdirichlet(1, rep(1, K)[1,]))))
+    
+  }
+  
+  pop <- replicate(number_locus, admixture(), simplify = T)
+  #print(pop)
+  return(pop)
+}
+
+generate_admixture_prior <- function(K, number_locus, pop_size = 100, alpha = 1, beta = 1){
+  
+  set_alphas <- function(pop){
+    alphas <- rep(1, K)
+    alphas[pop] <- 1 + rbeta(1, 2, 3)
+    return(alphas)
+  }
+  
+  #set.seed(1)
+  admixture <- function(){
+    prob_locus <- rbeta(K, alpha, beta)
+    
+    sapply(1:K, function(p) replicate(pop_size, rbinom(1, 2, sum(prob_locus * rdirichlet(1, set_alphas(p))[1,]))))
+    #replicate(pop_size, rbinom(1, 2, sum(prob_locus * rdirichlet(1, rep(1, K)[1,]))))
+    
+  }
+  
+  pop <- replicate(number_locus, admixture(), simplify = T)
+  #print(pop)
+  return(pop)
+}
+
+
+generate_correlated <- function(K, number_locus, pop_size = 200, number_alleles = 8, alphas = NULL){
   
   
   correlate_locus <- function(){
@@ -39,22 +84,11 @@ generate_simple_dirichlet <- function(K, number_locus, pop_size = 25, number_all
 
 PCA_summary <- function(data, reduce_to = 20){
   
-  #print(data)
   pca <- prcomp(data, scale = T)
-  
-  #print(pca)
-  
-  #print(dim(pca$x))
-  #print(dim(pca$rotation))
-  
-  #print(dim(pca$rotation[,1:reduce_to]))
-  #print(dim(pca$x[1:reduce_to,1:reduce_to]))
   
   #trunc <- pca$rotation[,1:reduce_to] %*% pca$x[1:reduce_to,1:reduce_to]
   
-  #print(pca)
   plot(pca)
-  #summary(pca)
   
   return(trunc)
   
@@ -88,8 +122,9 @@ make_data <- function(samples = 50, populations = 3:8){
 
 #stat <- generate_simple_dirichlet(6, 10000)
 
-stat <- generate_correlated(6, 10000)
+#stat <- generate_correlated(6, 10000)
 #print(stat)
+stat <- generate_admixture_prior(6, 10000)
 
 summary <- PCA_summary(stat)
 
