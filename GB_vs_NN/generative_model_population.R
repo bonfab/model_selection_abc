@@ -1,6 +1,7 @@
 library(parallel)
 library(MCMCpack)
 library(LaplacesDemon)
+library(elasticnet)
 
 generate_simple <- function(K, number_locus, pop_size = 100, alpha = .1, beta = 1){
   
@@ -15,7 +16,7 @@ generate_correlated <- function(K, number_locus, pop_size = 25, number_alleles =
   
   correlate_locus <- function(){
     corr <- rgamma(1, 7.5)
-    return(replicate(K, rcat(n = pop_size, p =rdirichlet(1, rep(corr, times = number_alleles))[1,])))
+    return(replicate(K, rcat(n = pop_size, p = rdirichlet(1, rep(corr, times = number_alleles))[1,])))
   }
   
   pop <- replicate(number_locus, correlate_locus(), simplify = T)
@@ -36,43 +37,63 @@ generate_simple_dirichlet <- function(K, number_locus, pop_size = 25, number_all
 
 
 
-PCA_summary <- function(data, capture_variance = 0.8){
+PCA_summary <- function(data, reduce_to = 20){
   
   #print(data)
-  pca <- prcomp(data, scale. = T)
+  pca <- prcomp(data, scale = T)
+  
   #print(pca)
-  #plot(pca)
+  
+  #print(dim(pca$x))
+  #print(dim(pca$rotation))
+  
+  #print(dim(pca$rotation[,1:reduce_to]))
+  #print(dim(pca$x[1:reduce_to,1:reduce_to]))
+  
+  #trunc <- pca$rotation[,1:reduce_to] %*% pca$x[1:reduce_to,1:reduce_to]
+  
+  #print(pca)
+  plot(pca)
   #summary(pca)
+  
+  return(trunc)
+  
+}
+
+sparse_pca <- function(microarry, K){
+  
+  selected <- spca(microarry, K, rep(100, K))
+  print(selected)
   
 }
 
 
-
-
-make_data <- function(){
+make_data <- function(samples = 50, populations = 3:8){
   
-  label <- list()
+  #clust <- makeCluster(detectCores())
+  #clusterExport(cl=clust, varlist=c("PCA_summary", "generate_correlated", "rcat", "rdirichlet"))
   
-  clust <- makeCluster(detectCores())
+  pop <- lapply(populations, function(x) replicate(samples, PCA_summary(generate_correlated(x, 10000))))
+  #pop <- parLapply(clust, populations, function(x) replicate(samples, PCA_summary(generate_correlated(x, 10000))))
   
-  for(i in 3:8){
-    
-    pop <- parLapply(1:50, PCA_summary(generate_correlated(i, 1000)))
-    append(label, i)
-  }
+  label <- lapply(populations, function(x) rep(x, samples))
   
+  print(pop)
+  print(label)
   
   saveRDS(list(pop, label), "data_pop.rds")
+  
   
 }
 
 #stat <- generate_simple_dirichlet(6, 10000)
 
-#stat <- generate_correlated(6, 10000)
+stat <- generate_correlated(6, 10000)
 #print(stat)
 
-#PCA_summary(stat)
+summary <- PCA_summary(stat)
 
-make_data()
+#print(summary)
+#s2 <- sparse_pca(stat, 10)
 
-#PCA_summary(generate(4, 10000, 100))
+#make_data()
