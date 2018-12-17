@@ -1,4 +1,4 @@
-#library(parallel)
+library(parallel)
 library(MCMCpack)
 library(LaplacesDemon)
 
@@ -36,13 +36,14 @@ generate_simple_dirichlet <- function(K, number_locus, pop_size = 25, number_all
 
 
 
-PCA_summary <- function(data, number_components = 10){
+PCA_summary <- function(data, capture_variance = 0.8){
   
-  print(data)
+  #print(data)
   pca <- prcomp(data, scale. = T)
-  print(pca)
-  plot(pca)
-  summary(pca)
+  #print(pca)
+  #plot(pca)
+  #summary(pca)
+  
 }
 
 
@@ -52,9 +53,11 @@ make_data <- function(){
   
   label <- list()
   
+  clust <- makeCluster(detectCores())
+  
   for(i in 3:8){
     
-    pop <- replicate(50, generate_correlated(i, 10000))
+    pop <- parLapply(1:50, PCA_summary(generate_correlated(i, 1000)))
     append(label, i)
   }
   
