@@ -34,11 +34,11 @@ generate_admixture <- function(K, number_locus, pop_size = 100, alpha = 1, beta 
   return(pop)
 }
 
-generate_admixture_prior <- function(K, number_locus, pop_size = 100, alpha = 1, beta = 1){
+generate_admixture_prior <- function(K, number_locus, pop_size = 80, alpha = 1, beta = 1){
   
   set_alphas <- function(pop){
     alphas <- rep(1, K)
-    alphas[pop] <- 1 + rbeta(1, 2, 3)
+    alphas[pop] <- 1 + rbeta(1, 1.25, 1)
     return(alphas)
   }
   
@@ -83,15 +83,19 @@ generate_simple_dirichlet <- function(K, number_locus, pop_size = 25, number_all
 
 
 
-PCA_summary <- function(data, reduce_to = 20){
+PCA_summary <- function(data, reduce_to = 25){
   
   pca <- prcomp(data, scale = T)
   
   #trunc <- pca$rotation[,1:reduce_to] %*% pca$x[1:reduce_to,1:reduce_to]
   
-  plot(pca)
+  #plot(pca)
   
-  return(trunc)
+  #print(pca$x[1:reduce_to, 1:reduce_to])
+  #print(pca$sdev[1:reduce_to])
+  print(pca$sdev[1:reduce_to])
+  
+  return(pca$sdev[1:reduce_to])
   
 }
 
@@ -103,38 +107,48 @@ sparse_pca <- function(microarry, K){
 }
 
 
-make_data <- function(samples = 50, populations = 3:8){
+make_data <- function(samples = 500, populations = 3:8){
   
-  #clust <- makeCluster(detectCores())
-  #clusterExport(cl=clust, varlist=c("PCA_summary", "generate_correlated", "rcat", "rdirichlet"))
+  clust <- makeCluster(detectCores())
+  clusterExport(cl=clust, varlist=c("PCA_summary", "generate_admixture_prior", "rdirichlet"))
   
-  pop <- lapply(populations, function(x) replicate(samples, PCA_summary(generate_correlated(x, 10000))))
-  #pop <- parLapply(clust, populations, function(x) replicate(samples, PCA_summary(generate_correlated(x, 10000))))
+  #pop <- do.call(rbind, lapply(populations, function(x) t(replicate(samples, PCA_summary(generate_admixture_prior(x, 10000))))))
+  #pop <- do.call(rbind, parLapply(clust, populations, function(x) t(replicate(samples, PCA_summary(generate_admixture_prior(x, 10000))))))
   
-  label <- lapply(populations, function(x) rep(x, samples))
+  label <- unlist(lapply(populations, function(x) rep(x, samples)))
   
-  print(pop)
-  print(label)
+  print("begin generation")
+  pop <- do.call(rbind, parLapply(clust, label, function(x) PCA_summary(generate_admixture_prior(x, 10000))))
   
-  saveRDS(list(pop, label), "data_pop.rds")
+  
+  #print(pop)
+  #print(label)
+  
+  saveRDS(list(pop, label), "data_pop_prio_1-25_1.rds")
+  #saveRDS(list(pop, label), "data_pop.rds")
   
   
 }
 
-source("reduce_kernels.R")
-stat <- generate_simple_dirichlet(5, 10000)
-summary <- PCA_summary(stat)
-red <- make_similarity_matrix(stat)
-PCA_summary(red)
-print(red)
+#source("reduce_kernels.R")
+#stat <- generate_simple_dirichlet(5, 10000)
+#summary <- PCA_summary(stat)
+#red <- make_similarity_matrix(stat)
+#PCA_summary(red)
+#print(red)
 
 #stat <- generate_correlated(6, 10000)
 #print(stat)
-stat <- generate_admixture_prior(6, 10000)
 
-summary <- PCA_summary(stat)
+#stat <- generate_admixture_prior(5, 10000)
+
+#summary <- PCA_summary(stat)
 
 #print(summary)
 #s2 <- sparse_pca(stat, 10)
 
-#make_data()
+make_data()
+
+bla <- readRDS("data_pop.rds")
+print(do.call(rbind, bla[[1]]))
+
