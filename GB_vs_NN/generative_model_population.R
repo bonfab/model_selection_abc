@@ -3,6 +3,7 @@ library(MCMCpack)
 library(LaplacesDemon)
 library(elasticnet)
 
+
 generate_simple <- function(K, number_locus, pop_size = 100, alpha = .1, beta = 1){
   
   #set.seed(1)
@@ -120,7 +121,12 @@ make_data <- function(samples = 50, populations = 3:8){
   
 }
 
-#stat <- generate_simple_dirichlet(6, 10000)
+source("reduce_kernels.R")
+stat <- generate_simple_dirichlet(5, 10000)
+summary <- PCA_summary(stat)
+red <- make_similarity_matrix(stat)
+PCA_summary(red)
+print(red)
 
 #stat <- generate_correlated(6, 10000)
 #print(stat)
