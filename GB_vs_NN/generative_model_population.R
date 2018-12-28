@@ -85,6 +85,8 @@ generate_simple_dirichlet <- function(K, number_locus, pop_size = 25, number_all
 
 PCA_summary <- function(data, reduce_to = 25){
   
+  data <- data[, apply(data, 2, function(x) !(unique(x)[1] == 0))]
+  
   pca <- prcomp(data, scale = T)
   
   #trunc <- pca$rotation[,1:reduce_to] %*% pca$x[1:reduce_to,1:reduce_to]
