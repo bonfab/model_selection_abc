@@ -34,7 +34,7 @@ generate_admixture <- function(K, number_locus, pop_size = 100, alpha = 1, beta 
   return(pop)
 }
 
-generate_admixture_prior <- function(K, number_locus, pop_size = 80, alpha = 1, beta = 1){
+generate_admixture_prior <- function(K, number_locus, pop_size = 50, alpha = 1, beta = 1){
   
   set_alphas <- function(pop){
     alphas <- rep(1, K)
@@ -89,7 +89,7 @@ PCA_summary <- function(data, reduce_to = 25){
   
   #trunc <- pca$rotation[,1:reduce_to] %*% pca$x[1:reduce_to,1:reduce_to]
   
-  #plot(pca)
+  plot(pca)
   
   #print(pca$x[1:reduce_to, 1:reduce_to])
   #print(pca$sdev[1:reduce_to])
@@ -140,15 +140,15 @@ make_data <- function(samples = 500, populations = 3:8){
 #stat <- generate_correlated(6, 10000)
 #print(stat)
 
-#stat <- generate_admixture_prior(5, 10000)
+stat <- generate_admixture_prior(5, 5000)
 
-#summary <- PCA_summary(stat)
+summary <- PCA_summary(stat)
 
 #print(summary)
 #s2 <- sparse_pca(stat, 10)
 
-make_data()
+#make_data()
 
-bla <- readRDS("data_pop.rds")
-print(do.call(rbind, bla[[1]]))
+#bla <- readRDS("data_pop.rds")
+#print(do.call(rbind, bla[[1]]))
 
