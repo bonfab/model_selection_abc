@@ -109,7 +109,7 @@ sparse_pca <- function(microarry, K){
 
 make_data <- function(samples = 500, populations = 3:8){
   
-  clust <- makeCluster(detectCores())
+  clust <- makeCluster(detectCores()-2)
   clusterExport(cl=clust, varlist=c("PCA_summary", "generate_admixture_prior", "rdirichlet"))
   
   #pop <- do.call(rbind, lapply(populations, function(x) t(replicate(samples, PCA_summary(generate_admixture_prior(x, 10000))))))
@@ -124,7 +124,7 @@ make_data <- function(samples = 500, populations = 3:8){
   #print(pop)
   #print(label)
   
-  saveRDS(list(pop, label), "data_pop_prio_1-25_1.rds")
+  saveRDS(list(pop, label), "data2_pop_prio_1-25_1.rds")
   #saveRDS(list(pop, label), "data_pop.rds")
   
   
