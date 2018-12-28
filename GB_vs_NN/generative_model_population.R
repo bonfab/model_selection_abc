@@ -124,7 +124,7 @@ make_data <- function(samples = 500, populations = 3:8){
   #print(pop)
   #print(label)
   
-  saveRDS(list(pop, label), "data2_pop_prio_1-25_1.rds")
+  saveRDS(list(pop, label), "data_pop_prio_1-25.rds")
   #saveRDS(list(pop, label), "data_pop.rds")
   
   
@@ -140,14 +140,14 @@ make_data <- function(samples = 500, populations = 3:8){
 #stat <- generate_correlated(6, 10000)
 #print(stat)
 
-stat <- generate_admixture_prior(5, 5000)
+#stat <- generate_admixture_prior(5, 5000)
 
-summary <- PCA_summary(stat)
+#summary <- PCA_summary(stat)
 
 #print(summary)
 #s2 <- sparse_pca(stat, 10)
 
-#make_data()
+make_data()
 
 #bla <- readRDS("data_pop.rds")
 #print(do.call(rbind, bla[[1]]))
