@@ -89,13 +89,17 @@ PCA_summary <- function(data, reduce_to = 25){
   
   #trunc <- pca$rotation[,1:reduce_to] %*% pca$x[1:reduce_to,1:reduce_to]
   
-  plot(pca)
+  #plot(pca)
   
   #print(pca$x[1:reduce_to, 1:reduce_to])
   #print(pca$sdev[1:reduce_to])
-  print(pca$sdev[1:reduce_to])
+  #print(pca$sdev[1:reduce_to])
+  eigen_sum <- sum(pca$sdev)
   
-  return(pca$sdev[1:reduce_to])
+  #print(eigen_sum)
+  #print(pca$sdev[1:reduce_to])
+  
+  return(pca$sdev[1:reduce_to]/eigen_sum)
   
 }
 
@@ -142,9 +146,9 @@ make_data <- function(samples = 500, populations = 3:8){
 
 #stat <- generate_admixture_prior(5, 5000)
 
-#summary <- PCA_summary(stat)
+#s <- PCA_summary(stat)
 
-#print(summary)
+#print(s)
 #s2 <- sparse_pca(stat, 10)
 
 make_data()
