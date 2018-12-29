@@ -85,7 +85,7 @@ generate_simple_dirichlet <- function(K, number_locus, pop_size = 25, number_all
 
 PCA_summary <- function(data, reduce_to = 25){
   
-  data <- data[, apply(data, 2, function(x) !(unique(x)[1] == 0))]
+  data <- data[, apply(data, 2, function(x) !(length(unique(x)) == 1))]
   
   pca <- prcomp(data, scale = T)
   
@@ -146,7 +146,7 @@ make_data <- function(samples = 500, populations = 3:8){
 #stat <- generate_correlated(6, 10000)
 #print(stat)
 
-#stat <- generate_admixture_prior(5, 5000)
+s#tat <- generate_admixture_prior(5, 5000)
 
 #s <- PCA_summary(stat)
 
