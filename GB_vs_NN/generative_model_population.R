@@ -115,7 +115,7 @@ sparse_pca <- function(microarry, K){
 
 make_data <- function(samples = 500, populations = 3:8){
   
-  clust <- makeCluster(detectCores()-2)
+  clust <- makeCluster(detectCores())
   clusterExport(cl=clust, varlist=c("PCA_summary", "generate_admixture_prior", "rdirichlet"))
   
   #pop <- do.call(rbind, lapply(populations, function(x) t(replicate(samples, PCA_summary(generate_admixture_prior(x, 10000))))))
@@ -146,7 +146,7 @@ make_data <- function(samples = 500, populations = 3:8){
 #stat <- generate_correlated(6, 10000)
 #print(stat)
 
-s#tat <- generate_admixture_prior(5, 5000)
+#stat <- generate_admixture_prior(5, 5000)
 
 #s <- PCA_summary(stat)
 
