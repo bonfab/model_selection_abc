@@ -57,9 +57,9 @@ validateOutput <- function(test_output, real_labels){
     }
   }
   
-  #print(paste("Correct: ", correct))
-  #print(paste("Incorrect: ", incorrect))
-  #print(paste("Precision ", correct/(correct + incorrect), "%"))
+  print(paste("Correct: ", correct))
+  print(paste("Incorrect: ", incorrect))
+  print(paste("Precision ", correct/(correct + incorrect)))
   
   #View(confusion)
   

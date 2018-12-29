@@ -1,7 +1,8 @@
 source("gradient_boosting.R")
+source("testing.R")
 
 
-load_data <- function(RDS_file = "data_K/data_pop_prio_1-25_1.rds"){
+load_data <- function(RDS_file = "./data_pop_prio_1-25.rds"){
   
   data <- readRDS(RDS_file)
   
@@ -10,8 +11,41 @@ load_data <- function(RDS_file = "data_K/data_pop_prio_1-25_1.rds"){
 }
 
 
+get_test_indices <- function(labels, proportion = 0.1){
+  
+  test_indices <- list()
+  
+  for(class in unique(labels)){
+    
+    class_indices <- which(labels == class)
+    test_indices <- append(test_indices, class_indices[1:floor(length(class_indices) * 0.1)])
+    
+  }
+  
+  return(unlist(test_indices, use.names = F))
+}
+
+
 m <- load_data()
 
-normalize <- min(m[,length(m[1,])])
+indices <- get_test_indices(m[,ncol(m)])
 
-model <- trainXGBoost(m[,1:length(m[1,]) -1], m[,length(m[1,])] - normalize)
+print(indices)
+#print(as.vector(indices))
+
+train <- m[-indices,]
+train <- train[sample(nrow(train)),]
+test <- m[indices,]
+test <- test[sample(nrow(test)),]  # not really necessary
+
+xgb_compatible <- min(m[,length(m[1,])])
+
+model <- trainXGBoost(train[,1:ncol(train) -1], train[,ncol(train)] - xgb_compatible)
+
+predictions <- classifyXGBoost(model, test[,1:ncol(test)-1])
+
+validateOutput(predictions, test[,ncol(test)] - xgb_compatible)
+
+
+
+
