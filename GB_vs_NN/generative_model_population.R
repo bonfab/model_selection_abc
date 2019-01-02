@@ -8,7 +8,6 @@ generate_simple <- function(K, number_locus, pop_size = 100, alpha = .1, beta = 
   
   #set.seed(1)
   pop <- replicate(number_locus, replicate(K, rbinom(n = pop_size, size = 1, prob = rbeta(1, alpha, beta))), simplify = T)
-  #print(pop)
   return(pop)
 }
 
@@ -30,7 +29,6 @@ generate_admixture <- function(K, number_locus, pop_size = 100, alpha = 1, beta 
   }
   
   pop <- replicate(number_locus, admixture(), simplify = T)
-  #print(pop)
   return(pop)
 }
 
@@ -46,19 +44,66 @@ generate_admixture_prior <- function(K, number_locus, pop_size = 50, alpha = 1, 
   admixture <- function(){
     prob_locus <- rbeta(K, alpha, beta)
     
-    sapply(1:K, function(p) replicate(pop_size, rbinom(1, 2, sum(prob_locus * rdirichlet(1, set_alphas(p))[1,]))))
+    vapply(1:K, function(p) replicate(pop_size, rbinom(1, 2, sum(prob_locus * rdirichlet(1, set_alphas(p))[1,]))), integer(pop_size))
     #replicate(pop_size, rbinom(1, 2, sum(prob_locus * rdirichlet(1, rep(1, K)[1,]))))
     
   }
   
-  pop <- replicate(number_locus, admixture(), simplify = T)
+  sim <- matrix(NA_integer_, pop_size*K, number_locus)
+  
+  for(col in 1:number_locus){
+    sim[,col] <- admixture()
+  }
+  
+  #pop <- replicate(number_locus, admixture(), simplify = T)
   #print(pop)
   return(pop)
+  
+  #return(sim)
+}
+
+generate_admixture_prior_fast <- function(K, number_locus, pop_size = 50, alpha = 1, beta = 1, membership = .25){
+  
+  set_alphas <- function(pop){
+    alphas <- rep(1, K)
+    alphas[pop] <- 1 + rbeta(1, 1 + membership, 1)
+    return(alphas)
+  }
+  
+  #set.seed(1)
+  admixture <- function(pop){
+    
+    prior <- set_alphas(pop)
+    
+    sim_pop <- t(vapply(1:pop_size, function(x) apply(matrix(rbeta(number_locus*K, alpha, beta), nrow = number_locus) * rdirichlet(number_locus, prior), 1, function(x) rbinom(1, 2, sum(x))), integer(number_locus)))
+    
+    
+    #dirichs <- array(t(rdirichlet(number_locus * pop_size, prior)), c(K, number_locus, pop_size))
+    #betas <- array(rbeta(number_locus*K, alpha, beta), c(K, number_locus, pop_size))
+    #sim_pop <- t(apply(betas * dirichs, c(2, 3), function(x) rbinom(1, 2, sum(x))))
+    
+    
+    return(sim_pop)
+  }
+  
+  sim <- matrix(NA_integer_, pop_size*K, number_locus)
+  
+  for(pop in 1:K){
+    ad <- admixture(pop)
+    #print((pop_size*(pop-1) + 1):(pop_size*pop))
+    sim[(pop_size*(pop-1) + 1):(pop_size*pop),] <- ad
+  }
+  
+  #pop <- replicate(number_locus, admixture(), simplify = T)
+  #print(pop)
+  #(pop)
+  
+  return(sim)
 }
 
 
 generate_correlated <- function(K, number_locus, pop_size = 200, number_alleles = 8, alphas = NULL){
-  
+ 
   
   correlate_locus <- function(){
     corr <- rgamma(1, 7.5)
@@ -113,10 +158,10 @@ sparse_pca <- function(microarry, K){
 }
 
 
-make_data <- function(samples = 4500, populations = 3:8){
+make_data <- function(samples = 200, populations = 3:13){
   
   clust <- makeCluster(detectCores())
-  clusterExport(cl=clust, varlist=c("PCA_summary", "generate_admixture_prior", "rdirichlet"))
+  clusterExport(cl=clust, varlist=c("PCA_summary", "generate_admixture_prior_fast", "rdirichlet"))
   
   #pop <- do.call(rbind, lapply(populations, function(x) t(replicate(samples, PCA_summary(generate_admixture_prior(x, 10000))))))
   #pop <- do.call(rbind, parLapply(clust, populations, function(x) t(replicate(samples, PCA_summary(generate_admixture_prior(x, 10000))))))
@@ -124,14 +169,16 @@ make_data <- function(samples = 4500, populations = 3:8){
   label <- unlist(lapply(populations, function(x) rep(x, samples)))
   
   print("begin generation")
-  pop <- do.call(rbind, parLapply(clust, label, function(x) PCA_summary(generate_admixture_prior(x, 10000))))
   
+  priors <- seq(0.1, 0.6, by=0.01)
+  pop <- do.call(rbind, parLapply(clust, label, function(x) t(sapply(priors, function(y) PCA_summary(generate_admixture_prior_fast(x, 10000, membership = y))))))
+  label <- as.vector(t(replicate(length(priors), label)))
   
   #print(pop)
   #print(label)
   
-  saveRDS(list(pop, label), "data_pop_prio_1-25.rds")
-  #saveRDS(list(pop, label), "data_pop.rds")
+  #saveRDS(list(pop, label), "data_pop_prio_1-25.rds")
+  saveRDS(list(pop, label), "data_pop_random_prio_.rds")
   
   
 }
@@ -146,7 +193,9 @@ make_data <- function(samples = 4500, populations = 3:8){
 #stat <- generate_correlated(6, 10000)
 #print(stat)
 
-#stat <- generate_admixture_prior(5, 5000)
+#system.time(stat <- generate_admixture_prior_fast(6, 5000))
+
+#print(stat)
 
 #s <- PCA_summary(stat)
 
