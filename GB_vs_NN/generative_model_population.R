@@ -89,15 +89,30 @@ generate_admixture_prior_fast <- function(K, number_locus, pop_size = 50, alpha 
   sim <- matrix(NA_integer_, pop_size*K, number_locus)
   
   for(pop in 1:K){
-    ad <- admixture(pop)
     #print((pop_size*(pop-1) + 1):(pop_size*pop))
-    sim[(pop_size*(pop-1) + 1):(pop_size*pop),] <- ad
+    sim[(pop_size*(pop-1) + 1):(pop_size*pop),] <- admixture(pop)
   }
   
   #pop <- replicate(number_locus, admixture(), simplify = T)
   #print(pop)
   #(pop)
   
+  return(sim)
+}
+
+generate_Fmodel <- function(K, number_locus, number_alleles = 2, pop_size = 50, alpha = 1, beta = 1, membership = .25){
+  
+  parent_prob <- rbeta(number_locus, 1, 1)
+  
+  sim <- matrix(NA_integer_, pop_size*K, number_locus)
+  
+  for(pop in 1:K){
+    F <- rbeta(1, 1, 1)
+    p <- vapply(1:pop_size, function(x) vapply(parent_prob, function(y) rbinom(1, 2, rbeta(1, (1-y)*(1-F)/F, y*(1-F)/F)), integer(1)), integer(number_locus))
+    sim[(pop_size*(pop-1) + 1):(pop_size*pop),] <- p
+  }
+  
+  print(sim)
   return(sim)
 }
 
@@ -141,6 +156,8 @@ PCA_summary <- function(data, reduce_to = 25){
   #print(pca$x[1:reduce_to, 1:reduce_to])
   #print(pca$sdev[1:reduce_to])
   #print(pca$sdev[1:reduce_to])
+  
+  plot(pca$x)
   eigen_sum <- sum(pca$sdev)
   
   #print(eigen_sum)

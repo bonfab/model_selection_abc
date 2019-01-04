@@ -1,0 +1,218 @@
+\documentclass[a4paper, 11pt]{article}
+
+\usepackage{geometry}
+\geometry{a4paper,left=30mm,right=30mm, top=35mm, bottom=30mm}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{csquotes}
+
+\usepackage{lastpage} % Seitenzahlen
+
+\pagestyle{fancy}
+\usepackage{amsmath}
+\usepackage{tabularx} %schöne tabellen
+\parindent0pt %einrücken verhindern
+\renewcommand{\familydefault}{\sfdefault} % use sans fonts
+
+
+\usepackage{polynom}
+\cfoot{\thepage  \ / \pageref{LastPage}}
+
+\usepackage[
+backend=biber,
+%style=ieee,
+citestyle=authoryear
+]{biblatex}
+
+% % % % % % % % % % % % % % % % % % % % % % % %
+% % % % % % % % % % % % % % % % % % % % % % % %
+\newcommand{\thesis}{Bachelor Thesis}
+\newcommand{\topic}{Inferring the Population Quantity of Multilocus Genotype Data}
+\newcommand{\modul}{Bachelor Thesis}
+\newcommand{\supervisor}{Supervisor: Manfred Opper}
+\newcommand{\datum}{\today}
+% % % % % % % % % % % % % % % % % % % % % % % %
+% % % % % % % % % % % % % % % % % % % % % % % %
+
+
+\addbibresource{sources.bib}
+
+\begin{document} 
+
+%%% Kopfzeile linker Bereich
+%      gerade Seite   ungerade Seite
+\lhead[ \leftmark   ]{\textbf{\modul}}
+%%% Kopfzeile mittlerer Bereich
+%      gerade Seite   ungerade Seite
+\chead[\rightmark   ]{\rightmark{}}
+%%% Kopfzeile linker Bereich
+%      gerade Seite             ungerade Seite
+\rhead[\textbf{text}]{\supervisor}
+
+
+	%-- Deckblatt --						      
+  \title{\textbf{\thesis\\[0.5cm] \Large{\topic} \\[1.5cm]}
+	\author{%\tutorium\\ \\
+		Fabian Bergmann, 372918\\ \\ \\ \\ \\ \\ \\ \\ 
+		Pages: \pageref{LastPage} \\ \\ \\ \\
+		}
+	\normalsize{\supervisor}} %Thema ändern	
+	\date{Submission Date: \datum} %Datum ändern
+	\maketitle
+	\newpage
+	
+\renewcommand{\labelenumi}{\alph{enumi})}
+\renewcommand{\labelenumii}{(\roman{enumii})}
+\renewcommand{\labelenumiii}{\arabic{enumiii}.}
+%\renewcommand{\labelenumii}{\textbf{-}}	
+%-- Eigentlicher Text --
+
+\section*{Generating Data}
+
+\subsection*{Biological Background}
+
+\subsubsection*{Key words}
+
+\begin{itemize}
+\item \textbf{Chromosome:} A DNA molecule that encodes genetic information.
+
+\item \textbf{Gene:} A DNA (or RNA) sequence that specifies the structure of a particular functional molecule.
+
+\item \textbf{Locus:} A particular position on the chromosome, like the position of a specific gene.
+
+\item \textbf{Allele:} A variant form of a given gene. Different alleles can lead to distinct phenotypic traits.
+
+\end{itemize}
+
+\subsection*{Admixture}
+The subsequent admixture model, follows a model proposed by \cite{pritchard2000inference}. 
+
+
+
+\newpage
+\section*{Aufgabe 1: Titel (Punkte: 7)}
+
+\emph{Für den folgenden Abschnitt solltet Ihr den Latex-Code mit der Ausgabe vergleichen.}
+
+Einen neuen Absatz beginnt ihr durch das einfügen einer Leerzeile.
+Hier beginnt die neue Zeile:
+
+Zeilenumbrüche in der .tex Datei werden 
+ignoriert.
+
+\subsection*{Aufgabe 1.1: Unterpunkt (Punkte: 1)}
+
+Kommentarzeilen werden in Latex mit \% begonnen.
+%Dies ist ein Kommentar
+
+Ihr werdet in diesem Kurs viel mit mathematischen Ausdrücken arbeiten.
+Daher folgen nun die wichtigste Umgebung: \texttt{align} (bitte betrachtet wieder den Latex-Code).
+
+\begin{align}
+	a_1 = b^2 +4 \\
+	a_1 - 4 = b^2
+\end{align}
+
+Wollt ihr die Zeilen nicht durchnummeriert haben, so müsst ihr folgendes ändern:
+
+\begin{align*}
+	a_1 = b^2 +4 \\
+	a_1 - 4 = b^2
+\end{align*}
+
+Um mehr als ein Zeichen hoch- oder tiefgestellt darzustellen, müssen diese in geschweifte Klammern geschrieben werden.
+
+\begin{align}
+	a_{i+10} = b^{2+j} +4 \\
+	a_{i+10} - 4 = b^{2+j}
+\end{align}
+
+Jetzt müssen noch die Gleichheitszeichen untereinander gesetzt werden.
+
+\begin{align}
+	a_1 &= b^2 +4 \\
+	a_1 - 4 &= b^2
+\end{align}
+
+Matrizen können wie folgt dargestellt werden:
+
+\begin{align*}
+\begin{pmatrix}
+1 & 2 & 3 \\
+4 & 5 & 6
+\end{pmatrix} 
++ 
+\begin{pmatrix}
+a & b & c\\
+d & e & f
+\end{pmatrix} 
+&= 
+\begin{pmatrix}
+-3 & 6 & 12 \\
+4.3 & -1.2 & 9 
+\end{pmatrix}
+\\[5pt]
+\begin{pmatrix}
+a & b & c\\
+d & e & f
+\end{pmatrix} 
+&= 
+\begin{pmatrix}
+-4 & 4 & 9 \\
+0.3 & -6.2 & 3 
+\end{pmatrix}
+\\[5pt]
+&\Rightarrow a = -4 \\[2pt]
+&\Rightarrow b = 4 \\[2pt]
+&\Rightarrow c = 9 \\[2pt]
+&\Rightarrow d = 0.3 \\[2pt]
+&\Rightarrow e = -6.2 \\[2pt]
+&\Rightarrow f = 3 
+\end{align*}
+
+Im Folgenden findet ihr eine Liste der wichtigsten Symbole und Zeichen. Weitere Zeichen findet ihr unter
+\url{http://tug.ctan.org/info/symbols/comprehensive/symbols-a4.pdf}.
+
+\begin{align*}
+	\{ ~~~ \} \\
+	\cup \\
+	\cap \\
+	\setminus \\
+	\subset \\
+	\subsetneq \\
+	\subseteq \\
+	\supset \\
+	\in \\
+	\notin \\
+	\mathbb{N}\\
+	\mathbb{Z}\\
+	\mathbb{Q}\\
+	\mathbb{R}\\
+	\mathbb{C}\\
+	\neq \\
+	\approx \\
+	\le \\
+	\leq \\
+	\leqq \\
+	\ge \\
+	\geq \\
+	\alpha\\
+	\beta \\
+	\sum_{i=1}^{n} = x_i \\
+	\langle ~ \rangle \\
+	\cdot,\cdots \\
+	\Rightarrow \\
+	\rightarrow \\
+	\vec{v}\\
+\end{align*}
+
+\printbibliography
+
+\end{document}
