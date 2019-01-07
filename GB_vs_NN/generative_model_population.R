@@ -183,13 +183,13 @@ make_data <- function(samples = 200, populations = 3:13){
   #pop <- do.call(rbind, lapply(populations, function(x) t(replicate(samples, PCA_summary(generate_admixture_prior(x, 10000))))))
   #pop <- do.call(rbind, parLapply(clust, populations, function(x) t(replicate(samples, PCA_summary(generate_admixture_prior(x, 10000))))))
   
-  label <- unlist(lapply(populations, function(x) rep(x, samples)))
+  #label <- unlist(lapply(populations, function(x) rep(x, samples)))
   
-  print("begin generation")
+  print("begin generation - 50000")
   
-  priors <- seq(0.1, 0.6, by=0.01)
-  pop <- do.call(rbind, parLapply(clust, label, function(x) t(sapply(priors, function(y) PCA_summary(generate_admixture_prior_fast(x, 10000, membership = y))))))
-  label <- as.vector(t(replicate(length(priors), label)))
+  priors <- seq(0.1, 0.6, by=0.0001)
+  pop <- do.call(rbind, parLapply(clust, populations, function(x) t(sapply(priors, function(y) PCA_summary(generate_admixture_prior_fast(x, 10000, membership = y))))))
+  label <- as.vector(t(replicate(length(priors), populations)))
   
   #print(pop)
   #print(label)
