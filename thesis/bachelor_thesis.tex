@@ -73,11 +73,11 @@ citestyle=authoryear
 %\renewcommand{\labelenumii}{\textbf{-}}	
 %-- Eigentlicher Text --
 
-\section*{Generating Data}
+\section{Generating Data}
 
-\subsection*{Biological Background}
+\subsection{Biological Background}
 
-\subsubsection*{Key words}
+\subsubsection{Key words}
 
 \begin{itemize}
 \item \textbf{Chromosome:} A DNA molecule that encodes genetic information.
@@ -90,127 +90,41 @@ citestyle=authoryear
 
 \end{itemize}
 
-\subsection*{Admixture}
+\subsection{Admixture}
 The subsequent admixture model, follows a model proposed by \cite{pritchard2000inference}. 
 
+\section{Theory}
+
+\subsection{PCA}
+
+\subsection{RMT}
+
+Let $\mathbf{A} = \frac{1}{n}\mathbf{X}\mathbf{X}^{T}$ be the empirical covariance matrix of $\mathbf{X}$ with $\mathbf{X}$ being an $m \times n$ matrix. $\lambda_{1},\lambda_{2}, \dots, \lambda_{m}$ are the corresponding eigenvalues of $\mathbf{A}$. The empirical spectral distribution (\textbf{ESD}) for  $\mathbf{M}$ is then given by:
+
+\begin{align*}
+F^{M}(x) = \frac{1}{m} \mid \{\lambda_{i} \leq x \mid i \leq m\} \mid
+\end{align*}
+
+Whereby $\mid \cdot \mid$ denotes the size of a set.
+\\
+\\
+By assuming a theoretical setting in which $m, n \rightarrow \infty$ while $y = \frac{m}{n} \rightarrow (0, \infty)$ the Marchenko-Pastur Law extends the ESD to the continuous case.
+
+Under the assumption that the entries of $\mathbf{X}$ are random variables iid distributed with mean $0$, it states that the probability density of the eigenvalues is given by:
+
+\begin{align*}
+p^{M}(x) = \frac{1}{2\pi xy \sigma^{2}}  \sqrt[]{(\rho_{+} - x)(x - \rho_{-})}
+\end{align*}
+
+where $\rho_{\pm} = \sigma^{2}(1 \pm \sqrt[]{y})^{2}$ and $\sigma^2$ is the variance of the random variables.
+\\
+\textbf{Insert Plot of distribution}
+\\
 
 
 \newpage
-\section*{Aufgabe 1: Titel (Punkte: 7)}
 
-\emph{Für den folgenden Abschnitt solltet Ihr den Latex-Code mit der Ausgabe vergleichen.}
-
-Einen neuen Absatz beginnt ihr durch das einfügen einer Leerzeile.
-Hier beginnt die neue Zeile:
-
-Zeilenumbrüche in der .tex Datei werden 
-ignoriert.
-
-\subsection*{Aufgabe 1.1: Unterpunkt (Punkte: 1)}
-
-Kommentarzeilen werden in Latex mit \% begonnen.
-%Dies ist ein Kommentar
-
-Ihr werdet in diesem Kurs viel mit mathematischen Ausdrücken arbeiten.
-Daher folgen nun die wichtigste Umgebung: \texttt{align} (bitte betrachtet wieder den Latex-Code).
-
-\begin{align}
-	a_1 = b^2 +4 \\
-	a_1 - 4 = b^2
-\end{align}
-
-Wollt ihr die Zeilen nicht durchnummeriert haben, so müsst ihr folgendes ändern:
-
-\begin{align*}
-	a_1 = b^2 +4 \\
-	a_1 - 4 = b^2
-\end{align*}
-
-Um mehr als ein Zeichen hoch- oder tiefgestellt darzustellen, müssen diese in geschweifte Klammern geschrieben werden.
-
-\begin{align}
-	a_{i+10} = b^{2+j} +4 \\
-	a_{i+10} - 4 = b^{2+j}
-\end{align}
-
-Jetzt müssen noch die Gleichheitszeichen untereinander gesetzt werden.
-
-\begin{align}
-	a_1 &= b^2 +4 \\
-	a_1 - 4 &= b^2
-\end{align}
-
-Matrizen können wie folgt dargestellt werden:
-
-\begin{align*}
-\begin{pmatrix}
-1 & 2 & 3 \\
-4 & 5 & 6
-\end{pmatrix} 
-+ 
-\begin{pmatrix}
-a & b & c\\
-d & e & f
-\end{pmatrix} 
-&= 
-\begin{pmatrix}
--3 & 6 & 12 \\
-4.3 & -1.2 & 9 
-\end{pmatrix}
-\\[5pt]
-\begin{pmatrix}
-a & b & c\\
-d & e & f
-\end{pmatrix} 
-&= 
-\begin{pmatrix}
--4 & 4 & 9 \\
-0.3 & -6.2 & 3 
-\end{pmatrix}
-\\[5pt]
-&\Rightarrow a = -4 \\[2pt]
-&\Rightarrow b = 4 \\[2pt]
-&\Rightarrow c = 9 \\[2pt]
-&\Rightarrow d = 0.3 \\[2pt]
-&\Rightarrow e = -6.2 \\[2pt]
-&\Rightarrow f = 3 
-\end{align*}
-
-Im Folgenden findet ihr eine Liste der wichtigsten Symbole und Zeichen. Weitere Zeichen findet ihr unter
-\url{http://tug.ctan.org/info/symbols/comprehensive/symbols-a4.pdf}.
-
-\begin{align*}
-	\{ ~~~ \} \\
-	\cup \\
-	\cap \\
-	\setminus \\
-	\subset \\
-	\subsetneq \\
-	\subseteq \\
-	\supset \\
-	\in \\
-	\notin \\
-	\mathbb{N}\\
-	\mathbb{Z}\\
-	\mathbb{Q}\\
-	\mathbb{R}\\
-	\mathbb{C}\\
-	\neq \\
-	\approx \\
-	\le \\
-	\leq \\
-	\leqq \\
-	\ge \\
-	\geq \\
-	\alpha\\
-	\beta \\
-	\sum_{i=1}^{n} = x_i \\
-	\langle ~ \rangle \\
-	\cdot,\cdots \\
-	\Rightarrow \\
-	\rightarrow \\
-	\vec{v}\\
-\end{align*}
+\section{Gradient Boosting}
 
 \printbibliography
 
