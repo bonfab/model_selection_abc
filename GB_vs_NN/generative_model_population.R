@@ -157,7 +157,7 @@ PCA_summary <- function(data, reduce_to = 25){
   #print(pca$sdev[1:reduce_to])
   #print(pca$sdev[1:reduce_to])
   
-  plot(pca$x)
+  plot(pca)
   eigen_sum <- sum(pca$sdev)
   
   #print(eigen_sum)
@@ -219,8 +219,15 @@ make_data <- function(samples = 200, populations = 3:13){
 #print(s)
 #s2 <- sparse_pca(stat, 10)
 
-make_data()
+#make_data()
 
 #bla <- readRDS("data_pop.rds")
 #print(do.call(rbind, bla[[1]]))
 
+data <- generate_admixture_prior_fast(5, 10000, membership = 0.5)
+dim(data)
+
+library(LEA)
+
+write.geno(output = "data.geno", data)
+obj <- snmf("test.geno", K = 1:10, CPU = 4, entropy = T)
