@@ -33,7 +33,7 @@ F_layer <- function(K, F_values, number_locus = 10000){
 admixture_layer <- function(K, pop_size, number_admixed, scaling = NULL){
 
     if(is.null(scaling)){
-        sizes <- rep(pop_size, K)
+        sizes <- rep(pop_size, K+number_admixed)
     } else {
         sizes <- sapply(scaling, function(x) ceiling(x*pop_size))
     }
@@ -41,12 +41,13 @@ admixture_layer <- function(K, pop_size, number_admixed, scaling = NULL){
 
     Q <- matrix(0, nrow = sum(sizes), ncol = K)
 
+    pointer <- 0
+
     for(pop in 1:K){
-        if(pop == 1){
-            Q[1:sum(sizes[1:pop]), pop] <- 1
-        } else {
-            Q[(sum(sizes[1:(pop-1)]) +1):sum(sizes[1:pop]),] <- 1
-        }
+
+        Q[(pointer+1):(pointer+sizes[pop])] <- 1
+
+        pointer <- pointer + sizes[pop]
 
     }
 
@@ -55,10 +56,9 @@ admixture_layer <- function(K, pop_size, number_admixed, scaling = NULL){
     for(admixed in (K+1):(K+number_admixed)){
 
         admixed_prior <- rdirichlet(1, rep(1, K))
-        print((sum(sizes[1:(admixed-1)])+1):sum(sizes[1:admixed]))
 
-        Q[(sum(sizes[1:(admixed-1)])+1):sum(sizes[1:admixed]),] <- t(replicate(pop_size, rdirichlet(1, admixed_prior), simplify = "matrix"))
-
+        Q[(pointer+1):(pointer + sizes[admixed]),] <- t(replicate(sizes[admixed], rdirichlet(1, admixed_prior), simplify = "matrix"))
+        pointer <- pointer + sizes[admixed]
     }
 
     return(Q)
@@ -108,7 +108,7 @@ PCA_summary <- function(data, reduce_to = 25){
 Sys.setlocale("LC_MESSAGES", "en_US.utf8")
 K <- 5
 F <- F_layer(K, runif(K, 0, 1), number_locus = 10000)
-Q <- admixture_layer(nrow(F), 50, 1)
+Q <- admixture_layer(nrow(F), 50, 1, scaling = append(rep(1, K), 1.5))
 
 
 prob <- Q %*% F
