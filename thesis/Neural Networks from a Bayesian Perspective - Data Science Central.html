@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html xmlns:og="http://ogp.me/ns#" xmlns:fb="http://www.facebook.com/2008/fbml" lang="en"><head data-layout-view="default" class="xj_layout_head">
+
+<script src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/osd.js"></script><script src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/pubads_impl_rendering_297.js"></script><script type="text/javascript" async="" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/ec.js"></script><script type="text/javascript" async="" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/analytics.js"></script><script type="text/javascript" async="" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/analytics.js"></script><script src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/cbgapi.loaded_1" async=""></script><script src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/cbgapi.loaded_0" async=""></script><script type="text/javascript" async="" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/atrk.js"></script><script type="text/javascript" async="" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/plusone.js" gapi_processed="true"></script><script id="twitter-wjs" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/widgets.js"></script><script async="" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/gtm.js"></script><script src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/X80D6xV_pYwo52TLmN12KbAqojk.js"></script><script src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/A8atbm151e2fWqnQ6h9F4oXdEN4.js"></script><script type="text/javascript">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-T5W4WQ');</script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Neural Networks from a Bayesian Perspective - Data Science Central</title>
+<link rel="icon" href="https://www.datasciencecentral.com/favicon.ico" type="image/x-icon">
+<link rel="SHORTCUT ICON" href="https://www.datasciencecentral.com/favicon.ico" type="image/x-icon">
+<meta name="description" content="Understanding what a model doesn’t know is important both from the practitioner’s perspective and for the end users of many different machine learni…">
+<meta name="title" content="Neural Networks from a Bayesian Perspective">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.datasciencecentral.com/profiles/blogs/neural-networks-from-a-bayesian-perspective">
+<meta property="og:title" content="Neural Networks from a Bayesian Perspective">
+<meta property="og:image" content="https://cdn-images-1.medium.com/max/2000/1*1XBZ8ocyjdSxP5VCiUvXzg.jpeg?width=668">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Neural Networks from a Bayesian Perspective">
+<meta name="twitter:description" content="Understanding what a model doesn’t know is important both from the practitioner’s perspective and for the end users of many different machine learni…">
+<meta name="twitter:image" content="https://cdn-images-1.medium.com/max/2000/1*1XBZ8ocyjdSxP5VCiUvXzg.jpeg?width=668">
+<link rel="image_src" href="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/11XBZ8ocyjdSxP5VCiUvXzg.jpeg">
+<script type="text/javascript">
+    djConfig = { preventBackButtonFix: false, isDebug: false }
+ning = {"CurrentApp":{"premium":true,"iconUrl":"http:\/\/api.ning.com\/icons\/appatar\/6448529?default=6448529&width=64&height=64","url":"httpsdatasciencecentral.ning.com","domains":["datasciencecentral.com"],"online":true,"privateSource":true,"id":"datasciencecentral","appId":"6448529","description":"Welcome to Data Science Central. The Community of and for Data Scientist","name":"Data Science Central","owner":"2edcolrgc4o4b","createdDate":"2011-10-05T21:11:40.055Z","runOwnAds":false,"category":{"Predictive":null,"Business":null,"Data":null,"Analytics":null,"Mining":null,"R":null,"Intelligence":null,"Big":null,"Modeling":null,"Science":null,"Integration":null,"Visualization":null},"tags":["Predictive","Business","Data","Analytics","Mining","R","Intelligence","Big","Modeling","Science","Integration","Visualization"]},"CurrentProfile":null,"maxFileUploadSize":7};
+        (function(){
+            if (!window.ning) { return; }
+
+            var age, gender, rand, obfuscated, combined;
+
+            obfuscated = document.cookie.match(/xgdi=([^;]+)/);
+            if (obfuscated) {
+                var offset = 100000;
+                obfuscated = parseInt(obfuscated[1]);
+                rand = obfuscated / offset;
+                combined = (obfuscated % offset) ^ rand;
+                age = combined % 1000;
+                gender = (combined / 1000) & 3;
+                gender = (gender == 1 ? 'm' : gender == 2 ? 'f' : 0);
+                ning.viewer = {"age":age,"gender":gender};
+            }
+        })();
+
+        if (window.location.hash.indexOf('#!/') == 0) {
+        window.location.replace(window.location.hash.substr(2));
+    }
+    window.xg = window.xg || {};
+xg.captcha = {
+    'shouldShow': false,
+    'siteKey': '6Ldf3AoUAAAAALPgNx2gcXc8a_5XEcnNseR6WmsT'
+};
+xg.addOnRequire = function(f) { xg.addOnRequire.functions.push(f); };
+xg.addOnRequire.functions = [];
+xg.addOnFacebookLoad = function (f) { xg.addOnFacebookLoad.functions.push(f); };
+xg.addOnFacebookLoad.functions = [];
+xg._loader = {
+    p: 0,
+    loading: function(set) {  this.p++; },
+    onLoad: function(set) {
+                this.p--;
+        if (this.p == 0 && typeof(xg._loader.onDone) == 'function') {
+            xg._loader.onDone();
+        }
+    }
+};
+xg._loader.loading('xnloader');
+if (window.bzplcm) {
+    window.bzplcm._profileCount = 0;
+    window.bzplcm._profileSend = function() { if (window.bzplcm._profileCount++ == 1) window.bzplcm.send(); };
+}
+xg._loader.onDone = function() {
+            if(window.bzplcm)window.bzplcm.start('ni');
+        xg.shared.util.parseWidgets();    var addOnRequireFunctions = xg.addOnRequire.functions;
+    xg.addOnRequire = function(f) { f(); };
+    try {
+        if (addOnRequireFunctions) { dojo.lang.forEach(addOnRequireFunctions, function(onRequire) { onRequire.apply(); }); }
+    } catch (e) {
+        if(window.bzplcm)window.bzplcm.ts('nx').send();
+        throw e;
+    }
+    if(window.bzplcm) { window.bzplcm.stop('ni'); window.bzplcm._profileSend(); }
+};
+window.xn = { track: { event: function() {}, pageView: function() {}, registerCompletedFlow: function() {}, registerError: function() {}, timer: function() { return { lapTime: function() {} }; } } };</script>
+<meta name="medium" content="blog"><link rel="alternate" type="application/atom+xml" title="Yoel Zeldes's Posts - Data Science Central" href="https://www.datasciencecentral.com/profiles/blog/feed?user=2gu0u3fsrzsbg&amp;xn_auth=no"><link rel="alternate" type="application/atom+xml" title="Comments - Neural Networks from a Bayesian Perspective - Data Science Central" href="https://www.datasciencecentral.com/profiles/comment/feed?attachedTo=6448529%3ABlogPost%3A751446&amp;xn_auth=no">
+<style type="text/css" media="screen,projection">
+@import url(https://static.ning.com/socialnetworkmain/widgets/index/css/common-982.min.css?xn_version=1164545931);
+@import url(https://static.ning.com/socialnetworkmain/widgets/profiles/css/component.min.css?xn_version=467783652);
+
+</style>
+<style type="text/css" media="screen,projection">
+@import url(https://storage.ning.com/topology/rest/1.0/file/get/859901277?profile=original&xn_version=201901230653);
+
+</style>
+<style type="text/css" media="screen,projection">
+@import url(https://storage.ning.com/topology/rest/1.0/file/get/861803126?profile=original&xn_version=201901230653);
+
+</style>
+<!--[if IE 6]>
+    <link rel="stylesheet" type="text/css" href="https://static.ning.com/socialnetworkmain/widgets/index/css/common-ie6.min.css?xn_version=463104712" />
+<![endif]-->
+<!--[if IE 7]>
+<link rel="stylesheet" type="text/css" href="https://static.ning.com/socialnetworkmain/widgets/index/css/common-ie7.css?xn_version=2712659298" />
+<![endif]-->
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.datasciencecentral.com/profiles/blog/rsd">
+<link rel="stylesheet" href="data:text/css;charset=utf-8;base64,Y2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdLApjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gKiB7CiAgYm94LXNpemluZzogYm9yZGVyLWJveDsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdIHsKICBkaXNwbGF5OiBub25lOwogIGZvbnQtc2l6ZTogMTJweDsKICBwb3NpdGlvbjogZml4ZWQ7CiAgei1pbmRleDogMTAwMDA7Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXS5jZi1pbnZhbGlkIGNmLWRpYWxvZy1jb250ZW50LXRpdGxlLApjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0uY2YtaW52YWxpZCBjZi1kaWFsb2ctY2xvc2UtYnV0dG9uLApjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0uY2YtaW52YWxpZCBjZi1zaWdudXAtdGV4dCwKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdLmNmLWludmFsaWQgaW5wdXRbdHlwZT0ic3VibWl0Il0gewogIC13ZWJraXQtZmlsdGVyOiBibHVyKDJweCk7CiAgICAgICAgICBmaWx0ZXI6IGJsdXIoMnB4KTsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdW2RhdGEtdmlzaWJpbGl0eT0idmlzaWJsZSJdIHsKICBkaXNwbGF5OiBibG9jazsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdW2RhdGEtZ29hbD0ic2lnbnVwU3VjY2VzcyJdIHsKICB0ZXh0LWFsaWduOiBsZWZ0Owp9CgpjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il1bZGF0YS1nb2FsPSJzaWdudXBTdWNjZXNzIl0gY2YtZGlhbG9nLWNvbnRlbnQtdGV4dCB7CiAgZGlzcGxheTogLW1zLWZsZXhib3g7CiAgZGlzcGxheTogZmxleDsKICAtbXMtZmxleC1mbG93OiBjb2x1bW47CiAgICAgIGZsZXgtZmxvdzogY29sdW1uOwogIC1tcy1mbGV4LXBhY2s6IGxlZnQ7CiAgICAgIGp1c3RpZnktY29udGVudDogbGVmdDsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdW2RhdGEtZ29hbD0ic2lnbnVwU3VjY2VzcyJdIGNmLXNpZ251cC10ZXh0IHsKICBkaXNwbGF5OiBibG9jazsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdW2RhdGEtZm9ybT0ic3VibWl0dGluZyJdIGNmLWRpYWxvZywKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdW2RhdGEtZ29hbD0ic3VibWl0dGluZyJdIGlucHV0W3R5cGU9InN1Ym1pdCJdIHsKICBjdXJzb3I6IHdhaXQ7Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXSBjZi1kaWFsb2cgewogIGN1cnNvcjogZGVmYXVsdDsKICBkaXNwbGF5OiBibG9jazsKICB6LWluZGV4OiAyMDAwNTsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdIC5jZi1icmFuZGluZywKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdIC5jZi1icmFuZGluZzphY3RpdmUsCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXSAuY2YtYnJhbmRpbmc6dmlzaXRlZCB7CiAgY29sb3I6ICMxMTEgIWltcG9ydGFudDsKICB0ZXh0LWRlY29yYXRpb246IG5vbmUgIWltcG9ydGFudDsKICB0ZXh0LWluZGVudDogMCAhaW1wb3J0YW50OwogIHBhZGRpbmc6IDAgIWltcG9ydGFudDsKICBmb250LXNpemU6IC44NWVtICFpbXBvcnRhbnQ7CiAgLW1zLWZsZXg6IDEgMCBhdXRvICFpbXBvcnRhbnQ7CiAgICAgIGZsZXg6IDEgMCBhdXRvICFpbXBvcnRhbnQ7CiAgd2lkdGg6IDEwMCUgIWltcG9ydGFudDsKICBkaXNwbGF5OiAtbXMtZmxleGJveCAhaW1wb3J0YW50OwogIGRpc3BsYXk6IGZsZXggIWltcG9ydGFudDsKICAtbXMtZmxleC1wYWNrOiBlbmQgIWltcG9ydGFudDsKICAgICAganVzdGlmeS1jb250ZW50OiBmbGV4LWVuZCAhaW1wb3J0YW50OwogIG1hcmdpbjogMCAhaW1wb3J0YW50OwogIGN1cnNvcjogcG9pbnRlciAhaW1wb3J0YW50OwogIC1tcy1mbGV4LWFsaWduOiBiYXNlbGluZSAhaW1wb3J0YW50OwogICAgICBhbGlnbi1pdGVtczogYmFzZWxpbmUgIWltcG9ydGFudDsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdIC5jZi1icmFuZGluZzpob3ZlciB7CiAgY29sb3I6ICMxMTEgIWltcG9ydGFudDsKICB0ZXh0LWRlY29yYXRpb246IG5vbmUgIWltcG9ydGFudDsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdIC5jZi1icmFuZGluZzo6YmVmb3JlIHsKICBjb250ZW50OiAiUG93ZXJlZCBieSI7CiAgbWFyZ2luLXJpZ2h0OiAuNWVtOwogIGZvbnQtd2VpZ2h0OiAzMDA7CiAgZm9udC1mYW1pbHk6ICJPcGVuIFNhbnMiLCBIZWx2ZXRpY2EsIEFyaWFsLCBzYW5zLXNlcmlmOwp9CgpjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gLmNmLWJyYW5kaW5nID4gc3ZnIHsKICBoZWlnaHQ6IC43ZW07CiAgd2lkdGg6IGF1dG87Cn0KCkBtZWRpYSAobWF4LXdpZHRoOiA3NjhweCkgewogIGNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXSB7CiAgICBib3R0b206IDA7CiAgICBsZWZ0OiAwOwogICAgcmlnaHQ6IDA7CiAgfQoKICBjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gY2YtZGlhbG9nLWNvbnRlbnQgewogICAgYm9yZGVyLXRvcDogMXB4IHNvbGlkICNkY2RjZGM7CiAgfQoKICBjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gLmNmLWJyYW5kaW5nIHsKICAgIC1tcy1mbGV4LXBhY2s6IGNlbnRlciAhaW1wb3J0YW50OwogICAgICAgIGp1c3RpZnktY29udGVudDogY2VudGVyICFpbXBvcnRhbnQ7CiAgfQp9CgpjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gY2YtZGlhbG9nLWNvbnRlbnQgewogIGRpc3BsYXk6IGJsb2NrOwogIGJhY2tncm91bmQ6ICNmZmY7CiAgY29sb3I6ICMzMzM7CiAgbGluZS1oZWlnaHQ6IDEuNjU7CiAgbWF4LXdpZHRoOiAxMDAlOwogIHBvc2l0aW9uOiByZWxhdGl2ZTsKfQoKQG1lZGlhIChtaW4td2lkdGg6IDc2OHB4KSB7CiAgY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdIGNmLWRpYWxvZyB7CiAgICBwYWRkaW5nOiAxZW07CiAgfQoKICBjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gY2YtZGlhbG9nLWNvbnRlbnQgewogICAgYm9yZGVyLXJhZGl1czogMnB4OwogICAgYm94LXNoYWRvdzogMCAwIDAgMXB4IHJnYmEoMCwgMCwgMCwgLjEpLCAwIDVweCAyMHB4IHJnYmEoMCwgMCwgMCwgLjEpOwogICAgd2lkdGg6IDMyZW07CiAgfQoKICBjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il1bZGF0YS1wb3NpdGlvbn49InRvcCJdIHsKICAgIHRvcDogMDsKICB9CgogIGNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXVtkYXRhLXBvc2l0aW9ufj0iYm90dG9tIl0gewogICAgYm90dG9tOiAwOwogIH0KCiAgY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdW2RhdGEtcG9zaXRpb25+PSJsZWZ0Il0gewogICAgbGVmdDogMDsKICB9CgogIGNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXVtkYXRhLXBvc2l0aW9ufj0icmlnaHQiXSB7CiAgICByaWdodDogMDsKICB9Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXSBjZi1kaWFsb2ctY29udGVudCwKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdIGNmLWRpYWxvZy1jb250ZW50ICogewogIGZvbnQtZmFtaWx5OiBpbmhlcml0Owp9CgpjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gY2YtZGlhbG9nLWNvbnRlbnQtdGV4dCwKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdIGlucHV0W3R5cGU9ImVtYWlsIl0gewogIGNvbG9yOiBpbmhlcml0Owp9CgpjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gY2YtZGlhbG9nLWNvbnRlbnQtdGV4dCB7CiAgZGlzcGxheTogYmxvY2s7CiAgcGFkZGluZzogMWVtOwogIC13ZWJraXQtZm9udC1zbW9vdGhpbmc6IGFudGlhbGlhc2VkOwp9CgpjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gY2Ytc2lnbnVwLXRleHQgewogIGRpc3BsYXk6IGJsb2NrOwogIG9wYWNpdHk6IC44OwogIGxpbmUtaGVpZ2h0OiAxLjU7Cn0KCkBtZWRpYSAobWF4LXdpZHRoOiA0ODBweCkgewogIGNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXSBjZi1kaWFsb2ctY29udGVudC10ZXh0IHsKICAgIHBhZGRpbmc6IDFlbTsKICB9Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXSBjZi1kaWFsb2ctY29udGVudC10ZXh0ID4gKiB7CiAgdGV4dC1pbmRlbnQ6IDA7CiAgbWFyZ2luOiAxZW0gMDsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdIGNmLWRpYWxvZy1jb250ZW50LXRleHQgYSB7CiAgdGV4dC1kZWNvcmF0aW9uOiBub25lOwogIGZvbnQtd2VpZ2h0OiBib2xkOwp9CgpjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gY2YtZGlhbG9nLWNvbnRlbnQtdGV4dCA+ICo6Zmlyc3QtY2hpbGQgewogIG1hcmdpbi10b3A6IDA7Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXSBjZi1kaWFsb2ctY29udGVudC10ZXh0ID4gKjpsYXN0LWNoaWxkIHsKICBtYXJnaW4tYm90dG9tOiAwOwp9CgpjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gY2YtZGlhbG9nLWNvbnRlbnQtdGl0bGUgewogIGRpc3BsYXk6IGJsb2NrOwogIGZvbnQtc2l6ZTogMS41ZW07CiAgZm9udC13ZWlnaHQ6IGJvbGQ7CiAgbGluZS1oZWlnaHQ6IDEuMzsKICBtYXJnaW46IDA7CiAgcGFkZGluZy1yaWdodDogMmVtOwp9CgpjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gY2YtZGlhbG9nLWNsb3NlLWJ1dHRvbiB7CiAgLXdlYmtpdC1mb250LXNtb290aGluZzogYW50aWFsaWFzZWQ7CiAgZGlzcGxheTogYmxvY2s7CiAgcG9zaXRpb246IGFic29sdXRlOwogIGZvbnQtc2l6ZTogMS4yNWVtOwogIGhlaWdodDogMmVtOwogIGxpbmUtaGVpZ2h0OiAyOwogIHJpZ2h0OiAuNGVtOwogIHRvcDogLjRlbTsKICB3aWR0aDogMmVtOwogIGZvbnQtZmFtaWx5OiBBcmlhbCwgc2Fucy1zZXJpZjsKICB0ZXh0LWFsaWduOiBjZW50ZXI7CiAgY3Vyc29yOiBwb2ludGVyOwogIHotaW5kZXg6IDIwMDA3OwogIGJvcmRlci1yYWRpdXM6IDNweDsKICBjb2xvcjogcmdiYSgwLCAwLCAwLCAuOCk7Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXSBjZi1kaWFsb2ctY2xvc2UtYnV0dG9uOmhvdmVyIHsKICBiYWNrZ3JvdW5kOiByZ2JhKDAsIDAsIDAsIC4xKTsKICBjb2xvcjogIzAwMDsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJsZWFkLWJveCJdIGNmLWRpYWxvZy1jbG9zZS1idXR0b246OmFmdGVyIHsKICBjb250ZW50OiAiXDI3MTUiOwogIGRpc3BsYXk6IGJsb2NrOwp9CgpjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gaW5wdXRbdHlwZT0ic3VibWl0Il0gewogIGJvcmRlci1yYWRpdXM6IDAuMTg3NWVtOwogIGJvcmRlcjogMXB4IHNvbGlkIHRyYW5zcGFyZW50OwogIGJveC1zaGFkb3c6IG5vbmU7CiAgY29sb3I6ICNmZmY7CiAgY3Vyc29yOiBwb2ludGVyOwogIGZvbnQ6IGluaGVyaXQ7CiAgZm9udC13ZWlnaHQ6IGJvbGQ7CiAgLW1zLWZsZXg6IDAgMCBhdXRvOwogICAgICBmbGV4OiAwIDAgYXV0bzsKICBtYXJnaW4tbGVmdDogMWVtOwogIG1heC13aWR0aDogMTZlbTsKICBvdmVyZmxvdzogaGlkZGVuOwogIHBhZGRpbmc6IC42ZW0gMWVtOwogIGhlaWdodDogMi44ZW07CiAgbGluZS1oZWlnaHQ6IDE7CiAgcG9zaXRpb246IHJlbGF0aXZlOwogIHRleHQtb3ZlcmZsb3c6IGVsbGlwc2lzOwogIHdoaXRlLXNwYWNlOiBub3dyYXA7CiAgd2lkdGg6IGF1dG87Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXSBpbnB1dFt0eXBlPSJzdWJtaXQiXTpkaXNhYmxlZCB7CiAgb3BhY2l0eTogMC43OwogIGN1cnNvcjogbm90LWFsbG93ZWQ7Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXSBpbnB1dFt0eXBlPSJlbWFpbCJdIHsKICAtd2Via2l0LWFwcGVhcmFuY2U6IG5vbmU7CiAgLW1vei1hcHBlYXJhbmNlOiBub25lOwogICAgICAgYXBwZWFyYW5jZTogbm9uZTsKICBmb250OiBpbmhlcml0OwogIHdpZHRoOiAxMDAlOwogIC13ZWJraXQtdGFwLWhpZ2hsaWdodC1jb2xvcjogdHJhbnNwYXJlbnQ7CiAgdGV4dC1yZW5kZXJpbmc6IG9wdGltaXplTGVnaWJpbGl0eTsKICBiYWNrZ3JvdW5kOiAjZmZmOwogIGNvbG9yOiBpbmhlcml0OwogIGJvcmRlcjogMXB4IHNvbGlkIHJnYmEoMCwgMCwgMCwgLjE4KTsKICBib3JkZXItdG9wLWNvbG9yOiByZ2JhKDAsIDAsIDAsIC4yNCk7CiAgcGFkZGluZzogLjZlbSAxZW07CiAgaGVpZ2h0OiAyLjhlbTsKICBsaW5lLWhlaWdodDogMTsKICBib3gtc2hhZG93OiBub25lOwogIGJvcmRlci1yYWRpdXM6IC4xODc1ZW07Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXSBpbnB1dFt0eXBlPSJlbWFpbCJdOm5vdCg6Zm9jdXMpIHsKICBiYWNrZ3JvdW5kOiByZ2JhKDAsIDAsIDAsIC4wMik7Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXSBpbnB1dFt0eXBlPSJlbWFpbCJdOnBsYWNlaG9sZGVyIHsKICBjb2xvcjogcmdiYSgwLCAwLCAwLCAuNSk7Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXS5jZi1pbnZhbGlkIGlucHV0W3R5cGU9J2VtYWlsJ10sCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXS5jZi1pbnZhbGlkIGlucHV0W3R5cGU9J2VtYWlsJ106aG92ZXIgewogIGNvbG9yOiAjZjE2OTc1OwogIGJhY2tncm91bmQ6ICNmZmY2Zjc7CiAgYm9yZGVyLWNvbG9yOiBjdXJyZW50Q29sb3I7CiAgdGV4dC1hbGlnbjogY2VudGVyOwp9CgpjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0uY2YtaW52YWxpZCBpbnB1dFt0eXBlPSdlbWFpbCddOmRpc2FibGVkOjotd2Via2l0LWlucHV0LXBsYWNlaG9sZGVyIHsKICBjb2xvcjogI2I3MTkyNzsKICB0ZXh0LWFsaWduOiBjZW50ZXI7Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXS5jZi1pbnZhbGlkIGlucHV0W3R5cGU9J2VtYWlsJ106ZGlzYWJsZWQ6LW1zLWlucHV0LXBsYWNlaG9sZGVyIHsKICBjb2xvcjogI2I3MTkyNzsKICB0ZXh0LWFsaWduOiBjZW50ZXI7Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXS5jZi1pbnZhbGlkIGlucHV0W3R5cGU9J2VtYWlsJ106ZGlzYWJsZWQ6OnBsYWNlaG9sZGVyIHsKICBjb2xvcjogI2I3MTkyNzsKICB0ZXh0LWFsaWduOiBjZW50ZXI7Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0ibGVhZC1ib3giXSBpbnB1dFt0eXBlPSJlbWFpbCJdOmZvY3VzIHsKICBvdXRsaW5lOiBub25lOwp9CgpjbG91ZGZsYXJlLWFwcFthcHA9ImxlYWQtYm94Il0gZm9ybSB7CiAgd2lkdGg6IDEwMCU7CiAgbWFyZ2luOiAuNWVtIDA7CiAgLW1zLWZsZXgtYWxpZ246IGNlbnRlcjsKICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjsKICBkaXNwbGF5OiAtbXMtZmxleGJveDsKICBkaXNwbGF5OiBmbGV4OwogIC1tcy1mbGV4LXBhY2s6IGp1c3RpZnk7CiAgICAgIGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjsKfQovKgogIFNwZWNpZmljaXR5IHRvIGNvbWJhdCB0aGluZ3MgbGlrZSB0aGlzIChmcm9tIENOTi5jb20gYXMgb2YgNi82LzE2KToKCiAgYm9keSA+IDpub3QoLm5hdikgewogICAgLXdlYmtpdC10cmFuc2Zvcm06IG5vbmUgIWltcG9ydGFudDsKICAgIHRyYW5zZm9ybTogbm9uZSAhaW1wb3J0YW50OwogIH0KKi8KaHRtbCA+IGJvZHkgPiBjbG91ZGZsYXJlLWFwcFthcHA9IndlbGNvbWUtYmFyIl0gewogIGRpc3BsYXk6IGJsb2NrOwogIGRpc3BsYXk6IC13ZWJraXQtYm94OwogIGRpc3BsYXk6IC1tcy1mbGV4Ym94OwogIGRpc3BsYXk6IGZsZXg7CiAgLXdlYmtpdC1ib3gtYWxpZ246IGNlbnRlcjsKICAgICAgLW1zLWZsZXgtYWxpZ246IGNlbnRlcjsKICAgICAgICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7CiAgLXdlYmtpdC1ib3gtcGFjazoganVzdGlmeTsKICAgICAgLW1zLWZsZXgtcGFjazoganVzdGlmeTsKICAgICAgICAgIGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjsKICBmb250LXNpemU6IDE2cHg7CiAgbWluLWhlaWdodDogMi41ZW07CiAgbGluZS1oZWlnaHQ6IDE7CiAgb3ZlcmZsb3c6IGhpZGRlbjsKICBwb3NpdGlvbjogZml4ZWQ7CiAgdG9wOiAwOwogIGxlZnQ6IDA7CiAgcmlnaHQ6IDA7CiAgLXdlYmtpdC1mb250LXNtb290aGluZzogYW50aWFsaWFzZWQ7CiAgLW1vei1vc3gtZm9udC1zbW9vdGhpbmc6IGdyYXlzY2FsZTsKICAtd2Via2l0LXVzZXItc2VsZWN0OiBub25lOwogIC13ZWJraXQtdHJhbnNmb3JtOiB0cmFuc2xhdGUzZCgwLCAtMzAwJSwgMCk7CiAgICAgICAgICB0cmFuc2Zvcm06IHRyYW5zbGF0ZTNkKDAsIC0zMDAlLCAwKTsKfQoKaHRtbCA+IGJvZHkgPiBjbG91ZGZsYXJlLWFwcFthcHA9IndlbGNvbWUtYmFyIl06OmJlZm9yZSB7CiAgY29udGVudDogIiI7CiAgcG9zaXRpb246IGFic29sdXRlOwogIHRvcDogMDsKICBsZWZ0OiAwOwogIHJpZ2h0OiAwOwogIGJvdHRvbTogMDsKICBiYWNrZ3JvdW5kOiByZ2JhKDAsIDAsIDAsIC4wNSk7CiAgLXdlYmtpdC10cmFuc2Zvcm06IHRyYW5zbGF0ZTNkKC0xMDAlLCAwLCAwKTsKICAgICAgICAgIHRyYW5zZm9ybTogdHJhbnNsYXRlM2QoLTEwMCUsIDAsIDApOwp9CgpodG1sID4gYm9keSA+IGNsb3VkZmxhcmUtYXBwW2FwcD0id2VsY29tZS1iYXIiXVtkYXRhLXNsaWRlLWFuaW1hdGlvbl06OmJlZm9yZSB7CiAgdHJhbnNpdGlvbjogLXdlYmtpdC10cmFuc2Zvcm0gZWFzZS1vdXQgOHM7CiAgdHJhbnNpdGlvbjogdHJhbnNmb3JtIGVhc2Utb3V0IDhzOwogIHRyYW5zaXRpb246IHRyYW5zZm9ybSBlYXNlLW91dCA4cywgLXdlYmtpdC10cmFuc2Zvcm0gZWFzZS1vdXQgOHM7Cn0KCmh0bWwgPiBib2R5ID4gY2xvdWRmbGFyZS1hcHBbYXBwPSJ3ZWxjb21lLWJhciJdW2RhdGEtc2xpZGUtYW5pbWF0aW9uPSJjb21wbGV0ZSJdOjpiZWZvcmUgewogIC13ZWJraXQtdHJhbnNmb3JtOiB0cmFuc2xhdGUzZCgwLCAwLCAwKTsKICAgICAgICAgIHRyYW5zZm9ybTogdHJhbnNsYXRlM2QoMCwgMCwgMCk7Cn0KCmh0bWxbZGF0YS1jZi13ZWxjb21lLWJhci12aXNpYmlsaXR5PSJ2aXNpYmxlIl0gPiBib2R5ID4gY2xvdWRmbGFyZS1hcHBbYXBwPSJ3ZWxjb21lLWJhciJdIHsKICAtd2Via2l0LXRyYW5zZm9ybTogdHJhbnNsYXRlM2QoMCwgMCwgMCkgIWltcG9ydGFudDsKICAgICAgICAgIHRyYW5zZm9ybTogdHJhbnNsYXRlM2QoMCwgMCwgMCkgIWltcG9ydGFudDsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJ3ZWxjb21lLWJhciJdIGFsZXJ0LW1lc3NhZ2UgewogIGRpc3BsYXk6IC13ZWJraXQtYm94OwogIGRpc3BsYXk6IC1tcy1mbGV4Ym94OwogIGRpc3BsYXk6IGZsZXg7CiAgLXdlYmtpdC1ib3gtZmxleDogMTsKICAgICAgLW1zLWZsZXg6IDEgMSBhdXRvOwogICAgICAgICAgZmxleDogMSAxIGF1dG87CiAgLXdlYmtpdC1ib3gtcGFjazogY2VudGVyOwogICAgICAtbXMtZmxleC1wYWNrOiBjZW50ZXI7CiAgICAgICAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJ3ZWxjb21lLWJhciJdIGFsZXJ0LW1lc3NhZ2UtY29udGVudCB7CiAgZGlzcGxheTogLXdlYmtpdC1ib3g7CiAgZGlzcGxheTogLW1zLWZsZXhib3g7CiAgZGlzcGxheTogZmxleDsKICAtd2Via2l0LWJveC1hbGlnbjogY2VudGVyOwogICAgICAtbXMtZmxleC1hbGlnbjogY2VudGVyOwogICAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjsKICBmb250LXNpemU6IDEuMWVtOwogIGxpbmUtaGVpZ2h0OiAxLjI7CiAgZm9udC13ZWlnaHQ6IDUwMDsKICBtYXgtd2lkdGg6IDcwMHB4Owp9CgpAZm9udC1mYWNlIHsKICBmb250LWZhbWlseTogImNmYXBwcy13ZWxjb21lLWJhci1pY29ucyI7CiAgZm9udC1zdHlsZTogbm9ybWFsOwogIGZvbnQtd2VpZ2h0OiBub3JtYWw7CiAgc3JjOiB1cmwoZGF0YTphcHBsaWNhdGlvbi94LWZvbnQtd29mZjtjaGFyc2V0PXV0Zi04O2Jhc2U2NCxkMDlHUms5VVZFOEFBQU9nQUFvQUFBQUFCWHdBQVFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQkRSa1lnQUFBQTlBQUFBTUFBQUFEUktqY3BUMFpHVkUwQUFBRzBBQUFBR2dBQUFCeHpDYzJlVDFNdk1nQUFBZEFBQUFCSUFBQUFZSURLQlNsamJXRndBQUFDR0FBQUFEY0FBQUZDQUEwaTRXaGxZV1FBQUFKUUFBQUFMd0FBQURZRHR0WVdhR2hsWVFBQUFvQUFBQUFnQUFBQUpBYXRBZWhvYlhSNEFBQUNvQUFBQUFnQUFBQUlBL29BQUcxaGVIQUFBQUtvQUFBQUJnQUFBQVlBQWxBQWJtRnRaUUFBQXJBQUFBRFlBQUFCc0VuQkIxcHdiM04wQUFBRGlBQUFBQllBQUFBZy81MEFaM2ljWTJSZ1lXRmdaR1RrU1UxTVR5M1N6VXpPenl0bVlHUmlZR1J3L0NIRDlFT1crWWNFU3c4UFl3UVA4MGNlRmprdUJwWU9EZm51YmppRGg3Mjc1TWVrWHgyc01neGQvRElNREFJeURMMkNNZ3djTWd3bmhSaVlRY2J3TWtnd0tCZGxwbWVVSkdla2xoWGw1eUZaaEd3bkF3TmpPd01USTZPQ2VmZkhYendmR1Q5Ky9QQ1IrYVBZOTZPL2J2dyt5dmJ4WDVIb0w1NFAvM2pZK1g1TSt0RWkraWY4eDR5QWlCOWFmMUwvQVBHeFVGYStIeE5GdWtXN2ViZ0FPa1pHbzNpY1kyQmdZR1FBZ2dzRkRva2crcUxQc1hrd0dnQkVZZ2JsQUFCNG5HTmdadnpMT0lHQmxZR0QxWmgxSmdNRG94eUVacjdPa01Za3hBQUVyQXdRME1DQUNnTFNYRk1ZSEJTc0ZLelkwdjZsTWV4Zy9zSWdEaFJtaEN0UUFFSkdBRVE5QzI5NG5HTmdZR0JtZ0dBWkJrWUdFTEFCOGhqQmZCWUdCU0ROQW9SQXZvTFYvLzhROHY1eHFFb0dSallHR0hONEFpSThCd0NZNGdjTkFIaWNZMkJrWUdBQTRpM1A3MnJIODl0OFplRG1ZQUNCaXo3SDVpSG8veThaL3pGL0FYSTVHSmhBb2dCcWR3MUNBSGljWTJCa1lHRCs4djhsd3c3R3Z3d00vLzh6L21NQWlxQUFKZ0RBaHdlWEFmMEFBQUg5QUFBQUFGQUFBQUlBQUhpY2pZKzlEY0l3RUlWZklFSGlSNVNJMGdVU2xTTTdBZ29Hb0tTa1I4aUswc1NTd3d5TXdCaU13UUNNd1FEVVBKc3JLQ2l3ZFBaM2QrOStER0NDS3pMRWsyR011WEFQQll4d0gwdGNoSE5xN3NJRitTazh3RGliVXBubFEwWm1xU3B5RHlNc2hQdllZeU9jVTNNVExzZ1A0UUg1QlljamF0NEJHZzFPOEdqUkFlNVl1NkNiazIvcGZNVWxza3YrT2IwaDFTdFVLUGtQaFMzdGQ5ZFB6bEtsc2FKVkpJczEyL24ydlBPaGRxb3FqZHFxcituMHJORXJYUmxMNFQvYkhsSytZejVtNDd5NEZ3NHVkSTF2bFMzTlgzM2VFaEJETW5pY1kyQm1BSVAvc3hqU2dCUWpBeG9BQUM2cUFnUUFBQT09KSBmb3JtYXQoIndvZmYiKTsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJ3ZWxjb21lLWJhciJdIC5hbGVydC1jdGEtYnV0dG9uIHsKICBkaXNwbGF5OiAtd2Via2l0LWJveCAhaW1wb3J0YW50OwogIGRpc3BsYXk6IC1tcy1mbGV4Ym94ICFpbXBvcnRhbnQ7CiAgZGlzcGxheTogZmxleCAhaW1wb3J0YW50OwogIC13ZWJraXQtYm94LWFsaWduOiBjZW50ZXIgIWltcG9ydGFudDsKICAgICAgLW1zLWZsZXgtYWxpZ246IGNlbnRlciAhaW1wb3J0YW50OwogICAgICAgICAgYWxpZ24taXRlbXM6IGNlbnRlciAhaW1wb3J0YW50OwogIGJvcmRlcjogMCAhaW1wb3J0YW50OwogIGJveC1zaGFkb3c6IG5vbmUgIWltcG9ydGFudDsKICBjdXJzb3I6IHBvaW50ZXIgIWltcG9ydGFudDsKICBkaXNwbGF5OiBpbmxpbmUtYmxvY2sgIWltcG9ydGFudDsKICAtd2Via2l0LWJveC1mbGV4OiAwICFpbXBvcnRhbnQ7CiAgICAgIC1tcy1mbGV4OiAwIDAgYXV0byAhaW1wb3J0YW50OwogICAgICAgICAgZmxleDogMCAwIGF1dG8gIWltcG9ydGFudDsKICBmb250LXNpemU6IC44NWVtICFpbXBvcnRhbnQ7CiAgZm9udC13ZWlnaHQ6IGJvbGQgIWltcG9ydGFudDsKICBoZWlnaHQ6IGF1dG8gIWltcG9ydGFudDsKICBsZXR0ZXItc3BhY2luZzogLjA4ZW07CiAgbGluZS1oZWlnaHQ6IC45NSAhaW1wb3J0YW50OwogIG1heC13aWR0aDogMTZlbSAhaW1wb3J0YW50OwogIG9wYWNpdHk6IC44NTsKICBvdmVyZmxvdzogdmlzaWJsZSAhaW1wb3J0YW50OwogIHBvc2l0aW9uOiByZWxhdGl2ZSAhaW1wb3J0YW50OwogIHRleHQtZGVjb3JhdGlvbjogbm9uZSAhaW1wb3J0YW50OwogIHRleHQtaW5kZW50OiAuMDhlbTsKICB0ZXh0LW92ZXJmbG93OiBlbGxpcHNpcyAhaW1wb3J0YW50OwogIHRleHQtdHJhbnNmb3JtOiB1cHBlcmNhc2UgIWltcG9ydGFudDsKICB3aGl0ZS1zcGFjZTogbm93cmFwICFpbXBvcnRhbnQ7CiAgd2lkdGg6IGF1dG8gIWltcG9ydGFudDsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJ3ZWxjb21lLWJhciJdIC5hbGVydC1jdGEtYnV0dG9uOjphZnRlciB7CiAgY29sb3I6IGluaGVyaXQgIWltcG9ydGFudDsKICBjb250ZW50OiAiXDIwM0EiOwogIGRpc3BsYXk6IGlubGluZS1ibG9jayAhaW1wb3J0YW50OwogIGZvbnQtZmFtaWx5OiAiY2ZhcHBzLXdlbGNvbWUtYmFyLWljb25zIjsKICBmb250LXNpemU6IDEuM2VtICFpbXBvcnRhbnQ7CiAgZm9udC1zdHlsZTogbm9ybWFsOwogIGZvbnQtd2VpZ2h0OiBpbmhlcml0OwogIGxpbmUtaGVpZ2h0OiAuOCAhaW1wb3J0YW50OwogIG1hcmdpbi10b3A6IC0xcHggIWltcG9ydGFudDsKICBtYXJnaW4tdG9wOiBhdXRvICFpbXBvcnRhbnQ7CiAgcGFkZGluZy1sZWZ0OiAuM2VtICFpbXBvcnRhbnQ7CiAgcG9zaXRpb246IGFic29sdXRlOwogIGxlZnQ6IDEwMCU7Cn0KCmNsb3VkZmxhcmUtYXBwW2FwcD0id2VsY29tZS1iYXIiXSBhbGVydC1kaXNtaXNzIHsKICBjdXJzb3I6IHBvaW50ZXI7CiAgY29sb3I6IHJnYmEoMTAsIDEwLCAxMCwgLjI1KTsKICBkaXNwbGF5OiBpbmxpbmUtYmxvY2s7CiAgLXdlYmtpdC1ib3gtZmxleDogMDsKICAgICAgLW1zLWZsZXg6IDAgMCBhdXRvOwogICAgICAgICAgZmxleDogMCAwIGF1dG87CiAgZm9udC1mYW1pbHk6ICJIZWx2ZXRpY2EgTmV1ZSIsIEhlbHZldGljYSwgQXJpYWwsIHNhbnMtc2VyaWY7CiAgZm9udC1zaXplOiAyZW07CiAgZm9udC13ZWlnaHQ6IDMwMDsKICBoZWlnaHQ6IDFlbTsKICBsaW5lLWhlaWdodDogLjc1ZW07CiAgbWFyZ2luOiAwIC4yZW07CiAgLXdlYmtpdC11c2VyLXNlbGVjdDogbm9uZTsKICAgICAtbW96LXVzZXItc2VsZWN0OiBub25lOwogICAgICAtbXMtdXNlci1zZWxlY3Q6IG5vbmU7CiAgICAgICAgICB1c2VyLXNlbGVjdDogbm9uZTsKICB3aWR0aDogLjllbTsKfQoKY2xvdWRmbGFyZS1hcHBbYXBwPSJ3ZWxjb21lLWJhciJdIGFsZXJ0LWRpc21pc3M6aG92ZXIgewogIGNvbG9yOiByZ2JhKDEwLCAxMCwgMTAsIC41KTsKfQoKaHRtbCA+IGJvZHkgPiBjbG91ZGZsYXJlLWFwcFthcHA9IndlbGNvbWUtYmFyIl1bZGF0YS1zdHlsZT0ic2xpbSJdIHsKICBmb250LXNpemU6IC45MmVtOwogIG1pbi1oZWlnaHQ6IDIuMmVtOwp9CgpodG1sID4gYm9keSA+IGNsb3VkZmxhcmUtYXBwW2FwcD0id2VsY29tZS1iYXIiXVtkYXRhLXN0eWxlPSJwcm9taW5lbnQiXSAuYWxlcnQtY3RhLWJ1dHRvbiB7CiAgYm9yZGVyLXJhZGl1czogLjE1ZW07Cn0KCkBtZWRpYSAobWluLXdpZHRoOiA3NjhweCkgewogIGNsb3VkZmxhcmUtYXBwW2FwcD0id2VsY29tZS1iYXIiXSB7CiAgICBwYWRkaW5nOiAuNWVtIDA7CiAgfQoKICBjbG91ZGZsYXJlLWFwcFthcHA9IndlbGNvbWUtYmFyIl1bZGF0YS1zdHlsZT0icHJvbWluZW50Il0gLmFsZXJ0LWN0YS1idXR0b24gewogICAgcGFkZGluZzogLjY1ZW0gMS43NWVtIC42ZW0gLjllbSAhaW1wb3J0YW50OwogIH0KCiAgY2xvdWRmbGFyZS1hcHBbYXBwPSJ3ZWxjb21lLWJhciJdW2RhdGEtc3R5bGU9InByb21pbmVudCJdIC5hbGVydC1jdGEtYnV0dG9uOjphZnRlciB7CiAgICBsZWZ0OiBhdXRvOwogIH0KCiAgY2xvdWRmbGFyZS1hcHBbYXBwPSJ3ZWxjb21lLWJhciJdIC5hbGVydC1jdGEtYnV0dG9uIHsKICAgIG1hcmdpbi1sZWZ0OiAxZW07CiAgfQp9CgpAbWVkaWEgKG1heC13aWR0aDogNzY4cHgpIHsKICBodG1sID4gYm9keSA+IGNsb3VkZmxhcmUtYXBwW2FwcD0id2VsY29tZS1iYXIiXSB7CiAgICAtd2Via2l0LWJveC1hbGlnbjogY2VudGVyOwogICAgICAgIC1tcy1mbGV4LWFsaWduOiBjZW50ZXI7CiAgICAgICAgICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7CiAgICBmb250LXNpemU6IC45MmVtOwogICAgbWluLWhlaWdodDogMi4yZW07CiAgICBwYWRkaW5nOiAuNWVtIDAgLjVlbSAuNWVtOwogIH0KCiAgY2xvdWRmbGFyZS1hcHBbYXBwPSJ3ZWxjb21lLWJhciJdIC5hbGVydC1jdGEtYnV0dG9uIHsKICAgIG1hcmdpbi10b3A6IC41ZW07CiAgICBkaXNwbGF5OiBibG9jayAhaW1wb3J0YW50OwogICAgLXdlYmtpdC1ib3gtZmxleDogMDsKICAgICAgICAtbXMtZmxleDogMCAwIGF1dG87CiAgICAgICAgICAgIGZsZXg6IDAgMCBhdXRvOwogIH0KCiAgY2xvdWRmbGFyZS1hcHBbYXBwPSJ3ZWxjb21lLWJhciJdIGFsZXJ0LW1lc3NhZ2UtY29udGVudCB7CiAgICAtd2Via2l0LWJveC1vcmllbnQ6IHZlcnRpY2FsICFpbXBvcnRhbnQ7CiAgICAtd2Via2l0LWJveC1kaXJlY3Rpb246IG5vcm1hbCAhaW1wb3J0YW50OwogICAgICAgIC1tcy1mbGV4LWZsb3c6IGNvbHVtbiBub3dyYXAgIWltcG9ydGFudDsKICAgICAgICAgICAgZmxleC1mbG93OiBjb2x1bW4gbm93cmFwICFpbXBvcnRhbnQ7CiAgICAtd2Via2l0LWJveC1hbGlnbjogc3RhcnQgIWltcG9ydGFudDsKICAgICAgICAtbXMtZmxleC1hbGlnbjogc3RhcnQgIWltcG9ydGFudDsKICAgICAgICAgICAgYWxpZ24taXRlbXM6IGZsZXgtc3RhcnQgIWltcG9ydGFudDsKICB9Cn0KCg=="><script type="text/javascript" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/jquery_002.js"></script><script type="text/javascript" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/jquery_003.js"></script><script type="text/javascript" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/jquery.js"></script><script type="text/javascript" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/777654251"></script><script type="text/javascript" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/777765481"></script><script type="text/javascript" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/777654380"></script><meta name="viewport" content="width=device-width, initial-scale=1"><style type="text/css">.mceToolbar {display: none}</style><link rel="preload" href="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/integrator.js" as="script"><script type="text/javascript" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/integrator.js"></script><link rel="preload" href="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/integrator_002.js" as="script"><script type="text/javascript" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/integrator_002.js"></script><script src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/pubads_impl_297.js" async=""></script><style type="text/css">.fb_hidden{position:absolute;top:-10000px;z-index:10001}.fb_reposition{overflow:hidden;position:relative}.fb_invisible{display:none}.fb_reset{background:none;border:0;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:"lucida grande", tahoma, verdana, arial, sans-serif;font-size:11px;font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}.fb_reset>div{overflow:hidden}@keyframes fb_transform{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}.fb_animate{animation:fb_transform .3s forwards}
+.fb_dialog{background:rgba(82, 82, 82, .7);position:absolute;top:-10000px;z-index:10001}.fb_dialog_advanced{border-radius:8px;padding:10px}.fb_dialog_content{background:#fff;color:#373737}.fb_dialog_close_icon{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;cursor:pointer;display:block;height:15px;position:absolute;right:18px;top:17px;width:15px}.fb_dialog_mobile .fb_dialog_close_icon{left:5px;right:auto;top:5px}.fb_dialog_padding{background-color:transparent;position:absolute;width:1px;z-index:-1}.fb_dialog_close_icon:hover{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent}.fb_dialog_close_icon:active{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent}.fb_dialog_iframe{line-height:0}.fb_dialog_content .dialog_title{background:#6d84b4;border:1px solid #365899;color:#fff;font-size:14px;font-weight:bold;margin:0}.fb_dialog_content .dialog_title>span{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/yd/r/Cou7n-nqK52.gif) no-repeat 5px 50%;float:left;padding:5px 0 7px 26px}body.fb_hidden{height:100%;left:0;margin:0;overflow:visible;position:absolute;top:-10000px;transform:none;width:100%}.fb_dialog.fb_dialog_mobile.loading{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/ya/r/3rhSv5V8j3o.gif) white no-repeat 50% 50%;min-height:100%;min-width:100%;overflow:hidden;position:absolute;top:0;z-index:10001}.fb_dialog.fb_dialog_mobile.loading.centered{background:none;height:auto;min-height:initial;min-width:initial;width:auto}.fb_dialog.fb_dialog_mobile.loading.centered #fb_dialog_loader_spinner{width:100%}.fb_dialog.fb_dialog_mobile.loading.centered .fb_dialog_content{background:none}.loading.centered #fb_dialog_loader_close{clear:both;color:#fff;display:block;font-size:18px;padding-top:20px}#fb-root #fb_dialog_ipad_overlay{background:rgba(0, 0, 0, .4);bottom:0;left:0;min-height:100%;position:absolute;right:0;top:0;width:100%;z-index:10000}#fb-root #fb_dialog_ipad_overlay.hidden{display:none}.fb_dialog.fb_dialog_mobile.loading iframe{visibility:hidden}.fb_dialog_mobile .fb_dialog_iframe{position:sticky;top:0}.fb_dialog_content .dialog_header{background:linear-gradient(from(#738aba), to(#2c4987));border-bottom:1px solid;border-color:#1d3c78;box-shadow:white 0 1px 1px -1px inset;color:#fff;font:bold 14px Helvetica, sans-serif;text-overflow:ellipsis;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0;vertical-align:middle;white-space:nowrap}.fb_dialog_content .dialog_header table{height:43px;width:100%}.fb_dialog_content .dialog_header td.header_left{font-size:12px;padding-left:5px;vertical-align:middle;width:60px}.fb_dialog_content .dialog_header td.header_right{font-size:12px;padding-right:5px;vertical-align:middle;width:60px}.fb_dialog_content .touchable_button{background:linear-gradient(from(#4267B2), to(#2a4887));background-clip:padding-box;border:1px solid #29487d;border-radius:3px;display:inline-block;line-height:18px;margin-top:3px;max-width:85px;padding:4px 12px;position:relative}.fb_dialog_content .dialog_header .touchable_button input{background:none;border:none;color:#fff;font:bold 12px Helvetica, sans-serif;margin:2px -12px;padding:2px 6px 3px 6px;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog_content .dialog_header .header_center{color:#fff;font-size:16px;font-weight:bold;line-height:18px;text-align:center;vertical-align:middle}.fb_dialog_content .dialog_content{background:url(https://static.xx.fbcdn.net/rsrc.php/v3/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;border:1px solid #4a4a4a;border-bottom:0;border-top:0;height:150px}.fb_dialog_content .dialog_footer{background:#f5f6f7;border:1px solid #4a4a4a;border-top-color:#ccc;height:40px}#fb_dialog_loader_close{float:left}.fb_dialog.fb_dialog_mobile .fb_dialog_close_button{text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog.fb_dialog_mobile .fb_dialog_close_icon{visibility:hidden}#fb_dialog_loader_spinner{animation:rotateSpinner 1.2s linear infinite;background-color:transparent;background-image:url(https://static.xx.fbcdn.net/rsrc.php/v3/yD/r/t-wz8gw1xG1.png);background-position:50% 50%;background-repeat:no-repeat;height:24px;width:24px}@keyframes rotateSpinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.fb_iframe_widget{display:inline-block;position:relative}.fb_iframe_widget span{display:inline-block;position:relative;text-align:justify}.fb_iframe_widget iframe{position:absolute}.fb_iframe_widget_fluid_desktop,.fb_iframe_widget_fluid_desktop span,.fb_iframe_widget_fluid_desktop iframe{max-width:100%}.fb_iframe_widget_fluid_desktop iframe{min-width:220px;position:relative}.fb_iframe_widget_lift{z-index:1}.fb_iframe_widget_fluid{display:inline}.fb_iframe_widget_fluid span{width:100%}</style><style></style><script charset="utf-8" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/button.js"></script></head>
+<body><div class="cc-grower" style="max-height: 86px;"><div role="dialog" aria-live="polite" aria-label="cookieconsent" aria-describedby="cookieconsent:desc" class="cc-window cc-banner cc-type-info cc-theme-block cc-static cc-top cc-color-override-1939428960 " style=""><!--googleoff: all--><span id="cookieconsent:desc" class="cc-message">We
+ use cookies to ensure that we give you the best possible experience. By
+ continuing to browse the site you are agreeing to our use of cookies. <a aria-label="learn more about cookies" role="button" tabindex="0" class="cc-link" href="https://www.datasciencecentral.com/page/cookie-policy" rel="noopener noreferrer nofollow" target="_blank">Learn more</a></span><div class="cc-compliance"><a aria-label="dismiss cookie message" role="button" tabindex="0" class="cc-btn cc-dismiss">OK, Got it!</a></div><!--googleon: all--></div></div>
+
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T5W4WQ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+<div class="xj_before_content"><div id="fb-root" class=" fb_reset"><script src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/sdk.js" async=""></script><div style="position: absolute; top: -10000px; width: 0px; height: 0px;"><div><iframe name="fb_xdm_frame_https" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" id="fb_xdm_frame_https" aria-hidden="true" title="Facebook Cross Domain Communication Frame" tabindex="-1" style="border: medium none;" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/hfszxhKUMcZ.html" frameborder="0"></iframe></div><div><iframe name="f2651c755df102" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" style="display: none;" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/ping.html" frameborder="0"></iframe></div></div></div>
+<script type="text/javascript">
+  window.fbAsyncInit = function () {
+    FB.init({
+      appId      : '259683271111061', 
+      status     : true,   
+      cookie     : true,   
+      xfbml      : true, 
+      version    : 'v2.3'  
+    });
+    var n = xg.addOnFacebookLoad.functions.length;
+    for (var i = 0; i < n; i++) {
+      xg.addOnFacebookLoad.functions[i]();
+    }
+    xg.addOnFacebookLoad = function (f) { f(); };
+    xg.addOnFacebookLoad.functions = [];
+  };
+  (function() {
+    var e = document.createElement('script');
+    e.src = document.location.protocol + '//connect.facebook.net/en_US/sdk.js';
+    e.async = true;
+    document.getElementById('fb-root').appendChild(e);
+  })();
+</script> <div id="xn_bar">
+<div id="xn_bar_menu">
+<div id="xn_bar_menu_branding">
+</div>
+<div id="xn_bar_menu_more">
+<form id="xn_bar_menu_search" method="GET" action="https://www.datasciencecentral.com/page/search">
+<fieldset>
+<input name="q" id="xn_bar_menu_search_query" value="Search Data Science Central" _hint="Search Data Science Central" accesskey="4" class="text xj_search_hint" type="text">
+<a id="xn_bar_menu_search_submit" href="#" onclick="document.getElementById('xn_bar_menu_search').submit();return false">Search</a>
+</fieldset>
+</form>
+</div>
+<ul id="xn_bar_menu_tabs">
+<li><a href="https://www.datasciencecentral.com/main/authorization/signUp?target=https%3A%2F%2Fwww.datasciencecentral.com%2Fprofiles%2Fblogs%2Fneural-networks-from-a-bayesian-perspective">Sign Up</a></li>
+<li><a href="https://www.datasciencecentral.com/main/authorization/signIn?target=https%3A%2F%2Fwww.datasciencecentral.com%2Fprofiles%2Fblogs%2Fneural-networks-from-a-bayesian-perspective">Sign In</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="xg_theme" data-layout-pack="brutus">
+<div id="xg_themebody">
+<div id="xg_ad_above_header" class="xg_ad xj_ad_above_header dy-displaynone">
+</div>
+<div id="xg_head">
+<div id="xg_masthead">
+<h1 id="xg_sitename" class="xj_site_name"><a id="application_name_header_link" href="https://www.datasciencecentral.com/"><img src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/dsc_logo_rm4.png" alt="Data Science Central"></a></h1>
+<p id="xg_sitedesc" class="xj_site_desc"></p>
+</div>
+<div id="xg_navigation" class="xj_navigation"><ul>
+<li dojotype="SubTabHover" id="xg_tab_xn43" class="xg_subtab"><a href="https://www.datasciencecentral.com/"><span>Home</span></a><div class="xg_subtab" style="display:none;position:absolute;"><ul class="xg_subtab" style="display:block;"><li style="list-style:none !important;display:block;text-align:left;"><a href="https://www.datasciencecentral.com/page/editorial-guidelines" style="float:none;"><span>Editorial Guidelines</span></a></li><li style="list-style:none !important;display:block;text-align:left;"><a href="https://www.datasciencecentral.com/page/user-agreement" style="float:none;"><span>User Agreement</span></a></li><li style="list-style:none !important;display:block;text-align:left;"><a href="https://www.datasciencecentral.com/profiles/blogs/my-data-science-book" style="float:none;"><span>Data Science Book</span></a></li><li style="list-style:none !important;display:block;text-align:left;"><a href="https://www.datasciencecentral.com/page/cookie-policy" style="float:none;"><span>Cookie Policy</span></a></li></ul></div></li><li id="xg_tab_xn22" class="xg_subtab"><a href="https://www.datasciencecentral.com/page/search?q=AI"><span>AI</span></a></li><li id="xg_tab_xn52" class="xg_subtab"><a href="https://www.datasciencecentral.com/page/search?q=Machine+Learning"><span>ML</span></a></li><li id="xg_tab_profile" class="xg_subtab"><a href="https://www.analyticbridge.datasciencecentral.com/" target="_blank"><span>Analytics</span></a></li><li id="xg_tab_xn50" class="xg_subtab"><a href="https://www.statisticshowto.datasciencecentral.com/" target="_blank"><span>Statistics</span></a></li><li id="xg_tab_xn40" class="xg_subtab"><a href="https://www.bigdatanews.datasciencecentral.com/" target="_blank"><span>Big Data</span></a></li><li id="xg_tab_xn32" class="xg_subtab"><a href="https://www.datavizualization.datasciencecentral.com/" target="_blank"><span>DataViz</span></a></li><li id="xg_tab_xn26" class="xg_subtab"><a href="https://www.hadoop360.datasciencecentral.com/" target="_blank"><span>Hadoop</span></a></li><li id="xg_tab_xn31" class="xg_subtab"><a href="https://www.datasciencecentral.com/page/search?q=Deep+Learning"><span>Deep Learning</span></a></li><li id="xg_tab_xn28" class="xg_subtab"><a href="https://www.datasciencecentral.com/video/video/listFeatured"><span>Webinars</span></a></li><li id="xg_tab_xn49" class="xg_subtab"><a href="https://www.datasciencecentral.com/forum"><span>Forums</span></a></li><li id="xg_tab_xn3" class="xg_subtab"><a href="https://www.analytictalent.datasciencecentral.com/" target="_blank"><span>Jobs</span></a></li><li dojotype="SubTabHover" id="xg_tab_xn25" class="xg_subtab"><a href="https://www.datasciencecentral.com/profiles/blogs/check-out-our-dsc-newsletter"><span>Membership</span></a><div class="xg_subtab" style="display:none;position:absolute;"><ul class="xg_subtab" style="display:block;"><li style="list-style:none !important;display:block;text-align:left;"><a href="https://www.datasciencecentral.com/page/previous-digests" style="float:none;"><span>Previous Digests</span></a></li></ul></div></li><li id="xg_tab_xn51" class="xg_subtab"><a href="https://www.datasciencecentral.com/groups/group/list"><span>Groups</span></a></li><li id="xg_tab_xn35" class="xg_subtab"><a href="https://www.datasciencecentral.com/page/search"><span>Search</span></a></li><li id="xg_tab_xn18" class="xg_subtab"><a href="https://www.datasciencecentral.com/page/contact-us"><span>Contact</span></a></li></ul>
+</div>
+</div>
+<div id="xg_ad_below_header" class="xg_ad xj_ad_below_header">
+<div class="xg_module module-plain  html_module module_text xg_reset" data-module_name="text">
+<div class="xg_module_body xg_user_generated">
+<center><script async="async" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/gpt.js" type="text/javascript">
+</script> <script type="text/javascript">
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script> <script type="text/javascript">
+  googletag.cmd.push(function() {   
+googletag.defineSlot('/2672641/Bottom_Leaderboard', [728, 90], 'div-gpt-ad-1512428902846-0').addService(googletag.pubads());
+    googletag.defineSlot('/2672641/Box_Ad_Blog', [300, 250], 'div-gpt-ad-1512428902846-2').addService(googletag.pubads());
+    googletag.defineSlot('/2672641/Box_Ad_Forum', [300, 250], 'div-gpt-ad-1512428902846-3').addService(googletag.pubads());
+    googletag.defineSlot('/2672641/Skyscraper', [160, 600], 'div-gpt-ad-1512428902846-6').addService(googletag.pubads());
+    googletag.defineSlot('/2672641/Square_Box', [220, 220], 'div-gpt-ad-1512428902846-7').addService(googletag.pubads());
+    googletag.defineSlot('/2672641/Top_Leaderboard', [728, 90], 'div-gpt-ad-1512428902846-8').addService(googletag.pubads());
+    googletag.enableServices();
+  });
+</script> 
+<div id="div-gpt-ad-1512428902846-8" style="height:90px; width:728px;" data-google-query-id="CMDL2LHhkuACFXtfFQgdXfADJw"><script type="text/javascript">
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1512428902846-8'); });
+</script><div id="google_ads_iframe_/2672641/Top_Leaderboard_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/2672641/Top_Leaderboard_0" title="3rd party ad content" name="google_ads_iframe_/2672641/Top_Leaderboard_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="1" data-load-complete="true" width="728" height="90" frameborder="0"></iframe></div></div>
+<br></center>
+<center><a href="https://www.datasciencecentral.com/profiles/blogs/check-out-our-dsc-newsletter">Subscribe to DSC Newsletter</a></center>
+</div>
+</div>
+</div>
+<div id="xg" class="xg_widget_profiles xg_widget_profiles_blog xg_widget_profiles_blog_show">
+<div id="xg_body">
+<div class="xj_notifications"></div>
+<div class="xg_column xg_span-16" id="column1">
+<div id="xg_canvas" class="xj_canvas">
+<ul class="navigation easyclear"><li><a href="https://www.datasciencecentral.com/profiles/blog/list">All Blog Posts</a></li><li><a href="https://www.datasciencecentral.com/profiles/blog/list?my=1">My Blog</a></li><li class="right  xg_lightborder navbutton"><a href="https://www.datasciencecentral.com/profiles/blog/new" class="xg_sprite xg_sprite-add">Add</a></li></ul>
+<div class="xg_module xg_blog xg_blog_detail xg_blog_mypage xg_module_with_dialog">
+<div class="xg_headline xg_headline-img xg_headline-2l">
+<div class="ib"><span class="xg_avatar"><a class="fn url" href="https://www.datasciencecentral.com/profile/YoelZeldes" title="Yoel Zeldes"><span class="table_img dy-avatar dy-avatar-64 "><img class="photo photo" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/2001148521.jpeg" alt=""></span></a></span></div>
+<div class="tb"><h1>Neural Networks from a Bayesian Perspective</h1>
+<ul class="navigation byline">
+<li><a class="nolink">Posted by </a><a href="https://www.datasciencecentral.com/profile/YoelZeldes">Yoel Zeldes</a><a class="nolink"> on August 15, 2018 at 10:30am</a></li>
+<li><a class="xg_sprite xg_sprite-view" href="https://www.datasciencecentral.com/profiles/blog/list?user=2gu0u3fsrzsbg">View Blog</a></li>
+</ul>
+</div>
+</div>
+<div class="xg_module_body">
+<div class="postbody">
+<div class="xg_user_generated">
+<div class="uiScale uiScale-ui--regular uiScale-caption--regular postMetaHeader u-paddingBottom10 row"><div class="ui-caption postMetaHeader-socialProof2 col u-size12of12 u-paddingBottom20"></div>
+<div class="col u-size12of12 js-postMetaLockup"><div class="uiScale uiScale-ui--regular uiScale-caption--regular postMetaLockup postMetaLockup--authorWithBio u-flexCenter js-postMetaLockup"><div class="u-flex1 u-paddingLeft15 u-overflowHidden"><div class="ui-caption postMetaInline js-testPostMetaInlineSupplemental"></div>
+</div>
+</div>
+</div>
+</div>
+<p></p>
+<div class="postArticle-content js-postField js-notesSource js-trackedPost"><div class="section-content"><div class="section-inner sectionLayout--insetColumn"></div>
+<div class="section-inner sectionLayout--fullWidth"><div class="aspectRatioPlaceholder is-locked"><div class="progressiveMedia js-progressiveMedia graf-image is-canvasLoaded is-imageLoaded"><img src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/11XBZ8ocyjdSxP5VCiUvXzg.jpeg" width="687" height="459"></div>
+</div>
+</div>
+<div class="section-inner sectionLayout--insetColumn"><p id="ea1a" class="graf graf--p graf-after--figure">Understanding
+ what a model doesn’t know is important both from the practitioner’s 
+perspective and for the end users of many different machine learning 
+applications. In<span>&nbsp;</span><a rel="nofollow" href="https://engineering.taboola.com/using-uncertainty-interpret-model" class="markup--anchor markup--p-anchor" target="_blank">our previous blog post</a><span>&nbsp;</span>we discussed the different types of uncertainty. We explained how we can use it to interpret and debug our models.</p>
+<p id="0dc3" class="graf graf--p graf-after--p">In this post we’ll 
+discuss different ways to obtain uncertainty in Deep Neural Networks. 
+Let’s start by looking at neural networks from a Bayesian perspective.</p>
+<p class="graf graf--p graf-after--p"></p>
+<h3 id="8d0b" class="graf graf--h3 graf-after--p"><span style="font-size: 18pt;">Bayesian learning&nbsp;101</span></h3>
+<p id="4480" class="graf graf--p graf-after--h3"><span class="markup--quote markup--p-quote is-other">Bayesian
+ statistics allow us to draw conclusions based on both evidence (data) 
+and our prior knowledge about the world. This is often contrasted with 
+frequentist statistics which only consider evidence.<span>&nbsp;</span></span><span class="markup--quote markup--p-quote is-other">The prior knowledge captures our belief on which model generated the data, or what the weights of that model are.</span><span>&nbsp;</span><span class="markup--quote markup--p-quote is-other">We can represent this belief using a<span>&nbsp;</span><em class="markup--em markup--p-em">prior distribution</em><span>&nbsp;</span>p(w) over the model’s weights.</span></p>
+<p id="6349" class="graf graf--p graf-after--p">As we collect more data we update the prior distribution and turn in into a<span>&nbsp;</span><em class="markup--em markup--p-em">posterior distribution</em><span>&nbsp;</span>using Bayes’ law, in a process called<span>&nbsp;</span><em class="markup--em markup--p-em">Bayesian updating</em>:</p>
+<br>
+<div class="aspectRatioPlaceholder is-locked"><div class="progressiveMedia js-progressiveMedia graf-image is-canvasLoaded is-imageLoaded"><img src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/1iG_jZ05lXo97QeNshpEVGg.png" width="362"></div>
+</div>
+<br>
+<p id="fe94" class="graf graf--p graf-after--figure">This equation introduces another key player in Bayesian learning — the<span>&nbsp;</span><em class="markup--em markup--p-em">likelihood</em>, defined as p(y|x,w). This term represents how likely the data is, given the model’s weights<span>&nbsp;</span><em class="markup--em markup--p-em">w</em>.</p>
+<p class="graf graf--p graf-after--figure"></p>
+<h3 id="0434" class="graf graf--h3 graf-after--p"><span style="font-size: 18pt;">Neural networks from a Bayesian perspective</span></h3>
+<p id="d51b" class="graf graf--p graf-after--h3">A neural network’s goal is to estimate the likelihood p(y|x,w). This is true even when you’re not explicitly doing that, e.g.<span>&nbsp;</span><a rel="nofollow" href="https://www.jessicayung.com/mse-as-maximum-likelihood" class="markup--anchor markup--p-anchor" target="_blank">when you minimize MSE</a>.</p>
+<p id="203d" class="graf graf--p graf-after--p">To find the best model weights we can use<span>&nbsp;</span><em class="markup--em markup--p-em">Maximum Likelihood Estimation&nbsp;</em>(MLE):</p>
+<br>
+<div class="aspectRatioPlaceholder is-locked"><div class="aspectRatioPlaceholder-fill"><img src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/1rWY2S4QkHSD5G5C0kXWvRw.png" width="489"><img class="progressiveMedia-image js-progressiveMedia-image"></div>
+</div>
+<br>
+<p id="a762" class="graf graf--p graf-after--figure">Alternatively, we 
+can use our prior knowledge, represented as a prior distribution over 
+the weights, and maximize the posterior distribution. This approach is 
+called<span>&nbsp;</span><em class="markup--em markup--p-em">Maximum Aposteriori Estimation</em><span>&nbsp;</span>(MAP)<strong class="markup--strong markup--p-strong">:</strong></p>
+<br>
+<div class="aspectRatioPlaceholder is-locked"><div class="aspectRatioPlaceholder-fill"><img src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/17iYHTt42UvOaCXV5mSMOFA.png" width="564" height="110"></div>
+<div class="progressiveMedia js-progressiveMedia graf-image is-canvasLoaded"><img class="progressiveMedia-image js-progressiveMedia-image"></div>
+</div>
+<br>
+<p id="aa32" class="graf graf--p graf-after--figure">The term<span>&nbsp;</span><em class="markup--em markup--p-em">logP(w)</em>,
+ which represents our prior, acts as a regularization term. Choosing a 
+Gaussian distribution with mean 0 as the prior, you’ll get the 
+mathematical equivalence of L2 regularization.</p>
+<p id="e7b4" class="graf graf--p graf-after--p">Now that we start 
+thinking about neural networks as probabilistic creatures, we can let 
+the fun begin. For start, who says we have to output one set of weights 
+at the end of the training process? What if instead of learning the 
+model’s weights, we learn a distribution over the weights? This will 
+allow us to estimate uncertainty over the weights. So how do we do that?</p>
+<p class="graf graf--p graf-after--p"></p>
+<h3 id="9914" class="graf graf--h3 graf-after--p"><span style="font-size: 18pt;">Once you go Bayesian, you never go&nbsp;back</span></h3>
+<p id="6b12" class="graf graf--p graf-after--h3">We start again with a 
+prior distribution over the weights and aim at finding their posterior 
+distribution. This time, instead of optimizing the network’s weights 
+directly we’ll average over all possible weights (referred to as 
+marginalization).</p>
+<p id="56ed" class="graf graf--p graf-after--p">At inference, instead of
+ taking the single set of weights that maximized the posterior 
+distribution (or the likelihood, if we’re working with MLE), we consider
+ all possible weights, weighted by their probability. This is achieved 
+using an integral:</p>
+<br>
+<div class="aspectRatioPlaceholder is-locked"><div class="aspectRatioPlaceholder-fill"><a rel="nofollow" href="https://cdn-images-1.medium.com/max/800/1*ll9k3E53XDOSSJaEgPQWTA.png" target="_blank"><img src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/1ll9k3E53XDOSSJaEgPQWTA.png" class="align-center" width="499"></a></div>
+<div class="progressiveMedia js-progressiveMedia graf-image is-canvasLoaded"><img class="progressiveMedia-image js-progressiveMedia-image"></div>
+</div>
+<br>
+<p id="b04d" class="graf graf--p graf-after--figure"><em class="markup--em markup--p-em">x</em><span>&nbsp;</span>is a data point for which we want to infer<span>&nbsp;</span><em class="markup--em markup--p-em">y</em>, and<span>&nbsp;</span><em class="markup--em markup--p-em">X</em>,<em class="markup--em markup--p-em">Y</em><span>&nbsp;</span>are
+ training data. The first term p(y|x,w) is our good old likelihood, and 
+the second term p(w|X,Y) is the posterior probability of the model’s 
+weights given the data.</p>
+<p id="b8db" class="graf graf--p graf-after--p">We can think about it as
+ an ensemble of models weighted by the probability of each model. Indeed
+ this is equivalent to an ensemble of infinite number of neural 
+networks, with the same architecture but with different weights.</p>
+<p class="graf graf--p graf-after--p"></p>
+<h3 id="8a34" class="graf graf--h3 graf-after--p"><span style="font-size: 18pt;">Are we there&nbsp;yet?</span></h3>
+<p id="6307" class="graf graf--p graf-after--h3">Ay, There’s the rub! Turns out that this integral is intractable in most cases. This is because<span>&nbsp;</span><span class="markup--quote markup--p-quote is-other">the posterior probability cannot be evaluated analytically</span>.</p>
+<p id="e61a" class="graf graf--p graf-after--p">This problem is not 
+unique to Bayesian Neural Networks. You would run into this problem in 
+many cases of Bayesian learning, and many methods to overcome this have 
+been developed over the years. We can divide these methods into two 
+families: variational inference and sampling methods.</p>
+<br>
+<div class="aspectRatioPlaceholder is-locked"><div class="aspectRatioPlaceholder-fill"><a rel="nofollow" href="https://cdn-images-1.medium.com/max/2000/1*IYUzJxzbB_gYLwQynrOJZg.png" target="_blank"><img src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/1IYUzJxzbB_gYLwQynrOJZg.png" class="align-center" width="626" height="209"></a></div>
+<div class="progressiveMedia js-progressiveMedia graf-image is-canvasLoaded"><img class="progressiveMedia-image js-progressiveMedia-image"></div>
+</div>
+<br>
+<h4 id="f852" class="graf graf--h4 graf-after--figure"><span style="font-size: 14pt;">Monte Carlo&nbsp;sampling</span></h4>
+<p id="8f79" class="graf graf--p graf-after--h4">We have a problem. The 
+posterior distribution is intractable. What if instead of computing the 
+integral over the true distribution we’ll approximate it with the 
+average of samples drawn from it? One way to do that is the<span>&nbsp;</span><a rel="nofollow" href="https://towardsdatascience.com/a-zero-math-introduction-to-markov-chain-monte-carlo-methods-dcba889e0c50" class="markup--anchor markup--p-anchor" target="_blank">Markov Chain Monte Carlo</a> — you construct a markov chain with the desired distribution as its equilibrium distribution.</p>
+<p class="graf graf--p graf-after--h4"></p>
+<h4 id="cb29" class="graf graf--h4 graf-after--p"><span style="font-size: 14pt;">Variational Inference</span></h4>
+<p id="0b0f" class="graf graf--p graf-after--h4">Another solution is to 
+approximate the true intractable distribution with a different 
+distribution from a tractable family. To measure the similarity of the 
+two distribution we can use KL divergence:</p>
+<br>
+<div class="aspectRatioPlaceholder is-locked"><div class="aspectRatioPlaceholder-fill"></div>
+<a rel="nofollow" href="https://cdn-images-1.medium.com/max/800/1*vnkWQl8Rqf_lFgt98DStUA.png" target="_blank"><img src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/1vnkWQl8Rqf_lFgt98DStUA.png" class="align-center"></a></div>
+<br>
+<p id="bdc1" class="graf graf--p graf-after--figure">Let<span>&nbsp;</span><em class="markup--em markup--p-em">q</em><span>&nbsp;</span>be a variational distribution parameterized by θ. We want to find the value of θ that minimizes the KL divergence:</p>
+<br>
+<div class="aspectRatioPlaceholder is-locked"><div class="aspectRatioPlaceholder-fill"><a rel="nofollow" href="https://cdn-images-1.medium.com/max/800/1*92HfheZdC_yaaW3pAxv5DQ.png" target="_blank"><img src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/192HfheZdC_yaaW3pAxv5DQ.png" class="align-center" width="601"></a></div>
+</div>
+<br>
+<p id="4a5c" class="graf graf--p graf-after--figure">Look at what we’ve 
+got: the first term is the KL divergence between the variational 
+distribution and the prior distribution. The second term is the 
+likelihood with regards to<span>&nbsp;</span><em class="markup--em markup--p-em">q</em>θ. So we’re looking for<span>&nbsp;</span><em class="markup--em markup--p-em">q</em>θ
+ that explains the data best, but on the other hand is as close as 
+possible to the prior distribution. This is just another way to 
+introduce regularization into neural networks!</p>
+<p id="c767" class="graf graf--p graf-after--p">Now that we have<span>&nbsp;</span><em class="markup--em markup--p-em">q</em>θ we can use it to make predictions:</p>
+<br>
+<div class="aspectRatioPlaceholder is-locked"><div class="aspectRatioPlaceholder-fill"></div>
+<a rel="nofollow" href="https://cdn-images-1.medium.com/max/800/1*F0MjIP31zdlQ9Jrni_z5YA.png" target="_blank"><img src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/1F0MjIP31zdlQ9Jrni_z5YA.png" class="align-center"></a></div>
+<br>
+<p id="ebeb" class="graf graf--p graf-after--figure">The above formulation comes from a<span>&nbsp;</span><a rel="nofollow" href="http://proceedings.mlr.press/v37/blundell15.html" class="markup--anchor markup--p-anchor" target="_blank">work by DeepMind</a><span>&nbsp;</span>in 2015. Similar ideas were presented by<span>&nbsp;</span><a rel="nofollow" href="http://proceedings.mlr.press/v37/blundell15.html" class="markup--anchor markup--p-anchor" target="_blank">graves</a><span>&nbsp;</span>in 2011 and go back to<span>&nbsp;</span><a rel="nofollow" href="http://www.cs.toronto.edu/~fritz/absps/colt93.pdf" class="markup--anchor markup--p-anchor" target="_blank">Hinton and van Camp</a>in 1993. The<span>&nbsp;</span><a rel="nofollow" href="https://www.youtube.com/watch?v=FD8l2vPU5FY" class="markup--anchor markup--p-anchor" target="_blank">keynote</a><span>&nbsp;</span>in NIPS Bayesian Deep Learning workshop had a very nice overview of how these ideas evolved over the years.</p>
+<p id="7732" class="graf graf--p graf-after--p">OK, but what if we don’t
+ want to train a model from scratch? What if we have a trained model 
+that we want to get uncertainty estimation from? Can we do that?</p>
+<p id="6849" class="graf graf--p graf-after--p">It turns out that if we use dropout during training, we actually can.</p>
+<br>
+<div class="aspectRatioPlaceholder is-locked"><div class="progressiveMedia js-progressiveMedia graf-image is-canvasLoaded"><img src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/1jRSBtNk1G02Q2KqrC5tv_Q.jpeg" width="597" height="398"><img class="progressiveMedia-image js-progressiveMedia-image"></div>
+</div>
+Professional data scientists contemplating the uncertainty of their model — an illustration<br><br>
+<h4 id="a4a8" class="graf graf--h4 graf-after--figure"><span style="font-size: 14pt;">Dropout as a mean for uncertainty</span></h4>
+<p id="ba1c" class="graf graf--p graf-after--h4"><span class="markup--quote markup--p-quote is-other"><a rel="nofollow" href="http://jmlr.org/papers/v15/srivastava14a.html" class="markup--anchor markup--p-anchor" target="_blank">Dropout</a><span>&nbsp;</span>is a well used practice as a regularizer.</span><span>&nbsp;</span>In
+ training time, you randomly sample nodes and drop them out, that 
+is — set their output to 0. The motivation? You don’t want to over rely 
+on specific nodes, which might imply overfitting.</p>
+<p id="549d" class="graf graf--p graf-after--p">In 2016,<span>&nbsp;</span><a rel="nofollow" href="http://proceedings.mlr.press/v48/gal16.pdf" class="markup--anchor markup--p-anchor" target="_blank">Gal and Ghahramani</a><span>&nbsp;</span>showed that if you apply dropout at inference time as well, you can easily get an uncertainty estimator:</p>
+<ol class="postList">
+<li id="22ad" class="graf graf--li graf-after--p">Infer y|x multiple times, each time sample a different set of nodes to drop out.</li>
+<li id="9c6f" class="graf graf--li graf-after--li">Average the predictions to get the final prediction E(y|x).</li>
+<li id="0f9a" class="graf graf--li graf-after--li">Calculate the sample variance of the predictions.</li>
+</ol>
+<p id="521d" class="graf graf--p graf-after--li">That’s it! You got an estimate of the variance! The<span>&nbsp;</span><a rel="nofollow" href="http://www.cs.ox.ac.uk/people/yarin.gal/website/blog_3d801aa532c1ce.html" class="markup--anchor markup--p-anchor" target="_blank">intuition</a><span>&nbsp;</span>behind
+ this approach is that the training process can be thought of as 
+training 2^m different models simultaneously — where m is the number of 
+nodes in the network: each subset of nodes that is not dropped out 
+defines a new model. All models share the weights of the nodes they 
+don’t drop out. At every batch, a randomly sampled set of these models 
+is trained.</p>
+<p id="0406" class="graf graf--p graf-after--p">After training, you have
+ in your hands an ensemble of models. If you use this ensemble at 
+inference time as described above, you get the ensemble’s uncertainty.</p>
+<p class="graf graf--p graf-after--p"></p>
+<h3 id="2f46" class="graf graf--h3 graf-after--p"><span style="font-size: 18pt;">Sampling methods vs Variational Inference</span></h3>
+<p id="f889" class="graf graf--p graf-after--h3">In terms of the<span>&nbsp;</span><a rel="nofollow" href="https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff" class="markup--anchor markup--p-anchor" target="_blank">bias-variance tradeoff</a>,
+ variational inference has high bias because we choose the distributions
+ family. This is a strong assumption that we’re making, and as any 
+strong assumption, it introduces bias. However, it’s stable, with low 
+variance.</p>
+<p id="ee8b" class="graf graf--p graf-after--p">Sampling methods on the 
+other hand have low bias, because we don’t make assumptions about the 
+distribution. This comes at the price of high variance, since the result
+ is dependent on the samples we draw.</p>
+<p class="graf graf--p graf-after--p"></p>
+<h3 id="0fec" class="graf graf--h3 graf-after--p"><span style="font-size: 18pt;">Final thoughts</span></h3>
+<p id="7515" class="graf graf--p graf-after--h3">Being able to estimate 
+the model uncertainty is a hot topic. It’s important to be aware of it 
+in high risk applications such as medical assistants and self-driving 
+cars. It’s also a valuable tool to understand which data could benefit 
+the model, so we can go and get it.</p>
+<p id="bc11" class="graf graf--p graf-after--p">In this post we covered 
+some of the approaches to get model uncertainty estimations. There are 
+many more methods out there, so if you feel highly uncertain about it, 
+go ahead and look for more data :)</p>
+<p id="e1c4" class="graf graf--p graf-after--p">In the next post we’ll show you how to use uncertainty in recommender systems, and specifically — how to tackle the<span>&nbsp;</span><a rel="nofollow" href="https://en.wikipedia.org/wiki/Multi-armed_bandit" class="markup--anchor markup--p-anchor" target="_blank">exploration-exploitation challenge</a>. Stay tuned.</p>
+<p id="53fa" class="graf graf--p graf-after--p"><em class="markup--em markup--p-em">This is the second post of a series related to a paper we’re presenting in a workshop in this year KDD conference:</em><a rel="nofollow" href="https://arxiv.org/abs/1711.02487" class="markup--anchor markup--p-anchor" target="_blank"><span>&nbsp;</span><em class="markup--em markup--p-em">deep density networks and uncertainty in recommender systems</em></a><em class="markup--em markup--p-em">.</em></p>
+<p id="1242" class="graf graf--p graf-after--p graf--trailing"><em class="markup--em markup--p-em">The first post can be found<span>&nbsp;</span></em><a rel="nofollow" href="https://engineering.taboola.com/using-uncertainty-interpret-model" class="markup--anchor markup--p-anchor" target="_blank"><em class="markup--em markup--p-em">here</em></a><em class="markup--em markup--p-em">.</em></p>
+<p class="graf graf--p graf-after--p graf--trailing"></p>
+</div>
+</div>
+<br> <br>
+<div class="section-divider"><hr class="section-divider"></div>
+<div class="section-content"><div class="section-inner sectionLayout--insetColumn"><p class="graf graf--p graf--leading graf--trailing"></p>
+<p id="41d3" class="graf graf--p graf--leading graf--trailing">This is a joint post with&nbsp;<a rel="nofollow" href="https://medium.com/@inbarnaor" class="markup--user markup--p-user" target="_blank">Inbar Naor</a>. Originally published at<span>&nbsp;</span><a rel="nofollow" href="https://engineering.taboola.com/neural-networks-bayesian-perspective" class="markup--anchor markup--p-anchor" target="_blank">engineering.taboola.com</a></p>
+</div>
+</div>
+</div>
+<p></p>
+<div class="u-padding0 u-clearfix u-backgroundGrayLightest u-print-hide supplementalPostContent js-responsesWrapper"><div class="container u-maxWidth740"><div class="responsesStreamWrapper u-maxWidth640 js-responsesStreamWrapper"><div class="responsesStream-editor cardChromeless u-marginBottom20 u-paddingLeft20 u-paddingRight20 js-responsesStreamEditor"><div class="inlineNewPostControl js-inlineNewPostControl"><div class="inlineEditor is-collapsed is-postEditMode js-inlineEditor"><div class="u-paddingTop20 js-block js-inlineEditorContent"><div class="inlineEditor-header"><div class="inlineEditor-headerContent"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div> </div>
+</div><div id="insideblog">
+<div class="dscAdAppear" zsrc="PGNlbnRlcj48YnIgLz48IS0tIC8yNjcyNjQxL0JveF9BZF9CbG9nIC0tPg0KPGRpdiBpZD0nZGl2LWdwdC1hZC0xNTEyNDI4OTAyODQ2LTInIHN0eWxlPSdoZWlnaHQ6MjUwcHg7IHdpZHRoOjMwMHB4Oyc+DQo8c2NyaXB0Pg0KZ29vZ2xldGFnLmNtZC5wdXNoKGZ1bmN0aW9uKCkgeyBnb29nbGV0YWcuZGlzcGxheSgnZGl2LWdwdC1hZC0xNTEyNDI4OTAyODQ2LTInKTsgfSk7DQo8L3NjcmlwdD4NCjwvZGl2PjxiciAvPg0KPC9jZW50ZXI+"><center><br><!-- /2672641/Box_Ad_Blog -->
+<div id="div-gpt-ad-1512428902846-2" style="height:250px; width:300px;" data-google-query-id="CPXOqLjqkuACFWlgFQgddwQH5g">
+<script>
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1512428902846-2'); });
+</script>
+<div id="google_ads_iframe_/2672641/Box_Ad_Blog_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/2672641/Box_Ad_Blog_0" title="3rd party ad content" name="google_ads_iframe_/2672641/Box_Ad_Blog_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="5" data-load-complete="true" width="300" height="250" frameborder="0"></iframe></div></div><br>
+</center></div>
+</div>
+<div class="left-panel">
+<script type="text/javascript">xg.addOnRequire(function () { xg.post('/main/viewcount/update?xn_out=json', {key: '6448529:BlogPost:751446', x: '07ea5af'}); });</script> <p class="small dy-clear view-count-container">
+<span class="view-count-label">Views:</span> <span class="view-count">5879</span></p>
+<p class="small object-detail" id="tagsList" style="display:none">Tags:<br></p>
+<div class="likebox likebox-ning">
+<div class="ning-like">
+<div class="xg_lightborder like-button like-button-1">
+<a data-content-id="6448529:BlogPost:751446" data-content-type="BlogPost" data-sign-up-url="https://www.datasciencecentral.com/main/authorization/signUp?target=https%3A%2F%2Fwww.datasciencecentral.com%2Fprofiles%2Fblogs%2Fneural-networks-from-a-bayesian-perspective" data-like-url="/main/like/like" data-unlike-url="/main/like/unlike" data-track="{&quot;category&quot;:&quot;Likes&quot;,&quot;action&quot;:&quot;Like&quot;,&quot;label&quot;:&quot;&quot;}" data-page-type="detail" class="xg_sprite" href="#">
+Like </a>
+</div>
+<div class="like-count">
+<a href="#" class="view-liked" _id="6448529:BlogPost:751446">3 members like this</a>
+</div>
+</div>
+</div>
+<p class="share-links clear"><a class="xg_sprite xg_sprite-share" href="https://www.datasciencecentral.com/main/sharing/share?id=6448529%253ABlogPost%253A751446">Share</a> <script type="text/javascript">!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+<span class="xg_tweet">
+ <iframe id="twitter-widget-0" scrolling="no" allowtransparency="true" class="twitter-share-button twitter-share-button-rendered twitter-tweet-button" style="position: static; visibility: visible; width: 60px; height: 20px;" title="Twitter Tweet Button" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/tweet_button.html" data-url="https://www.datasciencecentral.com/profiles/blogs/neural-networks-from-a-bayesian-perspective" frameborder="0"></iframe>
+</span>
+<span class="google-plusone" data-content-type="BlogPost" data-content-id="6448529:BlogPost:751446" data-page-type="detail">
+<div style="text-indent: 0px; margin: 0px; padding: 0px; background: transparent none repeat scroll 0% 0%; border-style: none; float: none; line-height: normal; font-size: 1px; vertical-align: baseline; display: inline-block; width: 32px; height: 20px;" id="___plusone_0"><iframe ng-non-bindable="" hspace="0" marginheight="0" marginwidth="0" scrolling="no" style="position: static; top: 0px; width: 32px; margin: 0px; border-style: none; left: 0px; visibility: visible; height: 20px;" tabindex="0" vspace="0" id="I0_1548760603930" name="I0_1548760603930" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/fastbutton.html" data-gapiattached="true" title="G+" width="100%" frameborder="0"></iframe></div>
+</span>
+<a class="post_to_facebook xj_post_to_facebook_stream dy-displaynone" href="https://www.facebook.com/share.php?u=https%3A%2F%2Fwww.datasciencecentral.com%2Fprofiles%2Fblogs%2Fneural-networks-from-a-bayesian-perspective%3Fxg_source%3Dfacebook&amp;t=Neural%20Networks%20from%20a%20Bayesian%20Perspective%20on%20Data%20Science%20Central" _args="{&quot;name&quot;:&quot;Neural Networks from a Bayesian Perspective on Data Science Central&quot;,&quot;href&quot;:&quot;https:\/\/www.datasciencecentral.com\/profiles\/blogs\/neural-networks-from-a-bayesian-perspective?xg_source=facebook&quot;,&quot;media&quot;:[{&quot;type&quot;:&quot;image&quot;,&quot;src&quot;:&quot;https:\/\/cdn-images-1.medium.com\/max\/2000\/1*1XBZ8ocyjdSxP5VCiUvXzg.jpeg?width=668&quot;,&quot;href&quot;:&quot;https:\/\/www.datasciencecentral.com\/profiles\/blogs\/neural-networks-from-a-bayesian-perspective?xg_source=facebook&quot;},{&quot;type&quot;:&quot;image&quot;,&quot;src&quot;:&quot;https:\/\/cdn-images-1.medium.com\/max\/800\/1*iG_jZ05lXo97QeNshpEVGg.png?width=362&quot;,&quot;href&quot;:&quot;https:\/\/www.datasciencecentral.com\/profiles\/blogs\/neural-networks-from-a-bayesian-perspective?xg_source=facebook&quot;},{&quot;type&quot;:&quot;image&quot;,&quot;src&quot;:&quot;https:\/\/cdn-images-1.medium.com\/max\/800\/1*rWY2S4QkHSD5G5C0kXWvRw.png?width=489&quot;,&quot;href&quot;:&quot;https:\/\/www.datasciencecentral.com\/profiles\/blogs\/neural-networks-from-a-bayesian-perspective?xg_source=facebook&quot;},{&quot;type&quot;:&quot;image&quot;,&quot;src&quot;:&quot;https:\/\/cdn-images-1.medium.com\/max\/800\/1*7iYHTt42UvOaCXV5mSMOFA.png&quot;,&quot;href&quot;:&quot;https:\/\/www.datasciencecentral.com\/profiles\/blogs\/neural-networks-from-a-bayesian-perspective?xg_source=facebook&quot;},{&quot;type&quot;:&quot;image&quot;,&quot;src&quot;:&quot;https:\/\/cdn-images-1.medium.com\/max\/800\/1*ll9k3E53XDOSSJaEgPQWTA.png?width=499&quot;,&quot;href&quot;:&quot;https:\/\/www.datasciencecentral.com\/profiles\/blogs\/neural-networks-from-a-bayesian-perspective?xg_source=facebook&quot;},{&quot;type&quot;:&quot;image&quot;,&quot;src&quot;:&quot;https:\/\/cdn-images-1.medium.com\/max\/2000\/1*IYUzJxzbB_gYLwQynrOJZg.png?width=809&quot;,&quot;href&quot;:&quot;https:\/\/www.datasciencecentral.com\/profiles\/blogs\/neural-networks-from-a-bayesian-perspective?xg_source=facebook&quot;},{&quot;type&quot;:&quot;image&quot;,&quot;src&quot;:&quot;https:\/\/cdn-images-1.medium.com\/max\/800\/1*vnkWQl8Rqf_lFgt98DStUA.png&quot;,&quot;href&quot;:&quot;https:\/\/www.datasciencecentral.com\/profiles\/blogs\/neural-networks-from-a-bayesian-perspective?xg_source=facebook&quot;},{&quot;type&quot;:&quot;image&quot;,&quot;src&quot;:&quot;https:\/\/cdn-images-1.medium.com\/max\/800\/1*92HfheZdC_yaaW3pAxv5DQ.png?width=601&quot;,&quot;href&quot;:&quot;https:\/\/www.datasciencecentral.com\/profiles\/blogs\/neural-networks-from-a-bayesian-perspective?xg_source=facebook&quot;},{&quot;type&quot;:&quot;image&quot;,&quot;src&quot;:&quot;https:\/\/cdn-images-1.medium.com\/max\/800\/1*F0MjIP31zdlQ9Jrni_z5YA.png&quot;,&quot;href&quot;:&quot;https:\/\/www.datasciencecentral.com\/profiles\/blogs\/neural-networks-from-a-bayesian-perspective?xg_source=facebook&quot;},{&quot;type&quot;:&quot;image&quot;,&quot;src&quot;:&quot;https:\/\/cdn-images-1.medium.com\/max\/2000\/1*jRSBtNk1G02Q2KqrC5tv_Q.jpeg&quot;,&quot;href&quot;:&quot;https:\/\/www.datasciencecentral.com\/profiles\/blogs\/neural-networks-from-a-bayesian-perspective?xg_source=facebook&quot;}],&quot;actionLink&quot;:{&quot;text&quot;:&quot;Full Post&quot;,&quot;href&quot;:&quot;https:\/\/www.datasciencecentral.com\/profiles\/blogs\/neural-networks-from-a-bayesian-perspective?xg_source=facebook&quot;},&quot;description&quot;:&quot;\n\n\n\n\n\n\n\n\n\n\nUnderstanding what a model doesn\u2019t know is important both from the practitioner\u2019s perspective and for the end users of many different machine learning applications. In\u00a0our previous blog post\u00a0we discussed the different types of uncertainty. We explained how we can use it to interpret and debug our models.\nIn this post we\u2019ll discuss different ways to obtain uncertainty in Deep Neural Networks. Let\u2019s start by looking at neural networks from a Bayesian perspective.\n\nBayesian learning\u00a0101\nBayesian statistics allow us to draw conclusions based on both evidence (data) and our prior knowledge about the world. This is often contrasted with frequentist statistics which only consider evidence.\u00a0The prior knowledge captures our belief on which model generated the data, or what the weights of that model are.\u00a0We can represent this belief using a\u00a0prior distribution\u00a0p(w) over the model\u2019s weights.\nAs we collect more data we update the prior distribution and turn in into a\u00a0posterior distribution\u00a0using Bayes\u2019 law, in a process called\u00a0Bayesian updating:\n\n\n\n\nThis equation introduces another key player in Bayesian learning\u200a\u2014\u200athe\u00a0likelihood, defined as p(y|x,w). This term represents how likely the data is, given the model\u2019s weights\u00a0w.\n\nNeural networks from a Bayesian perspective\nA neural network\u2019s goal is to estimate the likelihood p(y|x,w). This is true even when you\u2019re not explicitly doing that, e.g.\u00a0when you minimize MSE.\nTo find the best model weights we can use\u00a0Maximum Likelihood Estimation\u00a0(MLE):\n\n\n\n\nAlternatively, we can use our prior knowledge, represented as a prior distribution over the weights, and maximize the posterior distribution. This approach is called\u00a0Maximum Aposteriori Estimation\u00a0(MAP):\n\n\n\n\n\nThe term\u00a0logP(w), which represents our prior, acts as a regularization term. Choosing a Gaussian distribution with mean 0 as the prior, you\u2019ll get the mathematical equivalence of L2 regularization.\nNow that we start thinking about neural networks as probabilistic creature&quot;,&quot;log&quot;:{&quot;module&quot;:&quot;profiles&quot;,&quot;page&quot;:&quot;blog&quot;,&quot;action&quot;:&quot;show&quot;},&quot;private&quot;:false,&quot;user&quot;:null,&quot;contentId&quot;:null,&quot;display&quot;:false,&quot;userMessage&quot;:&quot;&quot;,&quot;pageId&quot;:null,&quot;text&quot;:&quot;Facebook&quot;}">Facebook</a>
+</p><div class="likebox">
+<div class="facebook-like" data-content-type="BlogPost" data-content-id="6448529:BlogPost:751446" data-page-type="detail">
+<fb:like href="https://www.datasciencecentral.com/xn/detail/6448529:BlogPost:751446" layout="button_count" show_faces="false" width="450" class=" fb_iframe_widget" fb-xfbml-state="rendered" fb-iframe-plugin-query="app_id=259683271111061&amp;container_width=0&amp;href=https%3A%2F%2Fwww.datasciencecentral.com%2Fxn%2Fdetail%2F6448529%3ABlogPost%3A751446&amp;layout=button_count&amp;locale=en_US&amp;sdk=joey&amp;show_faces=false&amp;width=450"><span style="vertical-align: bottom; width: 72px; height: 20px;"><iframe name="f3f81adaeee3392" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" title="fb:like Facebook Social Plugin" style="border: medium none; visibility: visible; width: 72px; height: 20px;" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/like.html" class="" width="450px" height="1000px" frameborder="0"></iframe></span></fb:like>
+</div>
+</div>
+<p></p> </div>
+<ul class="pagination smallpagination">
+<li class="left"><a href="https://www.datasciencecentral.com/profiles/blogs/using-uncertainty-to-interpret-your-model" title="Using Uncertainty to Interpret your Model">&lt; Previous Post</a></li> </ul>
+</div>
+</div>
+<div class="xg_module">
+<div class="xg_module_body">
+<p id="add-comment">Comment</p>
+<div class="comment-join">
+<h3>You need to be a member of Data Science Central to add comments!</h3>
+<p><a href="https://www.datasciencecentral.com/main/authorization/signUp?target=https%3A%2F%2Fwww.datasciencecentral.com%2Fprofiles%2Fblogs%2Fneural-networks-from-a-bayesian-perspective">Join Data Science Central</a></p>
+</div>
+</div>
+<div class="xg_module_body" id="comments" style="display: none" _numcomments="0" _scrollto="">
+</div>
+<div class="xg_module_foot" id="xj_comments_footer" style="display:none">
+<p class="left">
+<a class="xg_icon xg_icon-rss" href="https://www.datasciencecentral.com/profiles/comment/feed?attachedTo=6448529%3ABlogPost%3A751446&amp;xn_auth=no">RSS</a>
+</p>
+</div>
+</div>
+<input id="incrementViewCountEndpoint" value="https://www.datasciencecentral.com/profiles/blog/incrementViewCount?id=6448529%3ABlogPost%3A751446&amp;xn_out=json" type="hidden">
+</div>
+</div>
+<div class="xg_column xg_span-5 xg_last" id="column2">
+<div class="xj_user_info"> <div class="xg_module" id="xg_module_account">
+<div class="xg_module_body xg_signup xg_lightborder">
+<p>Welcome to<br>Data Science Central</p>
+<p class="last-child"><big><strong><a href="https://www.datasciencecentral.com/main/authorization/signUp?target=https%3A%2F%2Fwww.datasciencecentral.com%2Fprofiles%2Fblogs%2Fneural-networks-from-a-bayesian-perspective">Sign Up</a></strong></big><br>or <a href="https://www.datasciencecentral.com/main/authorization/signIn?target=https%3A%2F%2Fwww.datasciencecentral.com%2Fprofiles%2Fblogs%2Fneural-networks-from-a-bayesian-perspective" style="white-space:nowrap">Sign In</a></p>
+<div class="xg_external_signup xg_lightborder xj_signup">
+<p class="dy-small">Or sign in with:</p>
+<ul class="providers">
+<li><a onclick="window.open('https://datasciencecentral.networkauth.com/facebook/connect_start?ext_perm=user_birthday%2Cuser_location%2Cemail&amp;token_url=https%3A%2F%2Fwww.datasciencecentral.com%2Fmain%2Fauthorization%2FprocessExternalAuth%3Ftarget%3Dhttps%253A%252F%252Fwww.datasciencecentral.com%252Fprofiles%252Fblogs%252Fneural-networks-from-a-bayesian-perspective%26source%3DsignUp%26close%3D1%26provider%3Dfacebook', null, 'width=626,height=436,location=no,menubar=no,resizable=yes,scrollbars=yes,toolbar=no,status=no'); return false;" href="https://datasciencecentral.networkauth.com/facebook/connect_start?ext_perm=user_birthday%2Cuser_location%2Cemail&amp;token_url=https%3A%2F%2Fwww.datasciencecentral.com%2Fmain%2Fauthorization%2FprocessExternalAuth%3Ftarget%3Dhttps%253A%252F%252Fwww.datasciencecentral.com%252Fprofiles%252Fblogs%252Fneural-networks-from-a-bayesian-perspective%26source%3DsignUp%26close%3D0%26provider%3Dfacebook">
+<span class="mini-service mini-service-facebook" title="Facebook"></span>
+</a></li>
+<li><a onclick="window.open('https://datasciencecentral.networkauth.com/twitter/start?token_url=https%3A%2F%2Fwww.datasciencecentral.com%2Fmain%2Fauthorization%2FprocessExternalAuth%3Ftarget%3Dhttps%253A%252F%252Fwww.datasciencecentral.com%252Fprofiles%252Fblogs%252Fneural-networks-from-a-bayesian-perspective%26source%3DsignUp%26close%3D1%26provider%3Dtwitter', null, 'width=860,height=440,location=no,menubar=no,resizable=yes,scrollbars=yes,toolbar=no,status=no'); return false;" href="https://datasciencecentral.networkauth.com/twitter/start?token_url=https%3A%2F%2Fwww.datasciencecentral.com%2Fmain%2Fauthorization%2FprocessExternalAuth%3Ftarget%3Dhttps%253A%252F%252Fwww.datasciencecentral.com%252Fprofiles%252Fblogs%252Fneural-networks-from-a-bayesian-perspective%26source%3DsignUp%26close%3D0%26provider%3Dtwitter">
+<span class="mini-service mini-service-twitter" title="Twitter"></span>
+</a></li>
+<li><a onclick="window.open('https://datasciencecentral.networkauth.com/googleplus/start?token_url=https%3A%2F%2Fwww.datasciencecentral.com%2Fmain%2Fauthorization%2FprocessExternalAuth%3Ftarget%3Dhttps%253A%252F%252Fwww.datasciencecentral.com%252Fprofiles%252Fblogs%252Fneural-networks-from-a-bayesian-perspective%26source%3DsignUp%26close%3D1%26provider%3Dgoogle', null, 'width=530,height=480,location=no,menubar=no,resizable=yes,scrollbars=yes,toolbar=no,status=no'); return false;" href="https://datasciencecentral.networkauth.com/googleplus/start?token_url=https%3A%2F%2Fwww.datasciencecentral.com%2Fmain%2Fauthorization%2FprocessExternalAuth%3Ftarget%3Dhttps%253A%252F%252Fwww.datasciencecentral.com%252Fprofiles%252Fblogs%252Fneural-networks-from-a-bayesian-perspective%26source%3DsignUp%26close%3D0%26provider%3Dgoogle">
+<span class="mini-service mini-service-google" title="Google"></span>
+</a></li>
+<li><a onclick="window.open('https://datasciencecentral.networkauth.com/openid/start?openid_identifier=http%3A%2F%2Fme.yahoo.com%2F&amp;token_url=https%3A%2F%2Fwww.datasciencecentral.com%2Fmain%2Fauthorization%2FprocessExternalAuth%3Ftarget%3Dhttps%253A%252F%252Fwww.datasciencecentral.com%252Fprofiles%252Fblogs%252Fneural-networks-from-a-bayesian-perspective%26source%3DsignUp%26close%3D1%26provider%3Dyahoo', null, 'width=500,height=480,location=no,menubar=no,resizable=yes,scrollbars=yes,toolbar=no,status=no'); return false;" href="https://datasciencecentral.networkauth.com/openid/start?openid_identifier=http%3A%2F%2Fme.yahoo.com%2F&amp;token_url=https%3A%2F%2Fwww.datasciencecentral.com%2Fmain%2Fauthorization%2FprocessExternalAuth%3Ftarget%3Dhttps%253A%252F%252Fwww.datasciencecentral.com%252Fprofiles%252Fblogs%252Fneural-networks-from-a-bayesian-perspective%26source%3DsignUp%26close%3D0%26provider%3Dyahoo">
+<span class="mini-service mini-service-yahoo" title="Yahoo!"></span>
+</a></li>
+<li><a onclick="window.open('https://datasciencecentral.networkauth.com/linkedin/start?token_url=https%3A%2F%2Fwww.datasciencecentral.com%2Fmain%2Fauthorization%2FprocessExternalAuth%3Ftarget%3Dhttps%253A%252F%252Fwww.datasciencecentral.com%252Fprofiles%252Fblogs%252Fneural-networks-from-a-bayesian-perspective%26source%3DsignUp%26close%3D1%26provider%3Dlinkedin', null, 'width=630,height=505,location=no,menubar=no,resizable=yes,scrollbars=yes,toolbar=no,status=no'); return false;" href="https://datasciencecentral.networkauth.com/linkedin/start?token_url=https%3A%2F%2Fwww.datasciencecentral.com%2Fmain%2Fauthorization%2FprocessExternalAuth%3Ftarget%3Dhttps%253A%252F%252Fwww.datasciencecentral.com%252Fprofiles%252Fblogs%252Fneural-networks-from-a-bayesian-perspective%26source%3DsignUp%26close%3D0%26provider%3Dlinkedin">
+<span class="mini-service mini-service-linkedin" title="LinkedIn"></span>
+</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="xj_sidebar_content"><div class="xg_module html_module module_text xg_reset" data-module_name="text">
+<div class="xg_module_body xg_user_generated">
+<center>
+<div id="div-gpt-ad-1512428902846-6" style="height:600px; width:160px;" data-google-query-id="COiS2bHhkuACFUhkFQgdU_YOXA"><script type="text/javascript">
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1512428902846-6'); });
+</script><div id="google_ads_iframe_/2672641/Skyscraper_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/2672641/Skyscraper_0" title="3rd party ad content" name="google_ads_iframe_/2672641/Skyscraper_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="2" data-load-complete="true" width="160" height="600" frameborder="0"></iframe></div></div>
+</center>
+</div>
+</div>
+<div class="xg_module html_module module_text xg_reset" data-module_name="text">
+<div class="xg_module_body xg_user_generated">
+<center>
+<div id="div-gpt-ad-1512428902846-7" style="height:220px; width:220px;" data-google-query-id="CNq12bHhkuACFYHB5godihsA5Q"><script type="text/javascript">
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1512428902846-7'); });
+</script><div id="google_ads_iframe_/2672641/Square_Box_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/2672641/Square_Box_0" title="3rd party ad content" name="google_ads_iframe_/2672641/Square_Box_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="3" data-load-complete="true" width="220" height="220" frameborder="0"></iframe></div></div>
+</center>
+</div>
+</div>
+<div class="xg_module module_video" data-module_name="video">
+<div class="xg_module_head">
+<h2>Videos</h2>
+</div>
+<div class="xg_module_body body_large">
+<ul class="clist">
+<li>
+<div class="ib">
+<a href="https://www.datasciencecentral.com/video/dsc-webinar-series-data-prep-automated-ml-better-predictions-for-">
+<img src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/542464355.png" alt="DSC Webinar Series: Data Prep &amp; Automated ML: Better Predictions for Consensus" width="136">
+</a>
+</div>
+<div class="tb">
+<h3><a href="https://www.datasciencecentral.com/video/dsc-webinar-series-data-prep-automated-ml-better-predictions-for-">
+DSC Webinar Series: Data Prep &amp; Automated ML: Better Predictions for Consensus </a></h3>
+<p class="xg_lightfont">
+Added by <a class="xg_lightfont" href="https://www.datasciencecentral.com/profile/2edcolrgc4o4b">Tim Matteson</a> <span class="reactions">
+<a href="https://www.datasciencecentral.com/video/dsc-webinar-series-data-prep-automated-ml-better-predictions-for-#comments" data-page-type="detail" class="xg_sprite xg_sprite-comment">0 <span class="details">Comments</span></a>
+<a href="https://www.datasciencecentral.com/video/dsc-webinar-series-data-prep-automated-ml-better-predictions-for-" data-content-id="6448529:Video:795414" data-content-type="Video" data-sign-up-url="https://www.datasciencecentral.com/main/authorization/signUp?target=https%3A%2F%2Fwww.datasciencecentral.com%2Fprofiles%2Fblogs%2Fneural-networks-from-a-bayesian-perspective" data-page-type="detail" class="xg_sprite like-link-1 like-link">
+1 <span class="details">Like</span>
+</a>
+</span>
+</p>
+</div>
+</li>
+</ul><ul class="clist"> <li>
+<div class="ib">
+<a href="https://www.datasciencecentral.com/video/dsc-webinar-series-new-trends-in-data-prep-and-blend">
+<img src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/542464355.png" alt="DSC Webinar Series: New Trends in Data Prep and Blend" width="136">
+</a>
+</div>
+<div class="tb">
+<h3><a href="https://www.datasciencecentral.com/video/dsc-webinar-series-new-trends-in-data-prep-and-blend">
+DSC Webinar Series: New Trends in Data Prep and Blend </a></h3>
+<p class="xg_lightfont">
+Added by <a class="xg_lightfont" href="https://www.datasciencecentral.com/profile/2edcolrgc4o4b">Tim Matteson</a> <span class="reactions">
+<a href="https://www.datasciencecentral.com/video/dsc-webinar-series-new-trends-in-data-prep-and-blend#comments" data-page-type="detail" class="xg_sprite xg_sprite-comment">0 <span class="details">Comments</span></a>
+<a href="https://www.datasciencecentral.com/video/dsc-webinar-series-new-trends-in-data-prep-and-blend" data-content-id="6448529:Video:794047" data-content-type="Video" data-sign-up-url="https://www.datasciencecentral.com/main/authorization/signUp?target=https%3A%2F%2Fwww.datasciencecentral.com%2Fprofiles%2Fblogs%2Fneural-networks-from-a-bayesian-perspective" data-page-type="detail" class="xg_sprite like-link-1 like-link">
+1 <span class="details">Like</span>
+</a>
+</span>
+</p>
+</div>
+</li>
+</ul><ul class="clist"> </ul>
+</div>
+<div class="xg_module_foot">
+<ul>
+<li class="left"><a class="xg_sprite xg_sprite-add" href="https://www.datasciencecentral.com/video/video/chooseUploader">Add Videos</a></li>
+<li class="right"><a href="https://www.datasciencecentral.com/video/video">View All</a></li>
+<li class="right video-facebook-share" style="display:none; margin-right:10px;"><a target="_blank" href="https://www.facebook.com/share.php?u=https%3A%2F%2Fwww.datasciencecentral.com%2Fvideo%2Fvideo%3Ffrom%3Dfb"><img src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/facebook.gif" alt="Facebook"></a></li>
+<script type="text/javascript">
+                        xg.addOnRequire(function () {
+                            x$('.module_video').mouseover(function () { x$(this).find('.video-facebook-share').show(); })
+                                    .mouseout(function () { x$(this).find('.video-facebook-share').hide(); });
+                        });
+                    </script>
+</ul>
+</div>
+</div>
+<div class="xg_module html_module module_text xg_reset" data-module_name="text">
+<div class="xg_module_head"><h2>Follow Us</h2></div>
+<div class="xg_module_body xg_user_generated">
+<p><a href="https://twitter.com/DataScienceCtrl"><font color="#CC0000"><b>@DataScienceCtrl</b></font></a><span>&nbsp;|</span>&nbsp;<a href="https://www.datasciencecentral.com/page/news-feeds">RSS Feeds</a></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="xg_foot">
+<div id="xg_footcontent">
+<div class="xj_foot_content"><p class="left">
+© 2019 &nbsp; Data Science Central&nbsp;® &nbsp;
+Powered by<a class="poweredBy-logo" href="https://www.ning.com/" title="" alt="" rel="dofollow">
+<img class="poweredbylogo" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/Ning_MM_footer_blk2x.png" title="Ning Website Builder" alt="Website builder | Create website | Ning.com" width="87" height="15">
+</a> </p>
+<p class="right xg_lightfont">
+<a href="https://www.datasciencecentral.com/main/embeddable/list">Badges</a> &nbsp;|&nbsp;
+<a href="https://www.datasciencecentral.com/main/authorization/signUp?target=https%3A%2F%2Fwww.datasciencecentral.com%2Fmain%2Findex%2Freport" dojotype="PromptToJoinLink" _joinprompttext="Please sign up or sign in to complete this step." _hassignup="true" _signinurl="https://www.datasciencecentral.com/main/authorization/signIn?target=https%3A%2F%2Fwww.datasciencecentral.com%2Fmain%2Findex%2Freport">Report an Issue</a> &nbsp;|&nbsp;
+<a href="https://www.datasciencecentral.com/main/authorization/privacyPolicy?previousUrl=https%3A%2F%2Fwww.datasciencecentral.com%2Fprofiles%2Fblogs%2Fneural-networks-from-a-bayesian-perspective">Privacy Policy</a> &nbsp;|&nbsp;
+<a href="https://www.datasciencecentral.com/main/authorization/termsOfService?previousUrl=https%3A%2F%2Fwww.datasciencecentral.com%2Fprofiles%2Fblogs%2Fneural-networks-from-a-bayesian-perspective">Terms of Service</a>
+</p>
+</div>
+</div>
+</div>
+<div id="xg_ad_below_footer" class="xg_ad xj_ad_below_footer">
+<div class="xg_module module-plain  html_module module_text xg_reset" data-module_name="text">
+<div class="xg_module_body xg_user_generated">
+<center>
+<div id="div-gpt-ad-1512428902846-0" style="height:90px; width:728px;" data-google-query-id="CIDL2bHhkuACFYSncQodx68O5Q"><script type="text/javascript">
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1512428902846-0'); });
+</script><div id="google_ads_iframe_/2672641/Bottom_Leaderboard_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/2672641/Bottom_Leaderboard_0" title="3rd party ad content" name="google_ads_iframe_/2672641/Bottom_Leaderboard_0" scrolling="no" marginwidth="0" marginheight="0" style="border: 0px none; vertical-align: bottom;" srcdoc="" data-google-container-id="4" data-load-complete="true" width="728" height="90" frameborder="0"></iframe></div></div>
+<br></center>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="xj_after_content"><div id="xj_baz17246" class="xg_theme"></div>
+<div id="xg_overlay" style="display:none;">
+<!--[if lte IE 6.5]><iframe></iframe><![endif]-->
+</div>
+<!--googleoff: all--><noscript>
+	<style type="text/css" media="screen">
+        #xg { position:relative;top:120px; }
+        #xn_bar { top:120px; }
+	</style>
+	<div class="errordesc noscript">
+		<div>
+            <h3><strong>Hello, you need to enable JavaScript to use Data Science Central.</strong></h3>
+            <p>Please check your browser settings or contact your system administrator.</p>
+			<img src="/xn_resources/widgets/index/gfx/jstrk_off.gif" alt="" height="1" width="1" />
+		</div>
+	</div>
+</noscript><!--googleon: all-->
+<script type="text/javascript" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/core.js"></script> <script type="text/javascript">
+            var sources = ["https:\/\/static.ning.com\/socialnetworkmain\/widgets\/lib\/js\/jquery\/jquery.ui.widget.js?xn_version=201901230653","https:\/\/static.ning.com\/socialnetworkmain\/widgets\/lib\/js\/jquery\/jquery.iframe-transport.js?xn_version=201901230653","https:\/\/static.ning.com\/socialnetworkmain\/widgets\/lib\/js\/jquery\/jquery.fileupload.js?xn_version=201901230653","https:\/\/storage.ning.com\/topology\/rest\/1.0\/file\/get\/777654251?profile=original&r=1547647318","https:\/\/storage.ning.com\/topology\/rest\/1.0\/file\/get\/777765481?profile=original&r=1547647618","https:\/\/storage.ning.com\/topology\/rest\/1.0\/file\/get\/777654380?profile=original&r=1547647318"];
+            var numSources = sources.length;
+                        var heads = document.getElementsByTagName('head');
+            var node = heads.length > 0 ? heads[0] : document.body;
+            var onloadFunctionsObj = {};
+
+            var createScriptTagFunc = function(source) {
+                var script = document.createElement('script');
+                
+                script.type = 'text/javascript';
+                                var currentOnLoad = function() {xg._loader.onLoad(source);};
+                if (script.readyState) { //for IE (including IE9)
+                    script.onreadystatechange = function() {
+                        if (script.readyState == 'complete' || script.readyState == 'loaded') {
+                            script.onreadystatechange = null;
+                            currentOnLoad();
+                        }
+                    }
+                } else {
+                   script.onerror = script.onload = currentOnLoad;
+                }
+
+                script.src = source;
+                node.appendChild(script);
+            };
+
+            for (var i = 0; i < numSources; i++) {
+                                xg._loader.loading(sources[i]);
+                createScriptTagFunc(sources[i]);
+            }
+        </script>
+<script type="text/javascript">
+if (!ning._) {ning._ = {}}
+ning._.compat = { encryptedToken: "<empty>" }
+ning._.CurrentServerTime = "2019-01-29T10:16:27+00:00";
+ning._.probableScreenName = "";
+ning._.domains = {
+    base: 'ning.com',
+    ports: { http: '80', ssl: '443' }
+};
+ning.loader.version = '201901230653'; // DEP-190123_5:0 33
+djConfig.parseWidgets = false;
+</script>
+<script type="text/javascript">
+          (function() {
+            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+            po.src = 'https://apis.google.com/js/plusone.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+          })();
+        </script>
+<script type="text/javascript">
+        xg.token = '';
+xg.canTweet = false;
+xg.cdnHost = 'static.ning.com';
+xg.version = '201901230653';
+xg.useMultiCdn = true;
+xg.staticRoot = 'socialnetworkmain';
+xg.xnTrackHost = null;
+    xg.cdnDefaultPolicyHost = 'static';
+    xg.cdnPolicy = [];
+xg.global = xg.global || {};
+xg.global.currentMozzle = 'profiles';
+xg.global.userCanInvite = false;
+xg.global.requestBase = '';
+xg.global.locale = 'en_US';
+xg.num_thousand_sep = ",";
+xg.num_decimal_sep = ".";
+(function() {
+    dojo.addOnLoad(function() {
+        if(window.bzplcm) { window.bzplcm.ts('hr'); window.bzplcm._profileSend(); }
+            });
+            ning.loader.require('xg.profiles.blog.show', 'xg.index.like.likeButton', 'xg.index.googlePlusOne', 'xg.shared.PostToFacebookStreamLink', 'xg.index.facebookLike', 'xg.index.like.desktopLike', function() { xg._loader.onLoad('xnloader'); });
+    })();    </script>
+
+<script async="" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/js.js" type="text/javascript"></script>
+<script type="text/javascript">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-27452860-1');
+</script>
+
+<script type="text/javascript">
+xg.addOnRequire(function() {
+    document.getElementById('xn_bar_menu_search').action = 'https://www.datasciencecentral.com/page/search';
+});
+
+</script>
+
+<script type="text/javascript">
+_atrk_opts = { atrk_acct:"QpAKm1aMp4Z352", domain:"datasciencecentral.com",dynamic: true};
+(function() { var as = document.createElement('script'); as.type = 'text/javascript'; as.async = true; as.src = "https://d31qbv1cthcecs.cloudfront.net/atrk.js"; var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(as, s); })();
+</script>
+<noscript><img src="https://d5nxst8fruw4z.cloudfront.net/atrk.gif?account=QpAKm1aMp4Z352" style="display:none" height="1" width="1" alt="" /></noscript>
+
+
+<link href="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/style020170126141034-6-7.css" rel="stylesheet" type="text/css">
+<script src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/script020170126141034-2.js" type="text/javascript"></script>
+
+
+<script src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/as.js" type="text/javascript"></script>
+
+
+<script src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/script020171208141034-13-16.js" type="text/javascript"></script>
+
+
+<div id="tmp_insideblog" style="display:none;">
+<div class="dscAdAppear" zsrc="PGNlbnRlcj48YnIgLz48IS0tIC8yNjcyNjQxL0JveF9BZF9CbG9nIC0tPg0KPGRpdiBpZD0nZGl2LWdwdC1hZC0xNTEyNDI4OTAyODQ2LTInIHN0eWxlPSdoZWlnaHQ6MjUwcHg7IHdpZHRoOjMwMHB4Oyc+DQo8c2NyaXB0Pg0KZ29vZ2xldGFnLmNtZC5wdXNoKGZ1bmN0aW9uKCkgeyBnb29nbGV0YWcuZGlzcGxheSgnZGl2LWdwdC1hZC0xNTEyNDI4OTAyODQ2LTInKTsgfSk7DQo8L3NjcmlwdD4NCjwvZGl2PjxiciAvPg0KPC9jZW50ZXI+"></div>
+</div>
+<script type="text/javascript">
+if (typeof(x$) != 'undefined') {
+x$(".xg_widget_profiles_blog_show .xg_blog .postbody").after('<div id="insideblog"></div>');
+var t_insideblogCode = document.getElementById('tmp_insideblog');
+var insideblogCode = document.getElementById('insideblog');
+insideblogCode.innerHTML = t_insideblogCode.innerHTML;
+}
+</script>
+
+
+<div id="tmp_insideforum" style="display:none;">
+<div class="dscAdAppear" zsrc="PGNlbnRlcj48YnIgLz48IS0tIC8yNjcyNjQxL0JveF9BZF9Gb3J1bSAtLT4NCjxkaXYgaWQ9J2Rpdi1ncHQtYWQtMTUxMjQyODkwMjg0Ni0zJyBzdHlsZT0naGVpZ2h0OjI1MHB4OyB3aWR0aDozMDBweDsnPg0KPHNjcmlwdD4NCmdvb2dsZXRhZy5jbWQucHVzaChmdW5jdGlvbigpIHsgZ29vZ2xldGFnLmRpc3BsYXkoJ2Rpdi1ncHQtYWQtMTUxMjQyODkwMjg0Ni0zJyk7IH0pOw0KPC9zY3JpcHQ+DQo8L2Rpdj48YnIgLz4NCjwvY2VudGVyPg=="></div>
+</div>
+<script type="text/javascript">
+if (typeof(x$) != 'undefined') {
+x$(".xg_widget_forum_topic_show div.discussion div.description").after('<div id="insideforum"></div>');
+var t_insideforumCode = document.getElementById('tmp_insideforum');
+var insideforumCode = document.getElementById('insideforum');
+insideforumCode.innerHTML = t_insideforumCode.innerHTML;
+}
+</script>
+
+
+<link rel="stylesheet" type="text/css" href="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/cookieconsent.css">
+<script src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/cookieconsent.js" type="text/javascript"></script>
+<script type="text/javascript">
+window.addEventListener("load", function(){
+window.cookieconsent.initialise({
+  "palette": {
+    "popup": {
+      "background": "#000000"
+    },
+    "button": {
+      "background": "transparent",
+      "text": "#f1d600",
+      "border": "#f1d600"
+    }
+  },
+  "position": "top",
+  "target": "_blank",
+  "static": true,
+  "cookie.name": "cookieconsent_dsc",
+  "domain": "datasciencecentral.com",
+  "content": {
+  "dismiss": "OK, Got it!",
+    "message": "We use cookies to ensure that we give you the best possible experience. By continuing to browse the site you are agreeing to our use of cookies.",
+    "href": "https://www.datasciencecentral.com/page/cookie-policy"
+  }
+})});
+</script>
+<style>@media screen and (min-device-width : 385px) { .cc-window.cc-floating { max-width: none; flex-direction: row; } .cc-floating .cc-message { width: 100%; margin-bottom: 0px; } .cc-window.cc-floating .cc-compliance { margin-top: -5px; float: right; } .cc-link { padding-left: 0px; } .cc-window.cc-floating .cc-compliance { min-width: 100px; } .cc-bottom { bottom: 0; } }</style>
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        if (!dataLayer) {
+            return;
+        }
+        var handler = function (event) {
+            var element = event.currentTarget;
+            if (element.hasAttribute('data-track-disable')) {
+                return;
+            }
+            var options = JSON.parse(element.getAttribute('data-track'));
+            dataLayer.push({
+                'event'         : 'trackEvent',
+                'eventType'     : 'googleAnalyticsNetwork',
+                'eventCategory' : options && options.category || '',
+                'eventAction'   : options && options.action || '',
+                'eventLabel'    : options && options.label || '',
+                'eventValue'    : options && options.value || ''
+            });
+        };
+        var elements = document.querySelectorAll('[data-track]');
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].addEventListener('click', handler);
+        }
+    });
+</script>
+<img src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/8fa427bf6de170faefe32330e3b4b102.gif" onload="document.cookie = 'xg34e6aa06c51d03cdb9cb848f477c1771=1;path=/'">
+</div><iframe name="oauth2relay644623607" id="oauth2relay644623607" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/postmessageRelay.html" style="width: 1px; height: 1px; position: absolute; top: -100px;" tabindex="-1" aria-hidden="true"></iframe>
+
+
+<iframe id="google_osd_static_frame_9616321341381" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;"></iframe><cloudflare-app app="lead-box" data-goal="cta" data-position="right bottom" data-product-id="pro" style="z-index: 10001;" data-visibility="visible">
+      <cf-dialog>
+        <cf-dialog-content>
+          <cf-dialog-close-button role="button"></cf-dialog-close-button>
+
+          <cf-dialog-content-text>
+            
+    <cf-dialog-content-title>Optimizing the Data Supply Chain - Jan 31</cf-dialog-content-title>
+
+    <form>
+      Every organization is aiming to produce more comprehensive 
+understanding of their customers, their business operations and their 
+risks, through data. A big piece of the puzzle is enabling better 
+collaboration between data science teams and the lines of business.
+
+      <input value="Register today" type="submit">
+    </form>
+  
+
+            
+          </cf-dialog-content-text>
+        </cf-dialog-content>
+      </cf-dialog>
+    <style>
+      cloudflare-app[app="lead-box"] input[type="submit"] {
+        background: #3c79a7;
+      }
+
+      cloudflare-app[app="lead-box"] input[type="email"]:focus {
+        border-color: #3c79a7;
+      }
+    </style></cloudflare-app><iframe scrolling="no" allowtransparency="true" src="Neural%20Networks%20from%20a%20Bayesian%20Perspective%20-%20Data%20Science%20Central_fichiers/widget_iframe.html" title="Twitter settings iframe" style="display: none;" frameborder="0"></iframe></body></html>

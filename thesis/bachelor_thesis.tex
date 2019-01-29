@@ -93,9 +93,37 @@ citestyle=authoryear
 \subsection{Admixture}
 The subsequent admixture model, follows a model proposed by \cite{pritchard2000inference}. 
 
+\newpage
+
 \section{Theory}
 
-\subsection{PCA}
+\subsection{ABC}
+
+To infer the number of populations $K$ expressed in a given dataset $X$ the conditional probability $P(K | X)$ with respect to $K$ is maximized. Since the large dimensionalities of the used datasets pose substantial computational difficulties, the datasets are summarized  in an effective manner, such that the approximation $P(K|X) \approx P(K | sum(X))$ is sufficient for the intended inference. Bayes' theorem then yields
+
+\begin{align*}
+P(K | sum(X)) = \frac{P(sum(X) | K) P(K)}{P(sum(X))}
+\end{align*}
+
+The calculation of the likelihood $P(sum(X) | K)$ however is intractable because \textbf{???}
+To circumvent this problem the likelihood is implicitly calculated by employing a supervised learning method to estimate the posterior, such as a neural network or boosting decision trees. These methods are trained by trying to link summary statistics of datasets to the corresponding values for the number of populations. The prior $P(K)$ 
+can be implicitly adjusted by changing the proportions of $K$ in the training data. Gradient boosting with decision trees is chosen in this case, for it has demonstrated good results for various classification problems citation needed. \textbf{??? Furthermore, some inuitive reasoning exists, as explained later on, for the use of decision trees in this particular case.}
+
+\subsection{Choosing the Summary Statistics}
+
+The choice of an adequate summary statistics is essentiell to obtain significant results. On the one hand a summary of the data is necessary to handle its large dimensionality, on the other hand the manner of summarisation has to be chosen carefully to sustain the vital information necessary for the inference, because each summarisation consequently forfeits some of the principal information. 
+
+\begin{align*}
+h(x) & = - \int_{-\infty}^{\infty} N(x|\mu, \Sigma)ln(N(x|\mu, \Sigma))dx \\
+& = E[ln(N(x|\mu, \Sigma)] \\
+& = E[ln(det(2\pi\Sigma)^{-\frac{1}{2}}e^{-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)})] \\
+& = \frac{1}{2} ln(det(2\pi\Sigma)) + \frac{1}{2} E[(x-\mu)^T \Sigma^{-1}(x-\mu)]\\
+& = \frac{1}{2} ln(det(2\pi\Sigma)) + \frac{1}{2} E[trace(\Sigma^{-1}(x-\mu)^T (x-\mu))]\\
+& = \frac{1}{2} ln(det(2\pi\Sigma)) + \frac{1}{2} E[trace(I)]\\
+& = \frac{1}{2} ln(det(2\pi e \Sigma))
+\end{align*}
+
+\subsubsection{PCA}
 
 \subsection{RMT}
 
