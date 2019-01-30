@@ -30,13 +30,7 @@ F_layer <- function(K, F_values, number_locus = 10000){
     return(F)
 }
 
-admixture_layer <- function(K, pop_size, number_admixed, scaling = NULL){
-
-    if(is.null(scaling)){
-        sizes <- rep(pop_size, K+number_admixed)
-    } else {
-        sizes <- sapply(scaling, function(x) ceiling(x*pop_size))
-    }
+admixture_layer <- function(K, number_admixed, sizes){
 
 
     Q <- matrix(0, nrow = sum(sizes), ncol = K)
@@ -51,7 +45,7 @@ admixture_layer <- function(K, pop_size, number_admixed, scaling = NULL){
 
     }
 
-    print(sizes)
+    #print(sizes)
 
     for(admixed in (K+1):(K+number_admixed)){
 
@@ -100,20 +94,59 @@ PCA_summary <- function(data, reduce_to = 25){
     plot(pca)
     eigen_sum <- sum(pca$sdev)
 
-    return(pca$sdev[1:reduce_to]/eigen_sum)
+    return(append(append(pca$sdev[1:reduce_to], eigen_sum), dim(data)))
+
+}
+
+generate <- function(K, number_locus = 10000, number_admixed = 1, pop_sizes = NULL, sample_size = 1000){
+
+    F_values <- runif(K, 0, 1)
+    F <- F_layer(K, F_values, number_locus)
+
+    scaling <- 1.5
+
+    if(is.null(pop_sizes)){
+        p <- 1/(K + scaling*number_admixed)
+        a <- (1 - (K*p))/number_admixed
+        pop_sizes <- rep(p, K)
+        pop_sizes <- append(pop_sizes, rep(a, number_admixed))
+        pop_sizes <- pop_sizes * sample_size
+    }
+
+
+    Q <- admixture_layer(nrow(F), number_admixed, sizes = pop_sizes)
+
+    prob <- Q %*% F
+
+    return(matrix_binom(prob))
+
+}
+
+make_data <- function(samples = 1, populations = 3:13){
+
+  clust <- makeCluster(detectCores())
+  clusterExport(cl=clust, varlist=c("PCA_summary", "generate", "rdirichlet", "F_layer", "admixture_layer", "matrix_binom"))
+
+  #pop <- do.call(rbind, lapply(populations, function(x) t(replicate(samples, PCA_summary(generate_admixture_prior(x, 10000))))))
+  #pop <- do.call(rbind, parLapply(clust, populations, function(x) t(replicate(samples, PCA_summary(generate_admixture_prior(x, 10000))))))
+
+  #label <- unlist(lapply(populations, function(x) rep(x, samples)))
+
+  print("begin generation")
+
+  #priors <- seq(0.1, 0.6, by=0.1)
+  pop <- do.call(rbind, parLapply(clust, populations, function(x) t(sapply(1:samples, function(y) PCA_summary(generate(x))))))
+  label <- as.vector(t(replicate(samples, populations)))
+
+  #print(pop)
+  #print(label)
+
+  #saveRDS(list(pop, label), "data_pop_prio_1-25.rds")
+  saveRDS(list(pop, label), "data/admixed_one_1_5.rds")
 
 }
 
 
-Sys.setlocale("LC_MESSAGES", "en_US.utf8")
-K <- 5
-F <- F_layer(K, runif(K, 0, 1), number_locus = 10000)
-Q <- admixture_layer(nrow(F), 50, 1, scaling = append(rep(1, K), 1.5))
+make_data()
 
-
-prob <- Q %*% F
-
-d <- matrix_binom(prob)
-
-
-PCA_summary(d)
+#print(PCA_summary(generate(3)))
