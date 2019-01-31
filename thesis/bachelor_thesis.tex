@@ -123,6 +123,10 @@ h(x) & = - \int_{-\infty}^{\infty} N(x|\mu, \Sigma)ln(N(x|\mu, \Sigma))dx \\
 & = \frac{1}{2} ln(det(2\pi e \Sigma))
 \end{align*}
 
+The only non-constant factor influencing the entropy of a multivariate gaussian is the determinant of the respective correlation matrix.
+Since any real symmetric matrix is diagonalisable, $det(\Sigma)$ breaks down to $det(\Sigma) = det(\mathbf{Q}^{-1}) \cdot det(\mathbf{\Lambda})\cdot det(\mathbf{Q}) = \prod_{i = 1} \lambda_{i}$, thus revealing that actually the eigenvalues of the correlation matrix are responsible for the magnitude of the entropy.
+Furthermore, the multivariate Gaussian for a given mean and variance the maximum entropy distribution, for a proof the reader is referred to \cite{cover2012elements}.
+
 \subsubsection{PCA}
 
 \subsection{RMT}
