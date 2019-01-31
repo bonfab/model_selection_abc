@@ -2,7 +2,7 @@ source("gradient_boosting.R")
 source("testing.R")
 
 
-load_data <- function(RDS_file = "data_K/prio_25.rds"){
+load_data <- function(RDS_file = "data_K/admixed_one_1_5.rds"){
   
   data <- readRDS(RDS_file)
   

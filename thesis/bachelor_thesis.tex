@@ -125,9 +125,31 @@ h(x) & = - \int_{-\infty}^{\infty} N(x|\mu, \Sigma)ln(N(x|\mu, \Sigma))dx \\
 
 The only non-constant factor influencing the entropy of a multivariate gaussian is the determinant of the respective correlation matrix.
 Since any real symmetric matrix is diagonalisable, $det(\Sigma)$ breaks down to $det(\Sigma) = det(\mathbf{Q}^{-1}) \cdot det(\mathbf{\Lambda})\cdot det(\mathbf{Q}) = \prod_{i = 1} \lambda_{i}$, thus revealing that actually the eigenvalues of the correlation matrix are responsible for the magnitude of the entropy.
-Furthermore, the multivariate Gaussian for a given mean and variance the maximum entropy distribution, for a proof the reader is referred to \cite{cover2012elements}.
+Furthermore, the multivariate Gaussian for a given mean and variance is the maximum entropy distribution, for a proof the reader is referred to \cite{cover2012elements}.
+
+\textbf{Assume Data is linearly correlated??? connection of normal distribution to PCA}
 
 \subsubsection{PCA}
+
+\textbf{introduction}
+Principle component analysis is a statistical method that performs a basis transformation on a given data set, such that no linear correlations are anymore expressed by the data. Since the direction of a linear correlation corresponds to the direction of the highest variance in a concerning subspace, a new axis musst be aligned according that particular direction. This construction of the axes is done by requiering in an iterative manner each new axis to align with the direction that captures the most variance in the data, which however has not been captured by already established axes. \\
+The differences between data points makes them destinguishable 
+
+\begin{align*}
+u^T S u & = \frac{1}{N} u^T X X^T u - u^T \overline{X} \overline{X}^T u \\
+& = \frac{1}{N} u^T X (u^T X)^T  -  \overline{u^TX} (\overline{u^TX})^T  \\
+& = \frac{1}{N} (u^T X)^2 - (\overline{u^TX})^2
+\end{align*}
+
+
+$\max\limits_{u} u^T \Sigma u - \lambda(u^T u - 1)$
+
+\begin{align*}
+ \frac{d}{du} (u^T \Sigma u - \lambda(u^T u - 1)) & = 0 \\
+ \Sigma u - \lambda u & = 0 \\
+ \Sigma u & = \lambda u 
+\end{align*}
+
 
 \subsection{RMT}
 
