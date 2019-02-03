@@ -30,10 +30,12 @@ backend=biber,
 citestyle=authoryear
 ]{biblatex}
 
+\graphicspath{{./images/}}
+
 % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % % % %
 \newcommand{\thesis}{Bachelor Thesis}
-\newcommand{\topic}{Inferring the Population Quantity of Multilocus Genotype Data}
+\newcommand{\topic}{Using Approximate Bayesian Computation to Infer the Number of Populations from SNP Genotype Data}
 \newcommand{\modul}{Bachelor Thesis}
 \newcommand{\supervisor}{Supervisors: Manfred Opper, \\ Olivier Fran\c{c}ios, \\ Michael Blum}
 \newcommand{\datum}{\today}
@@ -129,11 +131,12 @@ Furthermore, the multivariate Gaussian for a given mean and variance is the maxi
 
 \textbf{Assume Data is linearly correlated??? connection of normal distribution to PCA}
 
-\subsubsection{PCA}
+\subsubsection{PCA - Introduction}
 
 \textbf{introduction}
-Principle component analysis is a statistical method that performs a basis transformation on a given data set, such that no linear correlations are anymore expressed by the data. Since the direction of a linear correlation corresponds to the direction of the highest variance in a concerning subspace, a new axis musst be aligned according that particular direction. This construction of the axes is done by requiering in an iterative manner each new axis to align with the direction that captures the most variance in the data, which however has not been captured by already established axes. \\
-The differences between data points makes them destingiushable, but also determines the magnitude of the observed variance. Decreasing the variance in a data set by projecting it into a subspace, thus endagers destinguishability (in certain features or even in total), which is information. 
+Principle component analysis is a statistical method that performs a basis transformation on a given data set, such that no linear correlations are anymore expressed by the data. Since the direction of a linear correlation corresponds to the direction of the highest variance in a concerning subspace, a new axis musst be aligned according that particular direction. \textbf{citation needed ???} This construction of the axes is done by requiering in an iterative manner each new axis to align with the direction that captures the most variance in the data, which however has not been captured by already established axes. \\
+The differences between data points makes them destingiushable, but also determines the magnitude of the observed variance. Decreasing the variance in a data set by projecting it into a subspace, thus endagers destinguishability (in certain features or even in total), which is information. The amount of sustained variance after projecting the data into a subspace can, therefore act as an indicator for how much information was retained. So by always maximizing the captured variance of a newly added axis to the transformation, which is a subspace of the principal data set, the highest possible amount of information is retained for a projection into a subspace with a particular rank $K$ (under the assumption that variance corresponds to information). The subspace is spanned by the $K$ largest Eigenvectors \textbf{singular values ???} of the empirical covariance matrix, as is subsequently shown. \\
+Let $S = \frac{1}{N}XX^T - \overline{X} \overline{X}^T$ denote the emperical covariance matrix of the data matrix $X$. Then the expression $u^TSu$ is the emprical variance of $u^TX$, which is the data $X$ projected on to the vector $u$.
 
 \begin{align*}
 u^T S u & = \frac{1}{N} u^T X X^T u - u^T \overline{X} \overline{X}^T u \\
@@ -141,8 +144,7 @@ u^T S u & = \frac{1}{N} u^T X X^T u - u^T \overline{X} \overline{X}^T u \\
 & = \frac{1}{N} (u^T X)^2 - (\overline{u^TX})^2
 \end{align*}
 
-
-$\max\limits_{u} u^T \Sigma u - \lambda(u^T u - 1)$
+The empirical variance is maximised with the restriction $\parallel x \parallel = 1$ because $u$ is supposed to be part of a new standard basis. \textbf{mention orthogonality ???}. By using a lagrange multiplier to add this restriction, the equation $\max\limits_{u} u^T \Sigma u - \lambda(u^T u - 1)$ is obtained.
 
 \begin{align*}
  \frac{d}{du} (u^T \Sigma u - \lambda(u^T u - 1)) & = 0 \\
@@ -150,6 +152,44 @@ $\max\limits_{u} u^T \Sigma u - \lambda(u^T u - 1)$
  \Sigma u & = \lambda u 
 \end{align*}
 
+The solution coincides with the definition of the Eigenvectors, where $\lambda$ is the eigenvalue of $u$. Since $u$ should be maximised, the overall solution is the eigenvector belonging to the largest eigenvalue.
+
+\subsubsection{In context to clustering}
+Cluster analysis intends to group similar data points together. \textbf{what are the clustering assumptions??? distribution? group criteria? bounderies?}
+Many connections between PCA and cluster analysis have been established \textbf{cite and give examples}.
+
+Data that exhibits reasonable clustering possess a considerably unique structure. This structure also reveals itself to some degree in the orientation of the eigenvectors and the magnitude of the corresponding eigenvalues, such that they can be utilised to infer certain properties of the data, like the number of clusters as is the current intention. \\
+Intuitively, for inferring the number of clusters, it is assumable \textbf{cluster assumptions} in a reasonable setting, including for example that each cluster has a similar amount of members, that the in-between variance between two distinct clusters is significantly greater than the variance whith-in a particular cluster. The in-between variance constitutes itself through the variance of the with-in variance of both concerning clusters and the distance between the clusters (under the assumption that outliers are possible, so cluster membership is not compulsive). While the with-in variance of a cluster is solely confined to the space assigned to that cluster, which concludes to a significantly smaller variance, espacially considering that the distance from the mean of each data point has a squared impact on the variance (definition of variance). \textbf{ Moreover, the with-in variance of a cluster is always the same (for $n \rightarrow \infty$) regardless of the vector it is projected on (is this true??? proof necessary - RMT), so each cluster can be summarised to its centroid}. For these reasons a new principal component will orient itself in such a way, that it effectively captures the remaining in-between variance of the clusters. \\
+For $K$ many different population clusters $K-1$ significant PCs are obtained, thus allowing an inference of the number of populations. Considering only two clusters, a single significant PC would be observed that is oriented along a line connecting the two centroids of each cluster, as this would maximise the distance of the clusters after a projection on the PC and therefore maximise the variance after projection. In a general setting with $K$ clusters, the PCs would arrange themselves as linear combinations of the in-between variances, as the overall variance is maximised so all in-betwenn variances are taken into account. Since every cluster participates in $K-1$ in-between variances and capturing these in-between variances corresponds to determining the \textbf{exact??? (the centroids???} relative positions of the other cluster, a linear combination of exactly $K-1$ vectors are needed to locate the relative positions of the other clusters \textbf{proof necessary??? less: would mean a cluster is admixed, admixture = linear combination of existing clusters $\rightarrow$ contradiction | more: some in-between variance was not captured - contradiction to maximising variance, sufficient???}. \textbf{The centroids lie in the span of the first $K-1$ PCs ???}
+
+
+\begin{figure}[h]
+\caption{Projection of three populations and one admixed on to the firs two PCs and corresponding eigenvalues}
+\includegraphics[scale=0.5]{Rplot_projection}
+\includegraphics[scale=0.5]{Rplot_eigenvalues}
+Three populations with F-values  of $0.1, 0.5, 0.9$ and $100$ individuals each were sampled. The admixed population derived the proportional weightings for its allele probabilites by sampling for each allele from a $Dir(8, 8, 8)$ distribution. $200$ individuals were sampled for the admixed. For this simulation $10000$ alleles were simulated.
+\centering
+\end{figure}
+
+\begin{figure}
+\caption{Eigenvalues corresponding to Figure 1}
+
+\centering
+\end{figure}
+
+The past mentions of population clusters solely referred to clusters that are not admixed. The introduction of admixed population clusters, however does not alter the previously established theory under certain assumptions. Admixed clusters are sampled from allele probability values that are subject to a weighting of the allele probability values of the non-admixed populations according to their involvement in the admixture \textbf{refer back to modell}. This is simply a linear combination, restricted to the coefficients being proportions, of the centroids of the other populations, hence it is situated in between non-admixed populations, meaning the centroid of the admixed population lies also in the span of the PCs spanning the non-admixed populations. \textbf{In general, the centroids of the non-admixed populations constitute the corners of a simplex, that determines if a population cluster is admixed - proof ???}. If a cluster lies within the simplex it is admixed (No cluster can lie outside the simplex). Since admixed clusters lie in between the non-admixed clusters, their influence concerning the maximisation of the variance is neglegible \textbf{further explanation needed???}.
+
+
+\begin{figure}[h!]
+\caption{Projection of three populations and one admixed on to the firs two PCs}
+\includegraphics[scale=0.5]{Rplot_admixed_simplex}
+\includegraphics[scale=0.5]{Rplot_eigenvalues_simplex}
+Three populations with F-values  of $0.1, 0.5, 0.9$ and $100$ individuals each were sampled. The admixed population derived the proportional weightings for its allele probabilites by sampling for each allele from a $Dir(8, 8, 8)$ distribution. $200$ individuals were sampled for the admixed. For this simulation $10000$ alleles were simulated.
+
+\centering
+\end{figure}
+
+\newpage
 
 \subsection{RMT}
 
@@ -174,7 +214,6 @@ where $\rho_{\pm} = \sigma^{2}(1 \pm \sqrt[]{y})^{2}$ and $\sigma^2$ is the vari
 \\
 \textbf{Insert Plot of distribution}
 \\
-
 
 \newpage
 
