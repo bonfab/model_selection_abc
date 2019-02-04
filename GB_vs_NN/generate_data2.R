@@ -11,20 +11,6 @@ F_layer <- function(K, F_values, number_locus = 10000){
 
     ancestral_pop <- runif(number_locus)
 
-    #get_sub_pop <- function(F_value){
-
-
-    #    p <- vapply(ancestral_pop, function(x) rbeta(pop_size, x*(1-F_value)/F_value, (1-x)*(1-F_value)/F_value), numeric(pop_size))
-
-    #    return(p)
-    #}
-
-    #sub_pops <- matrix(nrow = pop_size*K, ncol = number_locus)
-
-    #for(pop in 1:K){
-    #    sub_pops[(pop_size*(pop-1) + 1):(pop_size*pop),] <- get_sub_pop(F_values[pop])
-    #}
-
     F <- t(vapply(F_values, function(F_value) vapply(ancestral_pop, function(x) rbeta(1, x*(1-F_value)/F_value, (1-x)*(1-F_value)/F_value), numeric(1)), numeric(number_locus)))
 
     return(F)
@@ -38,7 +24,7 @@ admixture_layer <- function(K, number_admixed, sizes){
 
     for(pop in 1:K){
 
-        Q[(pointer+1):(pointer+sizes[pop])] <- 1
+        Q[(pointer+1):(pointer+sizes[pop]), pop] <- 1
 
         pointer <- pointer + sizes[pop]
     }
@@ -48,6 +34,22 @@ admixture_layer <- function(K, number_admixed, sizes){
     for(admixed in (K+1):(K+number_admixed)){
 
         admixed_prior <- rdirichlet(1, rep(1, K))
+        admixed_prior <- rep(8, K)
+        
+        if(admixed == K+1){
+            admixed_prior <- rep(8, K)
+            admixed_prior[1] <- 0
+            #admixed_prior[K-1] <- 120
+        }
+        if(admixed == K+2){
+            admixed_prior <- rep(40, K)
+            admixed_prior[K-1] <- 0
+            admixed_prior[K] <- 120
+        }
+        if(admixed == K+3){
+            admixed_prior <- rep(5, K)
+            admixed_prior[K-2] <- 1
+        }
 
         Q[(pointer+1):(pointer + sizes[admixed]),] <- t(replicate(sizes[admixed], rdirichlet(1, admixed_prior), simplify = "matrix"))
         pointer <- pointer + sizes[admixed]
@@ -90,19 +92,21 @@ PCA_summary <- function(data, reduce_to = 25){
 
     #trunc <- pca$rotation[,1:reduce_to] %*% pca$x[1:reduce_to,1:reduce_to]
 
-    #plot(pca)
+    plot(pca)
+    plot(pca$x)
     eigen_sum <- sum(pca$sdev)
 
     return(append(append(pca$sdev[1:reduce_to], eigen_sum), dim(data)))
 
 }
 
-generate <- function(K, number_locus = 10000, number_admixed = 1, pop_sizes = NULL, sample_size = 1000){
+generate <- function(K, number_locus = 10000, number_admixed = 1, pop_sizes = NULL, sample_size = 600){
 
-    F_values <- runif(K, 0, 1)
+    #F_values <- runif(K, 0, 1)
+    F_values <- c(0.05, 0.01, 0.99)
     F <- F_layer(K, F_values, number_locus)
 
-    scaling <- 1.5
+    scaling <- 1
 
     if(is.null(pop_sizes)){
         p <- 1/(K + scaling*number_admixed)
@@ -114,6 +118,8 @@ generate <- function(K, number_locus = 10000, number_admixed = 1, pop_sizes = NU
 
 
     Q <- admixture_layer(nrow(F), number_admixed, sizes = pop_sizes)
+    
+    print(Q)
 
     prob <- Q %*% F
 
@@ -145,7 +151,6 @@ make_data <- function(samples = 500, populations = 3:13){
 
 }
 
+#make_data()
 
-make_data()
-
-#print(PCA_summary(generate(5)))
+PCA_summary(generate(3, number_admixed = 1, pop_sizes = c(20, 100, 100, 200)))
