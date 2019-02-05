@@ -37,8 +37,9 @@ admixture_layer <- function(K, number_admixed, sizes){
         admixed_prior <- rep(8, K)
         
         if(admixed == K+1){
-            admixed_prior <- rep(8, K)
+            admixed_prior <- rep(10, K)
             admixed_prior[1] <- 0
+            admixed_prior[3] <- 30
             #admixed_prior[K-1] <- 120
         }
         if(admixed == K+2){
@@ -153,4 +154,4 @@ make_data <- function(samples = 500, populations = 3:13){
 
 #make_data()
 
-PCA_summary(generate(3, number_admixed = 1, pop_sizes = c(20, 100, 100, 200)))
+PCA_summary(generate(3, number_admixed = 1, pop_sizes= c(15, 100, 100, 100)))

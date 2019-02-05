@@ -1997,7 +1997,8 @@
   <bcf:section number="0">
     <bcf:citekey order="1">pritchard2000inference</bcf:citekey>
     <bcf:citekey order="2">falush2003inference</bcf:citekey>
-    <bcf:citekey order="3">cover2012elements</bcf:citekey>
+    <bcf:citekey order="3">pritchard2000inference</bcf:citekey>
+    <bcf:citekey order="4">cover2012elements</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nty">

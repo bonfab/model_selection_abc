@@ -96,18 +96,27 @@ citestyle=authoryear
 \section{Modelling}
 The subsequent admixture model, follows a model proposed by \cite{pritchard2000inference}. 
 
-A population is defined by its allele probabilites, which is a categorical distributions over the possible alleles at each locus. The distributions are observed as the size of a population tends to infinity.  \textbf{mention linkage disequilibrium and hardy-weinberg equilibrium} So at principal, to simulate a new population, its allele probabilities have to be determined. The simulated data the modell produces is supposed to resemble SNP data, where no distinction is made between the different variants of a mutation, but solely if a mutation at ll exists compared to an undetermined hypothetical origin population. Furthermore, ploidity is also neglected, so it is assumed the genetic data is aploidic, since \textbf{ploidity adds nothing unique for the means of inference. citation needed} \\
-The allele probailities used in the following modell, are derived from an unseen ancestral population. Let $p^{A}_{l}$ denote the probability, sampled from a uniform distribution, of an individual from the ancestral population $A$ having a variation at locus $l$. Subsequently, following the by \cite{falush2003inference} established F-model, for each population $k$ an F-value $F^{k}$ is sampled from a \textbf{add distribution}. These are used to derive the mutation probabilities of population $k$ at locus $l$:
+\textbf{model assumptions}
+
+A population is defined by its allele probabilites, whereby the members of the population are approximately homogenous. The allele probalities are a categorical distributions over the possible alleles at each locus, so how often a genetic variant appears in a population. \textbf{mention linkage disequilibrium and hardy-weinberg equilibrium} So at principal, to simulate a new population, its allele probabilities have to be determined. The simulated data the modell produces is supposed to resemble SNP data, where no distinction is made between the different variants of a mutation, but solely if a mutation at ll exists compared to an undetermined hypothetical origin population. Furthermore, ploidity is also neglected, so it is assumed the genetic data is aploidic, since \textbf{ploidity adds nothing unique for the means of inference. citation needed} \\
+The following modell has a hierarchical structure starting with allele probabilities that are derived from an unseen ancestral population. Let $p^{A}_{l}$ denote the probability, sampled from a uniform distribution, of an individual from the ancestral population $A$ having a variation at locus $l$. Subsequently, following the by \cite{falush2003inference} established F-model, for each population $k$ an F-value $F^{k}$ is sampled from a \textbf{add distribution}. These are used to derive the mutation probabilities of population $k$ at locus $l$:
 
 \begin{align*}
 p^{k}_l = beta(p^{A}_{l} \frac{1 - F^k}{F^k}, (1-p^{A}_{l}) \frac{1 - F^k}{F^k})
 \end{align*}
 
-The probability values are joined to a vector $p^k$ and then merged with all other $K$ populations to a matrix $\mathbf{F} = [p^1 p^2 \ldots p^K]$, such that each row of $\mathbf{F}$ gives the probabilities of each population for a specific locus $l$. \\
+The probability values are joined to a vector $p^k$ and then merged with all other $K$ populations to a matrix $\mathbf{F} = [p^1 p^2 \ldots p^K]^T$ of size $K \times L$, where $L$ is the number of locus, such that each column of $\mathbf{F}$ gives the probabilities of each population for a specific locus $l$. \\
 
 \textbf{explain reasoning for F-values}
 
 To introduce the prospect of mating between individuals from different populations, possibilities of simulating admixed individuals and even whole admixed populations are added according to the admixture model presented in \cite{pritchard2000inference}. An admixed individual is defined by possessing a mixture of genetic data from various populations. The mixture is a weighting modeled by a categorical distribution according to the influence of each population on the individual. For an individual $i$ the weights $q_i$ are sampled from a dirichlet distribution with $K$ influence paramaters $j_1, j_2, \ldots, j_K$ each corresponding to a population, thus $q_i \sim dir(j_1, j_2, \ldots, j_K)$. A non admixed individual $j$ also receives mixing parameters with the difference that the only non-zero value is a one at position $k$, indicating that the individual belongs to population $k$, so $q_j = [0_1, \ldots, 1_k, \ldots, 0_K]^T$. All $M$ individuals are combined to a mixing matrix $\mathbf{Q} = [q_1,q_2, \ldots q_M]^T$ of dimensions $M \times K$. \\
+
+\textbf{add description of influencing parameters}
+
+The mixing weights of each individual are subsequently applied over the mutation probabilites of all populations at each locus, which equals to the multiplication of both established matrices $\mathbf{P} = \mathbf{Q}\mathbf{F}$. The resulting matrix $\mathbf{P}$ of dimension $N \times L$ holds the mutation probabilities of each individual for each locus. By using each entry of $\mathbf{P}$ to sample a value from a bernoulli \textbf{why bernoulli???} distribution, the simulated SNP genotype data for each individual is obtained. \\
+
+\textbf{add modell relevance to real life ???}
+
 %\begin{align*}
 %\mathbf{Q} = \begin{bmatrix}
 %q_1^T \\
@@ -192,27 +201,35 @@ For $K$ many different population clusters $K-1$ significant PCs are obtained, t
 \caption{Projection of three populations and one admixed on to the firs two PCs and corresponding eigenvalues}
 \includegraphics[scale=0.5]{Rplot_projection}
 \includegraphics[scale=0.5]{Rplot_eigenvalues}
-Three populations with F-values  of $0.1, 0.5, 0.9$ and $100$ individuals each were sampled. The admixed population derived the proportional weightings for its allele probabilites by sampling for each allele from a $Dir(8, 8, 8)$ distribution. $200$ individuals were sampled for the admixed. For this simulation $10000$ alleles were simulated.
+\\Three populations with F-values  of $0.1, 0.5, 0.9$ and $100$ individuals each were sampled. The admixed population derived the proportional weightings for its allele probabilites by sampling for each allele from a $Dir(8, 8, 8)$ distribution. $200$ individuals were sampled for the admixed. For this simulation $10000$ loci were simulated.
 \centering
 \end{figure}
 
-\begin{figure}
-\caption{Eigenvalues corresponding to Figure 1}
-
-\centering
-\end{figure}
-
-The past mentions of population clusters solely referred to clusters that are not admixed. The introduction of admixed population clusters, however does not alter the previously established theory under certain assumptions. Admixed clusters are sampled from allele probability values that are subject to a weighting of the allele probability values of the non-admixed populations according to their involvement in the admixture \textbf{refer back to modell}. This is simply a linear combination, restricted to the coefficients being proportions, of the centroids of the other populations, hence it is situated in between non-admixed populations, meaning the centroid of the admixed population lies also in the span of the PCs spanning the non-admixed populations. \textbf{In general, the centroids of the non-admixed populations constitute the corners of a simplex, that determines if a population cluster is admixed - proof ???}. If a cluster lies within the simplex it is admixed (No cluster can lie outside the simplex). Since admixed clusters lie in between the non-admixed clusters, their influence concerning the maximisation of the variance is neglegible \textbf{further explanation needed???}.
+The past mentions of population clusters solely referred to clusters that are not admixed. The introduction of admixed population clusters, however does not alter the previously established theory under certain assumptions. Admixed clusters are sampled from allele probability values that are subject to a weighting of the allele probability values of the non-admixed populations according to their involvement in the admixture \textbf{refer back to modell}. This is simply a linear combination, restricted to the coefficients being proportions, of the centroids of the other populations, hence it is situated in between non-admixed populations, meaning the centroid of an admixed population lies also in the span of the PCs spanning the non-admixed populations. \textbf{In general, the centroids of the non-admixed populations constitute the corners of a simplex, that determines if a population cluster is admixed - proof ???}. If a cluster lies within the simplex it is admixed (No cluster can lie outside the simplex). Since admixed clusters lie in between the non-admixed clusters, their influence concerning the maximisation of the variance is neglegible \textbf{further explanation needed???}.
 
 
 \begin{figure}[h!]
 \caption{Projection of three populations and one admixed on to the firs two PCs}
 \includegraphics[scale=0.5]{Rplot_admixed_simplex}
 \includegraphics[scale=0.5]{Rplot_eigenvalues_simplex}
-Three populations with F-values  of $0.1, 0.5, 0.9$ and $100$ individuals each were sampled. The admixed population derived the proportional weightings for its allele probabilites by sampling for each allele from a $Dir(8, 8, 8)$ distribution. $200$ individuals were sampled for the admixed. For this simulation $10000$ alleles were simulated.
+Three populations with F-values  of $0.1, 0.5, 0.9$ and $100$ individuals each were sampled. Between each pair of population clusters lies an admixed population sampled from a dirichlet with $5$s and a $0$ for not involved populations, which corresponds to a $beta(5, 5)$. Each admixed cluster holds $200$ individuals. The simulation used again $10000$ loci.
 
 \centering
 \end{figure}
+
+
+\subsection{Difficulties}
+
+
+\begin{figure}[h!]
+\caption{Example of a difficult case}
+\includegraphics[scale=0.5]{Rplot_hard_example}
+\includegraphics[scale=0.5]{hard_example_eigenvalues}
+\\Three populations with F-values  of $0.05, 0.01, 0.99$. The first population with the smallest F-value has $15$ members, while the others have a $100$ each. The mixture proportions of the admixed population were sampled from a $Dir(0, 10, 30)$. $10000$ loci were simulated.
+
+\centering
+\end{figure}
+
 
 \newpage
 
@@ -243,6 +260,10 @@ where $\rho_{\pm} = \sigma^{2}(1 \pm \sqrt[]{y})^{2}$ and $\sigma^2$ is the vari
 \newpage
 
 \section{Gradient Boosting}
+
+\section{Results}
+
+\section{Discussion}
 
 \printbibliography
 
