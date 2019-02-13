@@ -38,6 +38,7 @@ citestyle=authoryear
 \newcommand{\topic}{Using Approximate Bayesian Computation to Infer the Number of Populations from SNP Genotype Data}
 \newcommand{\modul}{Bachelor Thesis}
 \newcommand{\supervisor}{Supervisors: Manfred Opper, \\ Olivier Fran\c{c}ios, \\ Michael Blum}
+ \newcommand{\name}{Fabian Bergmann}
 \newcommand{\datum}{\today}
 % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % % % %
@@ -55,7 +56,7 @@ citestyle=authoryear
 \chead[\rightmark   ]{\rightmark{}}
 %%% Kopfzeile linker Bereich
 %      gerade Seite             ungerade Seite
-\rhead[\textbf{text}]{\supervisor}
+\rhead[\textbf{text}]{\name}
 
 
 	%-- Deckblatt --						      
@@ -78,10 +79,8 @@ citestyle=authoryear
 \section{Introduction}
 In population genetics theoretical models are constructed according to devised hypotheses to investigate the population structure and its evolution for some organisams at interest. Usually for this purpose the validity of a certain model is evaluated by analysing the underlying genotype data of the organisms. Models are often susceptible to the realistic choice of hyperparameters, such that for example the likelihood of a model with a certain hyper parameter greater is than for a much more realistc hyper parameter. Since for many models the declaration of the number of populations in the given data is crucial to infer the remaining parameters, a successful and stable technique for determining this parameter would lead to a significant facilitation for the inference process. However, so far no automated solution exists that satisfyingly alleviate this concern. \\
 Throughout the following pages an approximate bayesian computation method will be presented that intends to deliver a reasonable estimate for the number of populations in SNP genotype data. It is based on a generalisation of currently used approaches, that attempt to exploit the behaviour of the spectrum of a clustered data matrix. The eigenvalues will moreover also make up the utilised summary statistics. The likelihood function for this problem is elusive, therefore a gradient boosting tequnique with decision trees wil be employed to bypass its explicit computation. \\
-Gradient Boosting is a supervised machine learning method, thus it requires a significant amount of data for training and testing. Real world genotype data however is too extensiv to acquire in such a magnitude as is necessary, therefore an artificial data set is simulated and used. The generation of the artificial data follows commonly accepted theories in the field for the simulation of population structure.
+Gradient Boosting is a supervised machine learning method, thus it requires a significant amount of data for training and testing. Real world genotype data however is too extensiv to acquire in such a magnitude as is necessary, therefore an artificial data set is simulated and used. The generation of the artificial data follows commonly accepted theories for the simulation of population structure.
 
-
-\subsection{Biological Background}
 
 \subsubsection{Key words}
 
@@ -96,8 +95,9 @@ Gradient Boosting is a supervised machine learning method, thus it requires a si
 
 \end{itemize}
 
-
 \section{Modelling}
+
+\subsection{Biological Background}
 The subsequent admixture model, follows a model proposed by \cite{pritchard2000inference}. 
 
 \textbf{model assumptions}
