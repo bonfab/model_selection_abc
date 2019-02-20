@@ -70,9 +70,9 @@ citestyle=authoryear
 	\maketitle
 	\newpage
 	
-\renewcommand{\labelenumi}{\alph{enumi})}
+%\renewcommand{\labelenumi}{\alph{enumi})}
 \renewcommand{\labelenumii}{(\roman{enumii})}
-\renewcommand{\labelenumiii}{\arabic{enumiii}.}
+%\renewcommand{\labelenumiii}{\arabic{enumiii}.}
 %\renewcommand{\labelenumii}{\textbf{-}}	
 %-- Eigentlicher Text --
 
@@ -131,10 +131,34 @@ To introduce the prospect of mating between individuals from different populatio
 The mixing weights of each individual are subsequently applied over the mutation probabilites of all populations at each locus, which equals to the multiplication of both established matrices $\mathbf{P} = \mathbf{Q}\mathbf{F}$. The resulting matrix $\mathbf{P}$ of dimension $N \times L$ holds the mutation probabilities of each individual for each locus. By using each entry of $\mathbf{P}$ to sample a value from a bernoulli \textbf{why bernoulli???} distribution, the simulated SNP genotype data for each individual is obtained. \\
 
 \subsection{Summary}
+In summary the generation of a new population setting for which the number of populations $K$ is known proceeds as following:
+\begin{enumerate}
+\item Sample the ancestral allele frequencies $p_A(l) \sim Uniform(0, 1)$
+\item Determine the F-values $F^k$ \textbf{???}
+\item  For each of the K populations:
+\begin{enumerate}
+\item Sample $p^k(l) \sim beta(p^{A}_{l} \frac{1 - F^k}{F^k}, (1-p^{A}_{l}) \frac{1 - F^k}{F^k})$
+\item Combine allele probabilities into matrix $\mathbf{F}$
+\end{enumerate} 
+\item For each individual $i$:
+\begin{enumerate}
+\item Choose admixture coefficients $q_i \sim Dir(\alpha_1, \ldots, \alpha_k)$
+\item Combine admixture coefficients into matrix $\mathbf{Q}$
+\end{enumerate}
+\item Calculate admixture $\mathbf{P} = \mathbf{Q}\mathbf{F}$
+\item Convert each value $p$ of $\mathbf{P}$ by sampling $bernoulli(p)$
+\end{enumerate}
 
+\subsection{Looking at Admixture}
+The admixture of an individual is determined by the Dirichlet distribution. The dirichlet distribution is parameterised by $K$ hyperparameters $\alpha_1,\alpha_2, \ldots, \alpha_k$. $K$ corresponds to the desired dimension of the output. The probability density function
+\begin{align*}
+f(x_1, \ldots, x_K, \alpha_1, \ldots, \alpha_K) = \frac{1}{\Gamma(\sum} \cdots
+\end{align*}
+where $\sum^{K}_{i =1} x_i = 1$ and all $x_1 \geq 0$. So the Dirichlet distribution therefore defines a probability density on the $K-1$-simplex and is therefore a natural choice for sampling admixture coefficients. \\
+Of particular interest for the described modell are the hyperparameters, also called concentration parameters. 
 \subsection{Analysis}
 \textbf{calculate centroids}
-The population centroids given by the population allele frequencies (they are the probabilities used for the bernoulli sampling and thus the mean) construct the vertices of a simplex in which the individuals approxamitily lie. Outliers are solely due to the natural variance created by sampling at the end from a bernoulli distribution. The probabilities the genetic information from each individual is sampled from however would always combine to a vector that lies within the simplex, for the probabilities are a linear combination of the population allele frequencies or, in other words, of the simplex vertices.
+The population centroids given by the population allele frequencies (they are the probabilities used for the bernoulli sampling and thus the mean) construct the vertices of a simplex in which the individuals approxamitily lie. Outliers are solely due to the natural variance created by sampling at the end from a bernoulli distribution. The probabilities the genetic information from each individual is sampled from however would always combine to a vector that lies within the simplex, for the probabilities are through the admixture coefficients a linear combination of the population allele frequencies or, in other words, of the simplex vertices. 
 
 For further assessment a mean of quantifying the disimilarity between two individuals is necessary. As a measure of genetic distance between two individuals $i$ and $j$ a natural choice is to use a normalised manhatten distance because the possible values of the genetic information of an individual lies on a lattice of values zeros and ones. Or more concrete, let $N$ be the number of loci used as genetic markers, then $\{0,1\}^N \subseteq \mathbb{R}^N$  is the set containing all possible values for the genetic information of an individual. The measure of genetic distance is 
 

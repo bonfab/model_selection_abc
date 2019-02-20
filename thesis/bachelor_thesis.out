@@ -5,15 +5,16 @@
 \BOOKMARK [1][-]{section.2}{Modelling}{}% 5
 \BOOKMARK [2][-]{subsection.2.1}{Biological Background}{section.2}% 6
 \BOOKMARK [2][-]{subsection.2.2}{Summary}{section.2}% 7
-\BOOKMARK [2][-]{subsection.2.3}{Analysis}{section.2}% 8
-\BOOKMARK [2][-]{subsection.2.4}{Relationship to LDA}{section.2}% 9
-\BOOKMARK [1][-]{section.3}{Theory}{}% 10
-\BOOKMARK [2][-]{subsection.3.1}{ABC}{section.3}% 11
-\BOOKMARK [2][-]{subsection.3.2}{Choosing the Summary Statistics}{section.3}% 12
-\BOOKMARK [3][-]{subsubsection.3.2.1}{PCA - Introduction}{subsection.3.2}% 13
-\BOOKMARK [3][-]{subsubsection.3.2.2}{In context to clustering}{subsection.3.2}% 14
-\BOOKMARK [2][-]{subsection.3.3}{Difficulties}{section.3}% 15
-\BOOKMARK [2][-]{subsection.3.4}{RMT}{section.3}% 16
-\BOOKMARK [1][-]{section.4}{Gradient Boosting}{}% 17
-\BOOKMARK [1][-]{section.5}{Results}{}% 18
-\BOOKMARK [1][-]{section.6}{Discussion}{}% 19
+\BOOKMARK [2][-]{subsection.2.3}{Looking at Admixture}{section.2}% 8
+\BOOKMARK [2][-]{subsection.2.4}{Analysis}{section.2}% 9
+\BOOKMARK [2][-]{subsection.2.5}{Relationship to LDA}{section.2}% 10
+\BOOKMARK [1][-]{section.3}{Theory}{}% 11
+\BOOKMARK [2][-]{subsection.3.1}{ABC}{section.3}% 12
+\BOOKMARK [2][-]{subsection.3.2}{Choosing the Summary Statistics}{section.3}% 13
+\BOOKMARK [3][-]{subsubsection.3.2.1}{PCA - Introduction}{subsection.3.2}% 14
+\BOOKMARK [3][-]{subsubsection.3.2.2}{In context to clustering}{subsection.3.2}% 15
+\BOOKMARK [2][-]{subsection.3.3}{Difficulties}{section.3}% 16
+\BOOKMARK [2][-]{subsection.3.4}{RMT}{section.3}% 17
+\BOOKMARK [1][-]{section.4}{Gradient Boosting}{}% 18
+\BOOKMARK [1][-]{section.5}{Results}{}% 19
+\BOOKMARK [1][-]{section.6}{Discussion}{}% 20
