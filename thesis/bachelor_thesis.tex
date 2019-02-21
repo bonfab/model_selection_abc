@@ -155,7 +155,17 @@ The admixture of an individual is determined by the Dirichlet distribution. The 
 f(x_1, \ldots, x_K, \alpha_1, \ldots, \alpha_K) = \frac{1}{\Gamma(\sum} \cdots
 \end{align*}
 where $\sum^{K}_{i =1} x_i = 1$ and all $x_1 \geq 0$. So the Dirichlet distribution therefore defines a probability density on the $K-1$-simplex and is therefore a natural choice for sampling admixture coefficients. \\
-Of particular interest for the described modell are the hyperparameters, also called concentration parameters. 
+Of particular interest for the described modell are the hyperparameters, also called concentration parameters, as they control the mode and the variance around it. For values $a_i \geq 1$ the distribution has a single mode, whose coordinates at the maximum $x$ is given by \cite{bishop2006pattern}: 
+\begin{align*}
+x_i = \frac{\alpha_i - 1}{\sum^K_{k=1} a_k -K} \\
+\end{align*}
+The mode moves therefore more towards those directions, simplex vertices that have a relatively higher valued corresponding hyperparameter compared to the other hyperparameters. In addition, the variance $\sigma$, given by 
+\begin{align*}
+\sigma_i = \frac{\alpha_i(\alpha_0 - \alpha_i)}{\alpha_0^2(\alpha_0 + 1)}
+\end{align*} 
+where $\alpha_0 = \sum^{K}_{i = 1} \alpha_i$, reaveals that higher values of hyperparameters leads to a decrease of the variance, meaning a higher concentration around the mode. \\
+These two properties can be exploited to control the probability of sampling certain admixture coefficients. Furthermore, by sampling from the same dirichlet distribution one is able to simulate various population scenarios, such as a detached admixed cluster, which would correspond to a mode with high concentration parameters, or a population that experienced migration, which would coincide with a degenerated dirichlet distribution that only has two nonzero, concentration values for the two involved population, which is in the end a beta distribution.
+
 \subsection{Analysis}
 \textbf{calculate centroids}
 The population centroids given by the population allele frequencies (they are the probabilities used for the bernoulli sampling and thus the mean) construct the vertices of a simplex in which the individuals approxamitily lie. Outliers are solely due to the natural variance created by sampling at the end from a bernoulli distribution. The probabilities the genetic information from each individual is sampled from however would always combine to a vector that lies within the simplex, for the probabilities are through the admixture coefficients a linear combination of the population allele frequencies or, in other words, of the simplex vertices. 
