@@ -1,0 +1,810 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.9 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global}
+    \entry{bishop2006pattern}{book}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,uniquepart=base,hash=7952b575a987ace852cfb8965a4da182}{%
+           family={Bishop},
+           familyi={B\bibinitperiod},
+           given={Christopher\bibnamedelima M},
+           giveni={C\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {springer}%
+      }
+      \strng{namehash}{7952b575a987ace852cfb8965a4da182}
+      \strng{fullhash}{7952b575a987ace852cfb8965a4da182}
+      \strng{bibnamehash}{7952b575a987ace852cfb8965a4da182}
+      \strng{authorbibnamehash}{7952b575a987ace852cfb8965a4da182}
+      \strng{authornamehash}{7952b575a987ace852cfb8965a4da182}
+      \strng{authorfullhash}{7952b575a987ace852cfb8965a4da182}
+      \field{sortinit}{B}
+      \field{sortinithash}{276475738cc058478c1677046f857703}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Pattern recognition and machine learning}
+      \field{year}{2006}
+    \endentry
+    \entry{blei2003latent}{article}{}
+      \name{author}{3}{}{%
+        {{uniquename=0,uniquepart=base,hash=0acd0349006f4ee348ffe16e1fe1fe21}{%
+           family={Blei},
+           familyi={B\bibinitperiod},
+           given={David\bibnamedelima M},
+           giveni={D\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=799b172b8d02b7acdf21d0cc48934fca}{%
+           family={Ng},
+           familyi={N\bibinitperiod},
+           given={Andrew\bibnamedelima Y},
+           giveni={A\bibinitperiod\bibinitdelim Y\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=996ffb9cb286a8b4b0fc16793c54cc31}{%
+           family={Jordan},
+           familyi={J\bibinitperiod},
+           given={Michael\bibnamedelima I},
+           giveni={M\bibinitperiod\bibinitdelim I\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{0687e065d9fc55314f8de9d299fb55eb}
+      \strng{fullhash}{0687e065d9fc55314f8de9d299fb55eb}
+      \strng{bibnamehash}{0687e065d9fc55314f8de9d299fb55eb}
+      \strng{authorbibnamehash}{0687e065d9fc55314f8de9d299fb55eb}
+      \strng{authornamehash}{0687e065d9fc55314f8de9d299fb55eb}
+      \strng{authorfullhash}{0687e065d9fc55314f8de9d299fb55eb}
+      \field{sortinit}{B}
+      \field{sortinithash}{276475738cc058478c1677046f857703}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of machine Learning research}
+      \field{number}{Jan}
+      \field{title}{Latent dirichlet allocation}
+      \field{volume}{3}
+      \field{year}{2003}
+      \field{pages}{993\bibrangedash 1022}
+      \range{pages}{30}
+    \endentry
+    \entry{bryc2013separation}{article}{}
+      \name{author}{3}{}{%
+        {{uniquename=1,uniquepart=given,hash=08023bfa900f27a198f249fa4d5a5977}{%
+           family={Bryc},
+           familyi={B\bibinitperiod},
+           given={Katarzyna},
+           giveni={K\bibinitperiod},
+           givenun=1}}%
+        {{uniquename=1,uniquepart=given,hash=42f1333514b885ed6f493999347a146e}{%
+           family={Bryc},
+           familyi={B\bibinitperiod},
+           given={Wlodek},
+           giveni={W\bibinitperiod},
+           givenun=1}}%
+        {{uniquename=0,uniquepart=base,hash=c4cd4b42db360b469926c0b9fb413d4d}{%
+           family={Silverstein},
+           familyi={S\bibinitperiod},
+           given={Jack\bibnamedelima W},
+           giveni={J\bibinitperiod\bibinitdelim W\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{11c794b3b86c45fa93b9d9356c8af82b}
+      \strng{fullhash}{11c794b3b86c45fa93b9d9356c8af82b}
+      \strng{bibnamehash}{11c794b3b86c45fa93b9d9356c8af82b}
+      \strng{authorbibnamehash}{11c794b3b86c45fa93b9d9356c8af82b}
+      \strng{authornamehash}{11c794b3b86c45fa93b9d9356c8af82b}
+      \strng{authorfullhash}{11c794b3b86c45fa93b9d9356c8af82b}
+      \field{sortinit}{B}
+      \field{sortinithash}{276475738cc058478c1677046f857703}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Theoretical population biology}
+      \field{title}{Separation of the largest eigenvalues in eigenanalysis of genotype data from discrete subpopulations}
+      \field{volume}{89}
+      \field{year}{2013}
+      \field{pages}{34\bibrangedash 43}
+      \range{pages}{10}
+    \endentry
+    \entry{cover2012elements}{book}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,uniquepart=base,hash=0b642fd2f793a208b1d7ad49191a015c}{%
+           family={Cover},
+           familyi={C\bibinitperiod},
+           given={Thomas\bibnamedelima M},
+           giveni={T\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=ce45a7ffe85483d36db7357988baf014}{%
+           family={Thomas},
+           familyi={T\bibinitperiod},
+           given={Joy\bibnamedelima A},
+           giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {John Wiley \& Sons}%
+      }
+      \strng{namehash}{263b970113598a19cc890eca5be7a19d}
+      \strng{fullhash}{263b970113598a19cc890eca5be7a19d}
+      \strng{bibnamehash}{263b970113598a19cc890eca5be7a19d}
+      \strng{authorbibnamehash}{263b970113598a19cc890eca5be7a19d}
+      \strng{authornamehash}{263b970113598a19cc890eca5be7a19d}
+      \strng{authorfullhash}{263b970113598a19cc890eca5be7a19d}
+      \field{sortinit}{C}
+      \field{sortinithash}{963e9d84a3da2344e8833203de5aed05}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Elements of information theory}
+      \field{year}{2012}
+    \endentry
+    \entry{donath1973lower}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,uniquepart=base,hash=cb9f33e4835e2d49f7bef97362b4906c}{%
+           family={Donath},
+           familyi={D\bibinitperiod},
+           given={WE},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=9d802f69fa4533dde0a4976708653077}{%
+           family={Hoffman},
+           familyi={H\bibinitperiod},
+           given={AJ},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {IBM Corp.}%
+      }
+      \strng{namehash}{e30affa08e6d657ca186bf07541a290f}
+      \strng{fullhash}{e30affa08e6d657ca186bf07541a290f}
+      \strng{bibnamehash}{e30affa08e6d657ca186bf07541a290f}
+      \strng{authorbibnamehash}{e30affa08e6d657ca186bf07541a290f}
+      \strng{authornamehash}{e30affa08e6d657ca186bf07541a290f}
+      \strng{authorfullhash}{e30affa08e6d657ca186bf07541a290f}
+      \field{sortinit}{D}
+      \field{sortinithash}{2ef1bd9a78cc71eb74d7231c635177b8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IBM Journal of Research and Development}
+      \field{number}{5}
+      \field{title}{Lower bounds for the partitioning of graphs}
+      \field{volume}{17}
+      \field{year}{1973}
+      \field{pages}{420\bibrangedash 425}
+      \range{pages}{6}
+    \endentry
+    \entry{evanno2005detecting}{article}{}
+      \name{author}{3}{}{%
+        {{uniquename=0,uniquepart=base,hash=762364712eba10d2553fd8582109a392}{%
+           family={Evanno},
+           familyi={E\bibinitperiod},
+           given={Guillaume},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=f8192d15bd24e5b39e537c925264586a}{%
+           family={Regnaut},
+           familyi={R\bibinitperiod},
+           given={Sebastien},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=b9dbb6e12e80d815d984c2566d8973fe}{%
+           family={Goudet},
+           familyi={G\bibinitperiod},
+           given={J{é}r{ô}me},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley Online Library}%
+      }
+      \strng{namehash}{513693a294197c0b0408466f40fa2ff3}
+      \strng{fullhash}{513693a294197c0b0408466f40fa2ff3}
+      \strng{bibnamehash}{513693a294197c0b0408466f40fa2ff3}
+      \strng{authorbibnamehash}{513693a294197c0b0408466f40fa2ff3}
+      \strng{authornamehash}{513693a294197c0b0408466f40fa2ff3}
+      \strng{authorfullhash}{513693a294197c0b0408466f40fa2ff3}
+      \field{sortinit}{E}
+      \field{sortinithash}{f615fb9c6fba11c6f962fb3fd599810e}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Molecular ecology}
+      \field{number}{8}
+      \field{title}{Detecting the number of clusters of individuals using the software STRUCTURE: a simulation study}
+      \field{volume}{14}
+      \field{year}{2005}
+      \field{pages}{2611\bibrangedash 2620}
+      \range{pages}{10}
+    \endentry
+    \entry{falush2003inference}{article}{}
+      \name{author}{3}{}{%
+        {{uniquename=0,uniquepart=base,hash=1d64fb3e0e58cfc939c03a1f9c8605e4}{%
+           family={Falush},
+           familyi={F\bibinitperiod},
+           given={Daniel},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=b6392ab77144d0d73f3f35bd39da607c}{%
+           family={Stephens},
+           familyi={S\bibinitperiod},
+           given={Matthew},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=7c585e124d64cfbe900e63d82cf20144}{%
+           family={Pritchard},
+           familyi={P\bibinitperiod},
+           given={Jonathan\bibnamedelima K},
+           giveni={J\bibinitperiod\bibinitdelim K\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Genetics Soc America}%
+      }
+      \strng{namehash}{3c0a5bf9360a139e1af49819ce179b54}
+      \strng{fullhash}{3c0a5bf9360a139e1af49819ce179b54}
+      \strng{bibnamehash}{3c0a5bf9360a139e1af49819ce179b54}
+      \strng{authorbibnamehash}{3c0a5bf9360a139e1af49819ce179b54}
+      \strng{authornamehash}{3c0a5bf9360a139e1af49819ce179b54}
+      \strng{authorfullhash}{3c0a5bf9360a139e1af49819ce179b54}
+      \field{sortinit}{F}
+      \field{sortinithash}{669c706c6f1fbf3b5a83d26f1d9e9e72}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Genetics}
+      \field{number}{4}
+      \field{title}{Inference of population structure using multilocus genotype data: linked loci and correlated allele frequencies}
+      \field{volume}{164}
+      \field{year}{2003}
+      \field{pages}{1567\bibrangedash 1587}
+      \range{pages}{21}
+    \endentry
+    \entry{fiedler1973algebraic}{article}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,uniquepart=base,hash=eba5bf9855bdb15885a66a31ba8c5820}{%
+           family={Fiedler},
+           familyi={F\bibinitperiod},
+           given={Miroslav},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Institute of Mathematics, Academy of Sciences of the Czech Republic}%
+      }
+      \strng{namehash}{eba5bf9855bdb15885a66a31ba8c5820}
+      \strng{fullhash}{eba5bf9855bdb15885a66a31ba8c5820}
+      \strng{bibnamehash}{eba5bf9855bdb15885a66a31ba8c5820}
+      \strng{authorbibnamehash}{eba5bf9855bdb15885a66a31ba8c5820}
+      \strng{authornamehash}{eba5bf9855bdb15885a66a31ba8c5820}
+      \strng{authorfullhash}{eba5bf9855bdb15885a66a31ba8c5820}
+      \field{sortinit}{F}
+      \field{sortinithash}{669c706c6f1fbf3b5a83d26f1d9e9e72}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Czechoslovak mathematical journal}
+      \field{number}{2}
+      \field{title}{Algebraic connectivity of graphs}
+      \field{volume}{23}
+      \field{year}{1973}
+      \field{pages}{298\bibrangedash 305}
+      \range{pages}{8}
+    \endentry
+    \entry{harter2004origin}{article}{}
+      \name{author}{6}{}{%
+        {{uniquename=0,uniquepart=base,hash=337e47a04c80a0509693e62a52792a00}{%
+           family={Harter},
+           familyi={H\bibinitperiod},
+           given={Abigail\bibnamedelima V},
+           giveni={A\bibinitperiod\bibinitdelim V\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=2f878101156bb1e45b2de9dfcbb21cda}{%
+           family={Gardner},
+           familyi={G\bibinitperiod},
+           given={Keith\bibnamedelima A},
+           giveni={K\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=1d64fb3e0e58cfc939c03a1f9c8605e4}{%
+           family={Falush},
+           familyi={F\bibinitperiod},
+           given={Daniel},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=c88b0529c5a63cb0043fa702c00960a1}{%
+           family={Lentz},
+           familyi={L\bibinitperiod},
+           given={David\bibnamedelima L},
+           giveni={D\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=fcf34edfec07cf7757f3344d93b69c8b}{%
+           family={Bye},
+           familyi={B\bibinitperiod},
+           given={Robert\bibnamedelima A},
+           giveni={R\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=f5135504a6235f20db0b21b0c73f2332}{%
+           family={Rieseberg},
+           familyi={R\bibinitperiod},
+           given={Loren\bibnamedelima H},
+           giveni={L\bibinitperiod\bibinitdelim H\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Nature Publishing Group}%
+      }
+      \strng{namehash}{5ce6429428e9f26ba7dd7b102987c646}
+      \strng{fullhash}{137c47226f0c60e7b009f16fb0ed1779}
+      \strng{bibnamehash}{5ce6429428e9f26ba7dd7b102987c646}
+      \strng{authorbibnamehash}{5ce6429428e9f26ba7dd7b102987c646}
+      \strng{authornamehash}{5ce6429428e9f26ba7dd7b102987c646}
+      \strng{authorfullhash}{137c47226f0c60e7b009f16fb0ed1779}
+      \field{sortinit}{H}
+      \field{sortinithash}{5f15a7bc777ad49ff15aa4d2831b1681}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature}
+      \field{number}{6996}
+      \field{title}{Origin of extant domesticated sunflowers in eastern North America}
+      \field{volume}{430}
+      \field{year}{2004}
+      \field{pages}{201}
+      \range{pages}{1}
+    \endentry
+    \entry{hartl1997principles}{book}{}
+      \name{author}{3}{}{%
+        {{uniquename=0,uniquepart=base,hash=6f6ef85062c706ceb3b35c7c2be22ed2}{%
+           family={Hartl},
+           familyi={H\bibinitperiod},
+           given={Daniel\bibnamedelima L},
+           giveni={D\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=0e9199b4951d35bc8cae73f97cb02ea3}{%
+           family={Clark},
+           familyi={C\bibinitperiod},
+           given={Andrew\bibnamedelima G},
+           giveni={A\bibinitperiod\bibinitdelim G\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=0e9199b4951d35bc8cae73f97cb02ea3}{%
+           family={Clark},
+           familyi={C\bibinitperiod},
+           given={Andrew\bibnamedelima G},
+           giveni={A\bibinitperiod\bibinitdelim G\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Sinauer associates Sunderland}%
+      }
+      \strng{namehash}{7c20724d92a7d1caf4f89bf5c94aa6c9}
+      \strng{fullhash}{7c20724d92a7d1caf4f89bf5c94aa6c9}
+      \strng{bibnamehash}{7c20724d92a7d1caf4f89bf5c94aa6c9}
+      \strng{authorbibnamehash}{7c20724d92a7d1caf4f89bf5c94aa6c9}
+      \strng{authornamehash}{7c20724d92a7d1caf4f89bf5c94aa6c9}
+      \strng{authorfullhash}{7c20724d92a7d1caf4f89bf5c94aa6c9}
+      \field{sortinit}{H}
+      \field{sortinithash}{5f15a7bc777ad49ff15aa4d2831b1681}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Principles of population genetics}
+      \field{volume}{116}
+      \field{year}{1997}
+    \endentry
+    \entry{meila2001random}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,uniquepart=base,hash=065ea1322a46302df9762ba792037807}{%
+           family={Meila},
+           familyi={M\bibinitperiod},
+           given={Marina},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=159989720a07cffdf1f8afdcf19f925d}{%
+           family={Shi},
+           familyi={S\bibinitperiod},
+           given={Jianbo},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Citeseer}%
+      }
+      \strng{namehash}{e0ac53d7820a3be8ad4d1c5b4f06e09f}
+      \strng{fullhash}{e0ac53d7820a3be8ad4d1c5b4f06e09f}
+      \strng{bibnamehash}{e0ac53d7820a3be8ad4d1c5b4f06e09f}
+      \strng{authorbibnamehash}{e0ac53d7820a3be8ad4d1c5b4f06e09f}
+      \strng{authornamehash}{e0ac53d7820a3be8ad4d1c5b4f06e09f}
+      \strng{authorfullhash}{e0ac53d7820a3be8ad4d1c5b4f06e09f}
+      \field{sortinit}{M}
+      \field{sortinithash}{cfd219b90152c06204fab207bc6c7cab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{A random walks view of spectral segmentation}
+      \field{year}{2001}
+    \endentry
+    \entry{ng2002spectral}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{uniquename=0,uniquepart=base,hash=799b172b8d02b7acdf21d0cc48934fca}{%
+           family={Ng},
+           familyi={N\bibinitperiod},
+           given={Andrew\bibnamedelima Y},
+           giveni={A\bibinitperiod\bibinitdelim Y\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=996ffb9cb286a8b4b0fc16793c54cc31}{%
+           family={Jordan},
+           familyi={J\bibinitperiod},
+           given={Michael\bibnamedelima I},
+           giveni={M\bibinitperiod\bibinitdelim I\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=214a71ab353c5570ed4acb95cf84f539}{%
+           family={Weiss},
+           familyi={W\bibinitperiod},
+           given={Yair},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{ba09d73d43be8a05945dc19e83d445f6}
+      \strng{fullhash}{ba09d73d43be8a05945dc19e83d445f6}
+      \strng{bibnamehash}{ba09d73d43be8a05945dc19e83d445f6}
+      \strng{authorbibnamehash}{ba09d73d43be8a05945dc19e83d445f6}
+      \strng{authornamehash}{ba09d73d43be8a05945dc19e83d445f6}
+      \strng{authorfullhash}{ba09d73d43be8a05945dc19e83d445f6}
+      \field{sortinit}{N}
+      \field{sortinithash}{f7242c3ed3dc50029fca1be76c497c7c}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Advances in neural information processing systems}
+      \field{title}{On spectral clustering: Analysis and an algorithm}
+      \field{year}{2002}
+      \field{pages}{849\bibrangedash 856}
+      \range{pages}{8}
+    \endentry
+    \entry{patterson2006population}{article}{}
+      \name{author}{3}{}{%
+        {{uniquename=0,uniquepart=base,hash=88c3ebd7390fa0517feb43783fbc46b2}{%
+           family={Patterson},
+           familyi={P\bibinitperiod},
+           given={Nick},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=71216c144346b1a7eb65cde89f9f1d0d}{%
+           family={Price},
+           familyi={P\bibinitperiod},
+           given={Alkes\bibnamedelima L},
+           giveni={A\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=fbc16d95b711fbc958450f76e47826b0}{%
+           family={Reich},
+           familyi={R\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Public Library of Science}%
+      }
+      \strng{namehash}{5b31c2db6e3aac74de85f6636930ae64}
+      \strng{fullhash}{5b31c2db6e3aac74de85f6636930ae64}
+      \strng{bibnamehash}{5b31c2db6e3aac74de85f6636930ae64}
+      \strng{authorbibnamehash}{5b31c2db6e3aac74de85f6636930ae64}
+      \strng{authornamehash}{5b31c2db6e3aac74de85f6636930ae64}
+      \strng{authorfullhash}{5b31c2db6e3aac74de85f6636930ae64}
+      \field{sortinit}{P}
+      \field{sortinithash}{8d51b3d5b78d75b54308d706b9bbe285}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{PLoS genetics}
+      \field{number}{12}
+      \field{title}{Population structure and eigenanalysis}
+      \field{volume}{2}
+      \field{year}{2006}
+      \field{pages}{e190}
+      \range{pages}{-1}
+    \endentry
+    \entry{pritchard2000inference}{article}{}
+      \name{author}{3}{}{%
+        {{uniquename=0,uniquepart=base,hash=7c585e124d64cfbe900e63d82cf20144}{%
+           family={Pritchard},
+           familyi={P\bibinitperiod},
+           given={Jonathan\bibnamedelima K},
+           giveni={J\bibinitperiod\bibinitdelim K\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=b6392ab77144d0d73f3f35bd39da607c}{%
+           family={Stephens},
+           familyi={S\bibinitperiod},
+           given={Matthew},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=ffc72dcaaa64555b3bb01df342b2fc53}{%
+           family={Donnelly},
+           familyi={D\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Genetics Soc America}%
+      }
+      \strng{namehash}{3f574eed689374929c4714297dd04780}
+      \strng{fullhash}{3f574eed689374929c4714297dd04780}
+      \strng{bibnamehash}{3f574eed689374929c4714297dd04780}
+      \strng{authorbibnamehash}{3f574eed689374929c4714297dd04780}
+      \strng{authornamehash}{3f574eed689374929c4714297dd04780}
+      \strng{authorfullhash}{3f574eed689374929c4714297dd04780}
+      \field{sortinit}{P}
+      \field{sortinithash}{8d51b3d5b78d75b54308d706b9bbe285}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Genetics}
+      \field{number}{2}
+      \field{title}{Inference of population structure using multilocus genotype data}
+      \field{volume}{155}
+      \field{year}{2000}
+      \field{pages}{945\bibrangedash 959}
+      \range{pages}{15}
+    \endentry
+    \entry{rosenberg2001empirical}{article}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{10}{uniquelist=2}{%
+        {{uniquename=0,uniquepart=base,hash=53fb543abb44186222ae451639340d4f}{%
+           family={Rosenberg},
+           familyi={R\bibinitperiod},
+           given={Noah\bibnamedelima A},
+           giveni={N\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=989eb3eb33a9ee4512780536b84b0d00}{%
+           family={Burke},
+           familyi={B\bibinitperiod},
+           given={Terry},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=9428635127ab749a2e358b4781d354b2}{%
+           family={Elo},
+           familyi={E\bibinitperiod},
+           given={Kari},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=defd990c2763b86f2347b8c6aba976a8}{%
+           family={Feldman},
+           familyi={F\bibinitperiod},
+           given={Marcus\bibnamedelima W},
+           giveni={M\bibinitperiod\bibinitdelim W\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=f2a87e1e9fcc30ee266597fa98d83041}{%
+           family={Freidlin},
+           familyi={F\bibinitperiod},
+           given={Paul\bibnamedelima J},
+           giveni={P\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=5b7496598b33d38c1e819f91623ef1e7}{%
+           family={Groenen},
+           familyi={G\bibinitperiod},
+           given={Martien\bibnamedelima AM},
+           giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=57440611014da4266cc26b1296055377}{%
+           family={Hillel},
+           familyi={H\bibinitperiod},
+           given={Jossi},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=5c4f9e1352c4bcd06fe0d46816fb3e26}{%
+           family={M{ä}ki-Tanila},
+           familyi={M\bibinitperiod},
+           given={Asko},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=95e8b2d5d9e71b183724fbac0584317c}{%
+           family={Tixier-Boichard},
+           familyi={T\bibinithyphendelim B\bibinitperiod},
+           given={Mich{è}le},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=52070254f152774a23d95b280075ad8e}{%
+           family={Vignal},
+           familyi={V\bibinitperiod},
+           given={Alain},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Genetics Soc America}%
+      }
+      \strng{namehash}{6c66ecf8f346c637f09c4c8154899864}
+      \strng{fullhash}{f4c3dca8c93bfe35359fda7b9b17b865}
+      \strng{bibnamehash}{6c66ecf8f346c637f09c4c8154899864}
+      \strng{authorbibnamehash}{6c66ecf8f346c637f09c4c8154899864}
+      \strng{authornamehash}{6c66ecf8f346c637f09c4c8154899864}
+      \strng{authorfullhash}{f4c3dca8c93bfe35359fda7b9b17b865}
+      \field{sortinit}{R}
+      \field{sortinithash}{da6b42bd3ab22fee61abed031ee405f7}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Genetics}
+      \field{number}{2}
+      \field{title}{Empirical evaluation of genetic clustering methods using multilocus genotypes from 20 chicken breeds}
+      \field{volume}{159}
+      \field{year}{2001}
+      \field{pages}{699\bibrangedash 713}
+      \range{pages}{15}
+    \endentry
+    \entry{rosenberg2002genetic}{article}{}
+      \name{author}{7}{uniquelist=2}{%
+        {{uniquename=0,uniquepart=base,hash=53fb543abb44186222ae451639340d4f}{%
+           family={Rosenberg},
+           familyi={R\bibinitperiod},
+           given={Noah\bibnamedelima A},
+           giveni={N\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=7c585e124d64cfbe900e63d82cf20144}{%
+           family={Pritchard},
+           familyi={P\bibinitperiod},
+           given={Jonathan\bibnamedelima K},
+           giveni={J\bibinitperiod\bibinitdelim K\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=8751279726053cf738a25aa127d8370c}{%
+           family={Weber},
+           familyi={W\bibinitperiod},
+           given={James\bibnamedelima L},
+           giveni={J\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=091869b09f66d3db2af83f41b81cecbf}{%
+           family={Cann},
+           familyi={C\bibinitperiod},
+           given={Howard\bibnamedelima M},
+           giveni={H\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=190594994582c544f0de7f0a850f350b}{%
+           family={Kidd},
+           familyi={K\bibinitperiod},
+           given={Kenneth\bibnamedelima K},
+           giveni={K\bibinitperiod\bibinitdelim K\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=3d099ae08fbfc45e12a3b861e4e58108}{%
+           family={Zhivotovsky},
+           familyi={Z\bibinitperiod},
+           given={Lev\bibnamedelima A},
+           giveni={L\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=defd990c2763b86f2347b8c6aba976a8}{%
+           family={Feldman},
+           familyi={F\bibinitperiod},
+           given={Marcus\bibnamedelima W},
+           giveni={M\bibinitperiod\bibinitdelim W\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {American Association for the Advancement of Science}%
+      }
+      \strng{namehash}{c6cd7d0ba2bf948a16dadc822f76a1c0}
+      \strng{fullhash}{302e3a07e34a606a54dcaae5cfd91f4d}
+      \strng{bibnamehash}{c6cd7d0ba2bf948a16dadc822f76a1c0}
+      \strng{authorbibnamehash}{c6cd7d0ba2bf948a16dadc822f76a1c0}
+      \strng{authornamehash}{c6cd7d0ba2bf948a16dadc822f76a1c0}
+      \strng{authorfullhash}{302e3a07e34a606a54dcaae5cfd91f4d}
+      \field{sortinit}{R}
+      \field{sortinithash}{da6b42bd3ab22fee61abed031ee405f7}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{science}
+      \field{number}{5602}
+      \field{title}{Genetic structure of human populations}
+      \field{volume}{298}
+      \field{year}{2002}
+      \field{pages}{2381\bibrangedash 2385}
+      \range{pages}{5}
+    \endentry
+    \entry{shi2000normalized}{article}{}
+      \name{author}{2}{}{%
+        {{uniquename=0,uniquepart=base,hash=159989720a07cffdf1f8afdcf19f925d}{%
+           family={Shi},
+           familyi={S\bibinitperiod},
+           given={Jianbo},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=c75a5377b6dc5213831576e88ffe553c}{%
+           family={Malik},
+           familyi={M\bibinitperiod},
+           given={Jitendra},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{6e38aea0a12b2b39c0f20fc5a4bc4acd}
+      \strng{fullhash}{6e38aea0a12b2b39c0f20fc5a4bc4acd}
+      \strng{bibnamehash}{6e38aea0a12b2b39c0f20fc5a4bc4acd}
+      \strng{authorbibnamehash}{6e38aea0a12b2b39c0f20fc5a4bc4acd}
+      \strng{authornamehash}{6e38aea0a12b2b39c0f20fc5a4bc4acd}
+      \strng{authorfullhash}{6e38aea0a12b2b39c0f20fc5a4bc4acd}
+      \field{sortinit}{S}
+      \field{sortinithash}{322b1d5276f2f6c1bccdcd15920dbee6}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Departmental Papers (CIS)}
+      \field{title}{Normalized cuts and image segmentation}
+      \field{year}{2000}
+      \field{pages}{107}
+      \range{pages}{1}
+    \endentry
+    \entry{von2007tutorial}{article}{}
+      \name{author}{1}{}{%
+        {{uniquename=0,uniquepart=base,hash=8f6c4e8eda37da3a554eccc54669e14e}{%
+           family={Von\bibnamedelima Luxburg},
+           familyi={V\bibinitperiod\bibinitdelim L\bibinitperiod},
+           given={Ulrike},
+           giveni={U\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{8f6c4e8eda37da3a554eccc54669e14e}
+      \strng{fullhash}{8f6c4e8eda37da3a554eccc54669e14e}
+      \strng{bibnamehash}{8f6c4e8eda37da3a554eccc54669e14e}
+      \strng{authorbibnamehash}{8f6c4e8eda37da3a554eccc54669e14e}
+      \strng{authornamehash}{8f6c4e8eda37da3a554eccc54669e14e}
+      \strng{authorfullhash}{8f6c4e8eda37da3a554eccc54669e14e}
+      \field{sortinit}{V}
+      \field{sortinithash}{75dd7385c90b2252c3ae853a80ca853b}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Statistics and computing}
+      \field{number}{4}
+      \field{title}{A tutorial on spectral clustering}
+      \field{volume}{17}
+      \field{year}{2007}
+      \field{pages}{395\bibrangedash 416}
+      \range{pages}{22}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
