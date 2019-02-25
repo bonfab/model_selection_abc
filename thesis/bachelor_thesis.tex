@@ -120,8 +120,20 @@ Let $H_S$ denote the heterozygosity of the original population and $H_T$ the het
 \begin{align*}
 F_{ST} = \frac{H_S - H_T}{H_S}
 \end{align*}
-by how much heterozygosity decreased. \\
+gives a percentage by how much heterozygosity decreased.\\
 
+\textbf{what is the connection to the F-model??? how to get to $\frac{1-F^k}{F^k}$}
+
+This divergence measure, or F-statistic, is used analogously to parametarise the genetic drift from the ancestral population, like following cite{falush2003inference}:
+\begin{align*}
+Dir(p^A_{l_1} \frac{1 - F^k}{F^k}, p^A_{l_2} \frac{1 - F^k}{F^k}, \ldots , p^A_{l_{a_l}} \frac{1 - F^k}{F^k})
+\end{align*}
+
+Where $p^A_{l_i}$ is the allele frequency from the ancestral population of the allele $i$, from $a_l$ alleles, at locus $l$ and $F^k$ is the drift value of population $k$. At a very low $F^k$ (like $0.05$) the fraction $\frac{1-F^k}{F^k}$ is considerably above $1$, thus the probability mass is mostly concentrated around ancestral allele frequencies. As the value of $F^k$ increases: 
+\begin{itemize}
+\item for a moderate value (like $0.3$) the probability mass spreads out further, such that more loci will have different allele frequencies and a divergence to the ancestral population is obervable (for a sufficient amount of loci).
+\item for a high value (like $0.5$) the probability mass concentrates itself at the vertices of the $k-1$ simplex. This corresponds to a high chance of allele fixation. The fixation will be more likely for the allele that was dominant (because of the multiplication with $p^A_{l_i}$ in the ancestral population to begin with. 
+\end{itemize}
 
 
 A population is defined by its allele probabilites, whereby the members of the population are approximately homogenous. The allele probalities are a categorical distributions over the possible alleles at each locus, so how often a genetic variant appears in a population. \textbf{mention linkage disequilibrium and hardy-weinberg equilibrium} So at principal, to simulate a new population, its allele probabilities have to be determined. The simulated data the modell produces is supposed to resemble SNP data, where no distinction is made between the different variants of a mutation, but solely if a mutation at ll exists compared to an undetermined hypothetical origin population. Furthermore, ploidity is also neglected, so it is assumed the genetic data is aploidic, since \textbf{ploidity adds nothing unique for the means of inference. citation needed} \\
