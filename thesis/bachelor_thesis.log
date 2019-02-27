@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.1.4)  25 FEB 2019 15:04
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.1.4)  27 FEB 2019 20:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1001,9 +1001,9 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Underfull \hbox (badness 10000) in paragraph at lines 88--89
 
- []
+LaTeX Warning: Citation 'corander2004baps' on page 2 undefined on input line 88
+.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1012,142 +1012,165 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [2]
-LaTeX Font Info:    Try loading font information for OMS+cmss on input line 99.
 
-LaTeX Font Info:    No file OMScmss.fd. on input line 99.
+Package hyperref Warning: Difference (2) between bookmark levels is greater 
+(hyperref)                than one, level fixed on input line 100.
 
+LaTeX Font Info:    Try loading font information for OMS+cmss on input line 103
+.
+LaTeX Font Info:    No file OMScmss.fd. on input line 103.
 
 LaTeX Font Warning: Font shape `OMS/cmss/m/n' undefined
 (Font)              using `OMS/cmsy/m/n' instead
-(Font)              for symbol `textbullet' on input line 99.
+(Font)              for symbol `textbullet' on input line 103.
 
-[3]
-Underfull \hbox (badness 10000) in paragraph at lines 116--117
+
+Underfull \hbox (badness 10000) in paragraph at lines 115--116
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 122--124
+[3]
+Underfull \hbox (badness 10000) in paragraph at lines 132--133
 
  []
 
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 146--147
+Underfull \hbox (badness 10000) in paragraph at lines 139--141
+
+ []
+
+[5]
+Underfull \hbox (badness 10000) in paragraph at lines 164--165
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 150--151
+Underfull \hbox (badness 10000) in paragraph at lines 166--167
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 154--155
-
- []
-
-[5] [6] [7]
-Underfull \hbox (badness 10000) in paragraph at lines 238--240
+Underfull \hbox (badness 10000) in paragraph at lines 172--173
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 241--242
+Underfull \hbox (badness 10000) in paragraph at lines 176--177
 
  []
 
-[8] [9] [10] [11]
-<./images/Rplot_projection.png, id=218, 508.90125pt x 422.32782pt>
+[6] [7] [8]
+Underfull \hbox (badness 10000) in paragraph at lines 260--262
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 263--264
+
+ []
+
+[9] [10] [11] [12] [13]
+<./images/Rplot_projection.png, id=246, 508.90125pt x 422.32782pt>
 File: ./images/Rplot_projection.png Graphic file (type png)
 <use ./images/Rplot_projection.png>
-Package pdftex.def Info: ./images/Rplot_projection.png  used on input line 325.
+Package pdftex.def Info: ./images/Rplot_projection.png  used on input line 354.
 
-(pdftex.def)             Requested size: 254.45pt x 211.16339pt.
-<./images/Rplot_eigenvalues.png, id=219, 508.90125pt x 422.32782pt>
+(pdftex.def)             Requested size: 208.65086pt x 173.15552pt.
+<./images/Rplot_eigenvalues.png, id=247, 508.90125pt x 422.32782pt>
 File: ./images/Rplot_eigenvalues.png Graphic file (type png)
 <use ./images/Rplot_eigenvalues.png>
-Package pdftex.def Info: ./images/Rplot_eigenvalues.png  used on input line 326
+Package pdftex.def Info: ./images/Rplot_eigenvalues.png  used on input line 355
 .
-(pdftex.def)             Requested size: 254.45pt x 211.16339pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<./images/Rplot_admixed_simplex.png, id=220, 489.32813pt x 422.32782pt>
+(pdftex.def)             Requested size: 208.65086pt x 173.15552pt.
+<./images/Rplot_admixed_simplex.png, id=248, 489.32813pt x 422.32782pt>
 File: ./images/Rplot_admixed_simplex.png Graphic file (type png)
 <use ./images/Rplot_admixed_simplex.png>
 Package pdftex.def Info: ./images/Rplot_admixed_simplex.png  used on input line
- 336.
+ 365.
 (pdftex.def)             Requested size: 244.66345pt x 211.16339pt.
-<./images/Rplot_eigenvalues_simplex.png, id=221, 489.32813pt x 422.32782pt>
+<./images/Rplot_eigenvalues_simplex.png, id=249, 489.32813pt x 422.32782pt>
 File: ./images/Rplot_eigenvalues_simplex.png Graphic file (type png)
 <use ./images/Rplot_eigenvalues_simplex.png>
 Package pdftex.def Info: ./images/Rplot_eigenvalues_simplex.png  used on input 
-line 337.
+line 366.
 (pdftex.def)             Requested size: 244.66345pt x 211.16339pt.
 
-Overfull \hbox (64.95334pt too wide) in paragraph at lines 336--339
+Overfull \hbox (64.95334pt too wide) in paragraph at lines 365--368
 [][] []
  []
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<./images/Rplot_hard_example.png, id=222, 320.69812pt x 451.6875pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 374--375
+
+ []
+
+[14 <./images/Rplot_projection.png> <./images/Rplot_eigenvalues.png>]
+<./images/Rplot_hard_example.png, id=258, 320.69812pt x 451.6875pt>
 File: ./images/Rplot_hard_example.png Graphic file (type png)
 <use ./images/Rplot_hard_example.png>
-Package pdftex.def Info: ./images/Rplot_hard_example.png  used on input line 34
-9.
-(pdftex.def)             Requested size: 160.34866pt x 225.84319pt.
-<./images/hard_example_eigenvalues.png, id=223, 320.69812pt x 451.6875pt>
+Package pdftex.def Info: ./images/Rplot_hard_example.png  used on input line 38
+0.
+(pdftex.def)             Requested size: 192.42035pt x 271.01459pt.
+<./images/hard_example_eigenvalues.png, id=259, 320.69812pt x 451.6875pt>
 File: ./images/hard_example_eigenvalues.png Graphic file (type png)
 <use ./images/hard_example_eigenvalues.png>
 Package pdftex.def Info: ./images/hard_example_eigenvalues.png  used on input l
-ine 350.
-(pdftex.def)             Requested size: 160.34866pt x 225.84319pt.
+ine 381.
+(pdftex.def)             Requested size: 192.42035pt x 271.01459pt.
+
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[12]
-Underfull \hbox (badness 10000) in paragraph at lines 367--371
+[15 <./images/Rplot_admixed_simplex.png> <./images/Rplot_eigenvalues_simplex.pn
+g>]
+Underfull \hbox (badness 10000) in paragraph at lines 398--402
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 378--382
+Underfull \hbox (badness 10000) in paragraph at lines 409--413
 
  []
 
-[13] [14] 
+[16 <./images/Rplot_hard_example.png> <./images/hard_example_eigenvalues.png>]
+[17] 
 AED: lastpage setting LastPage
-[15] [16 <./images/Rplot_projection.png> <./images/Rplot_eigenvalues.png>]
-[17 <./images/Rplot_admixed_simplex.png> <./images/Rplot_eigenvalues_simplex.pn
-g> <./images/Rplot_hard_example.png> <./images/hard_example_eigenvalues.png>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 393.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 393.
-
-(./bachelor_thesis.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 393.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 393.
+[18]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 424.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 424.
+ (./bachelor_thesis.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 424.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 424.
 Package rerunfilecheck Info: File `bachelor_thesis.out' has not changed.
-(rerunfilecheck)             Checksum: A19EE8AA4D8A3109CAF5E6EBCB6379E9;1272.
+(rerunfilecheck)             Checksum: 584401D0D7ED685534A33E76729B8F97;1521.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
+
+LaTeX Warning: There were undefined references.
+
+
+Package biblatex Warning: Please (re)run Biber on the file:
+(biblatex)                bachelor_thesis
+(biblatex)                and rerun LaTeX afterwards.
+
 Package logreq Info: Writing requests to 'bachelor_thesis.run.xml'.
 \openout1 = `bachelor_thesis.run.xml'.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 393.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 424.
  ) 
 Here is how much of TeX's memory you used:
- 14844 strings out of 494880
- 239420 string characters out of 6179602
- 693414 words of memory out of 5000000
- 17904 multiletter control sequences out of 15000+600000
+ 14855 strings out of 494880
+ 239561 string characters out of 6179602
+ 692425 words of memory out of 5000000
+ 17908 multiletter control sequences out of 15000+600000
  18520 words of font info for 51 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 45i,13n,47p,1668b,1754s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 45i,13n,47p,1805b,1789s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/fabian/.texlive2017/texmf-var/fonts/pk/ljfour/jknappen/ec/ecsi1095.60
 0pk> </home/fabian/.texlive2017/texmf-var/fonts/pk/ljfour/jknappen/ec/ecsx1200.
 600pk> </home/fabian/.texlive2017/texmf-var/fonts/pk/ljfour/jknappen/ec/ecsx109
@@ -1167,10 +1190,10 @@ pe1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
 blic/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
 sfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
 symbols/msbm10.pfb>
-Output written on bachelor_thesis.pdf (17 pages, 301439 bytes).
+Output written on bachelor_thesis.pdf (18 pages, 311132 bytes).
 PDF statistics:
- 638 PDF objects out of 1000 (max. 8388607)
- 297 compressed objects within 3 object streams
- 71 named destinations out of 1000 (max. 500000)
- 199 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 673 PDF objects out of 1000 (max. 8388607)
+ 320 compressed objects within 4 object streams
+ 78 named destinations out of 1000 (max. 500000)
+ 231 words of extra memory for PDF output out of 10000 (max. 10000000)
 

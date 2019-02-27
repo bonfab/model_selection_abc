@@ -1,21 +1,25 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
 \BOOKMARK [2][-]{subsection.1.1}{Problem}{section.1}% 2
 \BOOKMARK [2][-]{subsection.1.2}{Approaches currently used}{section.1}% 3
-\BOOKMARK [3][-]{subsubsection.1.2.1}{Key words}{subsection.1.2}% 4
-\BOOKMARK [1][-]{section.2}{Modelling}{}% 5
-\BOOKMARK [2][-]{subsection.2.1}{Biological Background}{section.2}% 6
-\BOOKMARK [3][-]{subsubsection.2.1.1}{F-Layer}{subsection.2.1}% 7
-\BOOKMARK [2][-]{subsection.2.2}{Summary}{section.2}% 8
-\BOOKMARK [2][-]{subsection.2.3}{Looking at Admixture}{section.2}% 9
-\BOOKMARK [2][-]{subsection.2.4}{Analysis}{section.2}% 10
-\BOOKMARK [2][-]{subsection.2.5}{Relationship to LDA}{section.2}% 11
-\BOOKMARK [1][-]{section.3}{Theory}{}% 12
-\BOOKMARK [2][-]{subsection.3.1}{ABC}{section.3}% 13
-\BOOKMARK [2][-]{subsection.3.2}{Choosing the Summary Statistics}{section.3}% 14
-\BOOKMARK [3][-]{subsubsection.3.2.1}{PCA - Introduction}{subsection.3.2}% 15
-\BOOKMARK [3][-]{subsubsection.3.2.2}{In context to clustering}{subsection.3.2}% 16
-\BOOKMARK [2][-]{subsection.3.3}{Difficulties}{section.3}% 17
-\BOOKMARK [2][-]{subsection.3.4}{RMT}{section.3}% 18
-\BOOKMARK [1][-]{section.4}{Gradient Boosting}{}% 19
-\BOOKMARK [1][-]{section.5}{Results}{}% 20
-\BOOKMARK [1][-]{section.6}{Discussion}{}% 21
+\BOOKMARK [1][-]{section.2}{Biological Background}{}% 4
+\BOOKMARK [2][-]{subsubsection.2.0.1}{Key words}{section.2}% 5
+\BOOKMARK [1][-]{section.3}{Modelling}{}% 6
+\BOOKMARK [2][-]{subsection.3.1}{Further Model assumptions}{section.3}% 7
+\BOOKMARK [2][-]{subsection.3.2}{F-Layer}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.3}{Admixture Layer}{section.3}% 9
+\BOOKMARK [2][-]{subsection.3.4}{Combining the Layers}{section.3}% 10
+\BOOKMARK [2][-]{subsection.3.5}{Summary}{section.3}% 11
+\BOOKMARK [2][-]{subsection.3.6}{Looking at Admixture}{section.3}% 12
+\BOOKMARK [2][-]{subsection.3.7}{Analysis}{section.3}% 13
+\BOOKMARK [2][-]{subsection.3.8}{Relationship to LDA}{section.3}% 14
+\BOOKMARK [1][-]{section.4}{Theory}{}% 15
+\BOOKMARK [2][-]{subsection.4.1}{ABC}{section.4}% 16
+\BOOKMARK [2][-]{subsection.4.2}{Choosing the Summary Statistics}{section.4}% 17
+\BOOKMARK [3][-]{subsubsection.4.2.1}{PCA - Introduction}{subsection.4.2}% 18
+\BOOKMARK [3][-]{subsubsection.4.2.2}{In context to clustering}{subsection.4.2}% 19
+\BOOKMARK [2][-]{subsection.4.3}{Examples}{section.4}% 20
+\BOOKMARK [3][-]{subsubsection.4.3.1}{Difficulties}{subsection.4.3}% 21
+\BOOKMARK [2][-]{subsection.4.4}{RMT}{section.4}% 22
+\BOOKMARK [1][-]{section.5}{Gradient Boosting}{}% 23
+\BOOKMARK [1][-]{section.6}{Results}{}% 24
+\BOOKMARK [1][-]{section.7}{Discussion}{}% 25
