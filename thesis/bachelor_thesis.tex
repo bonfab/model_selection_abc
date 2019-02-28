@@ -76,6 +76,9 @@ citestyle=authoryear
 %\renewcommand{\labelenumii}{\textbf{-}}	
 %-- Eigentlicher Text --
 
+\tableofcontents
+\newpage
+
 \section{Introduction}
 In population genetics theoretical models are constructed according to devised hypotheses to investigate the population structure and its evolution for some organisams at interest. Usually for this purpose the validity of a certain model is evaluated by analysing the underlying genotype data of the organisms. Models are often susceptible to the realistic choice of hyperparameters, such that for example the likelihood of a model with a certain hyper parameter greater is than for a much more realistc hyper parameter. Since for many models the declaration of the number of populations in the given data is crucial to infer the remaining parameters, a successful and stable technique for determining this parameter would lead to a significant facilitation for the inference process. However, so far no automated solution exists that satisfyingly alleviate this concern. \\
 Throughout the following pages an approximate bayesian computation method will be presented that intends to deliver a reasonable estimate for the number of populations in SNP genotype data. It is based on a generalisation of currently used approaches, that attempt to exploit the behaviour of the spectrum of a clustered data matrix. The eigenvalues will moreover also make up the utilised summary statistics. The likelihood function for this problem is elusive, therefore a gradient boosting tequnique with decision trees wil be employed to bypass its explicit computation. \\
@@ -272,10 +275,6 @@ The presented modell is strongly related to a modell more commonly known under t
 %\end{align*}
 
 
-
-
-\newpage
-
 \section{Theory}
 
 \subsection{ABC}
@@ -292,7 +291,14 @@ can be implicitly adjusted by changing the proportions of $K$ in the training da
 
 \subsection{Choosing the Summary Statistics}
 
-The choice of an adequate summary statistics is essentiell to obtain significant results. On the one hand a summary of the data is necessary to handle its large dimensionality, on the other hand the manner of summarisation has to be chosen carefully to sustain the vital information necessary for the inference, because each summarisation consequently forfeits some of the principal information. 
+The choice of an adequate summary statistics is essentiell to obtain significant results. On the one hand a summary of the data is necessary to handle its large dimensionality, on the other hand the manner of summarisation has to be chosen carefully to sustain the vital information necessary for the inference, because each summarisation consequently forfeits some of the principal information. \\
+The entropy of a distribution measures the existing uncertainty about which event appears if one samples from the distribution. Mathimatically it is defined for a given continous probability mass function $P(X)$ as
+\begin{align*}
+h(x) = - \int_{supp(P)}P(x)log(P(x))dx
+\end{align*}
+The principal of maximum entropy states that given some prior information about the underlying probability distribution, such as already drawn samples or a constraining property, the maximum entropy distribution that incorporates the prior information is the best distribution to respect the remaining uncertainty \cite{jaynes1957information}. In other words, the maximum entropy distribution is the best distribution to fit the already obtained information if no further assumptions are to be added. \\
+For a given mean $\mu$ and covariance $\Sigma$ the multivariate continuous distribution that maximises the entropy is the multivariate Gaussian, for a proof the reader is referred to \cite{cover2012elements}.
+The entropy of the multivariate Gaussian is derived as following:
 
 \begin{align*}
 h(x) & = - \int_{-\infty}^{\infty} N(x|\mu, \Sigma)ln(N(x|\mu, \Sigma))dx \\
@@ -306,13 +312,13 @@ h(x) & = - \int_{-\infty}^{\infty} N(x|\mu, \Sigma)ln(N(x|\mu, \Sigma))dx \\
 
 The only non-constant factor influencing the entropy of a multivariate gaussian is the determinant of the respective correlation matrix.
 Since any real symmetric matrix is diagonalisable, $det(\Sigma)$ breaks down to $det(\Sigma) = det(\mathbf{Q}^{-1}) \cdot det(\mathbf{\Lambda})\cdot det(\mathbf{Q}) = \prod_{i = 1} \lambda_{i}$, thus revealing that actually the eigenvalues of the correlation matrix are responsible for the magnitude of the entropy.
-Furthermore, the multivariate Gaussian for a given mean and variance is the maximum entropy distribution, for a proof the reader is referred to \cite{cover2012elements}.
 
-\textbf{Assume Data is linearly correlated??? connection of normal distribution to PCA}
 
-\subsubsection{PCA - Introduction}
+\textbf{Assume Data is linearly correlated??? connection to PCA???}
 
-\textbf{introduction}
+\subsubsection{PCA}
+
+\textbf{add introduction???}
 Principle component analysis is a statistical method that performs a basis transformation on a given data set, such that no linear correlations are anymore present in the data. Since the direction of a linear correlation corresponds to the direction of the highest variance in a concerning subspace, a new axis musst be aligned according that particular direction. \textbf{citation needed ???} This construction of the axes is done by requiering in an iterative manner each new axis to align with the direction that captures the most variance in the data, which however has not been captured by already established axes. \\
 The differences between data points makes them destingiushable, but also determines the magnitude of the observed variance. Decreasing the variance in a data set by projecting it into a subspace, thus endagers destinguishability (in certain features or even in total), which is information. The amount of sustained variance after projecting the data into a subspace can, therefore act as an indicator for how much information was retained. So by always maximizing the captured variance of a newly added axis to the transformation, which is a subspace of the principal data set, the highest possible amount of information is retained for a projection into a subspace with a particular rank $K$ (under the assumption that variance corresponds to information). The subspace is spanned by the $K$ largest Eigenvectors \textbf{singular values ???} of the empirical covariance matrix, as is subsequently shown. \\
 Let $S = \frac{1}{N}XX^T - \overline{X} \overline{X}^T$ denote the emperical covariance matrix of the data matrix $X$. Then the expression $u^TSu$ is the emprical variance of $u^TX$, which is the data $X$ projected on to the vector $u$.

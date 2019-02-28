@@ -1947,7 +1947,8 @@
     <bcf:citekey order="22">pritchard2000inference</bcf:citekey>
     <bcf:citekey order="23">bishop2006pattern</bcf:citekey>
     <bcf:citekey order="24">blei2003latent</bcf:citekey>
-    <bcf:citekey order="25">cover2012elements</bcf:citekey>
+    <bcf:citekey order="25">jaynes1957information</bcf:citekey>
+    <bcf:citekey order="26">cover2012elements</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nty">
