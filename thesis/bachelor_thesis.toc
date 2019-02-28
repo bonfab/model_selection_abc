@@ -1,52 +1,52 @@
 \boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
 \babel@toc {english}{}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {1}Introduction}{3}{section.1}
+\contentsline {section}{\numberline {1}Introduction}{3}{section.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.1}Problem}{3}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.1}Problem}{3}{subsection.1.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {1.2}Approaches currently used}{3}{subsection.1.2}
+\contentsline {subsection}{\numberline {1.2}Approaches currently used}{3}{subsection.1.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {2}Biological Background}{4}{section.2}
+\contentsline {section}{\numberline {2}Biological Background}{4}{section.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {2.0.1}Key words}{4}{subsubsection.2.0.1}
+\contentsline {subsubsection}{\numberline {2.0.1}Key words}{4}{subsubsection.2.0.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {3}Modelling}{5}{section.3}
+\contentsline {section}{\numberline {3}Modelling}{5}{section.3}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.1}Further Model assumptions}{5}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.1}Further Model assumptions}{5}{subsection.3.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.2}F-Layer}{5}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.2}F-Layer}{5}{subsection.3.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.3}Admixture Layer}{7}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.3}Admixture Layer}{7}{subsection.3.3}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.4}Combining the Layers}{7}{subsection.3.4}
+\contentsline {subsection}{\numberline {3.4}Combining the Layers}{7}{subsection.3.4}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.5}Summary}{8}{subsection.3.5}
+\contentsline {subsection}{\numberline {3.5}Summary}{8}{subsection.3.5}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.6}Looking at Admixture}{8}{subsection.3.6}
+\contentsline {subsection}{\numberline {3.6}Looking at Admixture}{8}{subsection.3.6}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.7}Analysis}{9}{subsection.3.7}
+\contentsline {subsection}{\numberline {3.7}Analysis}{9}{subsection.3.7}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {3.8}Relationship to LDA}{10}{subsection.3.8}
+\contentsline {subsection}{\numberline {3.8}Relationship to LDA}{10}{subsection.3.8}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {4}Theory}{11}{section.4}
+\contentsline {section}{\numberline {4}Theory}{11}{section.4}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.1}ABC}{11}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.1}ABC}{11}{subsection.4.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2}Choosing the Summary Statistics}{11}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.2}Choosing the Summary Statistics}{11}{subsection.4.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.1}PCA}{12}{subsubsection.4.2.1}
+\contentsline {subsubsection}{\numberline {4.2.1}PCA}{12}{subsubsection.4.2.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.2}In context to clustering}{13}{subsubsection.4.2.2}
+\contentsline {subsubsection}{\numberline {4.2.2}In context to clustering}{13}{subsubsection.4.2.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.3}Examples}{14}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.3}Examples}{14}{subsection.4.3}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.3.1}Difficulties}{15}{subsubsection.4.3.1}
+\contentsline {subsubsection}{\numberline {4.3.1}Difficulties}{14}{subsubsection.4.3.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.4}RMT}{17}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.4}RMT}{17}{subsection.4.4}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {5}Gradient Boosting}{18}{section.5}
+\contentsline {section}{\numberline {5}Gradient Boosting}{18}{section.5}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {6}Results}{18}{section.6}
+\contentsline {section}{\numberline {6}Results}{18}{section.6}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\numberline {7}Discussion}{18}{section.7}
+\contentsline {section}{\numberline {7}Discussion}{18}{section.7}% 
