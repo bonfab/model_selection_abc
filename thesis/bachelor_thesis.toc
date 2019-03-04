@@ -33,6 +33,8 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.1}ABC}{11}{subsection.4.1}% 
 \defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{\numberline {4.1.1}Rejection Algorithm}{11}{subsubsection.4.1.1}% 
+\defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.2}Choosing the Summary Statistics}{11}{subsection.4.2}% 
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {4.2.1}PCA}{12}{subsubsection.4.2.1}% 
@@ -41,7 +43,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.3}Examples}{14}{subsection.4.3}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.3.1}Difficulties}{14}{subsubsection.4.3.1}% 
+\contentsline {subsubsection}{\numberline {4.3.1}Difficulties}{16}{subsubsection.4.3.1}% 
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.4}RMT}{17}{subsection.4.4}% 
 \defcounter {refsection}{0}\relax 

@@ -14,12 +14,13 @@
 \BOOKMARK [2][-]{subsection.3.8}{Relationship to LDA}{section.3}% 14
 \BOOKMARK [1][-]{section.4}{Theory}{}% 15
 \BOOKMARK [2][-]{subsection.4.1}{ABC}{section.4}% 16
-\BOOKMARK [2][-]{subsection.4.2}{Choosing the Summary Statistics}{section.4}% 17
-\BOOKMARK [3][-]{subsubsection.4.2.1}{PCA}{subsection.4.2}% 18
-\BOOKMARK [3][-]{subsubsection.4.2.2}{In context to clustering}{subsection.4.2}% 19
-\BOOKMARK [2][-]{subsection.4.3}{Examples}{section.4}% 20
-\BOOKMARK [3][-]{subsubsection.4.3.1}{Difficulties}{subsection.4.3}% 21
-\BOOKMARK [2][-]{subsection.4.4}{RMT}{section.4}% 22
-\BOOKMARK [1][-]{section.5}{Gradient Boosting}{}% 23
-\BOOKMARK [1][-]{section.6}{Results}{}% 24
-\BOOKMARK [1][-]{section.7}{Discussion}{}% 25
+\BOOKMARK [3][-]{subsubsection.4.1.1}{Rejection Algorithm}{subsection.4.1}% 17
+\BOOKMARK [2][-]{subsection.4.2}{Choosing the Summary Statistics}{section.4}% 18
+\BOOKMARK [3][-]{subsubsection.4.2.1}{PCA}{subsection.4.2}% 19
+\BOOKMARK [3][-]{subsubsection.4.2.2}{In context to clustering}{subsection.4.2}% 20
+\BOOKMARK [2][-]{subsection.4.3}{Examples}{section.4}% 21
+\BOOKMARK [3][-]{subsubsection.4.3.1}{Difficulties}{subsection.4.3}% 22
+\BOOKMARK [2][-]{subsection.4.4}{RMT}{section.4}% 23
+\BOOKMARK [1][-]{section.5}{Gradient Boosting}{}% 24
+\BOOKMARK [1][-]{section.6}{Results}{}% 25
+\BOOKMARK [1][-]{section.7}{Discussion}{}% 26

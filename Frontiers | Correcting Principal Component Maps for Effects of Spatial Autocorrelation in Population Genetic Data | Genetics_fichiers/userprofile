@@ -1,0 +1,9 @@
+
+
+var FRHeaderProfileData = (function() {
+    return {
+        Profile: {"UnReadMailCount":null,"HasUnReadMailCount":false,"User":null,"LoginUserId":0,"ImpersonatedRole":null,"ImpactMenus":null,"MyFrontiersMenus":null,"OfficeMenus":null,"OfficeBetaMenus":null,"Navigation":null,"IsSearchEnabled":false,"IsMyFrontiersActive":false,"IsProfileDropdownEnabled":false},
+        IsSearchEnabled:('False' === 'True') ? true : false,
+        IsProfileDropdownEnabled:('False' === 'True') ? true : false
+    };
+})();

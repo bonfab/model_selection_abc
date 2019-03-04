@@ -260,7 +260,7 @@ Var(D) &= \mathbb{E}[D^2] - \mathbb{E}[D]^2\\
 This reveals that the variance decreases significantly of the order $\mathcal{O}(N^{-2})$ with the number of loci. Therefore, less severe outliers and better observable clusters are to be expected the more loci are simulated.
 
 \subsection{Relationship to LDA}
-The presented modell is strongly related to a modell more commonly known under the name latent dirichlet allocation (LDA) \cite{blei2003latent}. LDA uses in the setting of natural language processing (NLP) an ensemble of words that are probabilistically associated with certain topics, in order to determine which topics are exhibited by analysed documents, that preferably possess some  associated words. Since not all existing words are associated with topics but only a selection, the selected words can be perceived as reasonable indicators of the topic context, as are the used genetic markers to determine population affiliation. A one hot encoding of wether a word is present in a document or not is the respective equivalent of wether an individual possess a gene variant at a genetic maker or not. The encoding of the selected words or respectively of the genetic markers span the feature space in which the topics/populations lie. The topics/populations then span a simplex in which the documents/individuals are mapped according to the admixture. \\
+The presented modell is strongly related to a modell more commonly known under the name latent dirichlet allocation (LDA) \cite{blei2003latent}. LDA uses in the setting of natural language processing (NLP) an ensemble of words that are probabilistically associated with certain topics, in order to determine which topics are exhibited by analysed documents, that preferably possess some associated words. Since not all existing words are associated with topics but only a selection, the selected words can be perceived as reasonable indicators of the topic context, as are the used genetic markers to determine population affiliation. A one hot encoding of wether a word is present in a document or not is the respective equivalent of wether an individual possess a gene variant at a genetic maker or not. The encoding of the selected words or respectively of the genetic markers span the feature space in which the topics/populations lie. The topics/populations then span a simplex in which the documents/individuals are mapped according to the admixture. \\
 
 %\begin{align*}
 %\mathbf{Q} = \begin{bmatrix}
@@ -276,6 +276,14 @@ The presented modell is strongly related to a modell more commonly known under t
 
 \subsection{ABC}
 
+At heart of approximate bayesian computing lies the inference of a desired parameter value $\Theta$ for given data $D$ by relating the conditional probability of the data given the parameter value $P(D | \Theta)$ to the symmetric counter part, the conditional probability of the parameter given certain data $P(\Theta | D)$ through Bayes' rule:
+
+\begin{align*}
+P(\Theta | D) = \frac{p(D | \Theta) P(\Theta)}{P(D)}
+\end{align*}
+
+\subsubsection{Rejection Algorithm}
+
 To infer the number of populations $K$ expressed in a given dataset $X$ the conditional probability $P(K | X)$ with respect to $K$ is maximized. Since the large dimensionalities of the used datasets pose substantial computational difficulties, the datasets are summarized  in an effective manner, such that the approximation $P(K|X) \approx P(K | sum(X))$ is sufficient for the intended inference. Bayes' theorem then yields
 
 \begin{align*}
@@ -288,28 +296,27 @@ can be implicitly adjusted by changing the proportions of $K$ in the training da
 
 \subsection{Choosing the Summary Statistics}
 
-The choice of an adequate summary statistics is essentiell to obtain significant results. On the one hand a summary of the data is necessary to handle its large dimensionality, on the other hand the manner of summarisation has to be chosen carefully to sustain the vital information necessary for the inference, because each summarisation consequently forfeits some of the principal information. \\
-The entropy of a distribution measures the existing uncertainty about which event appears if one samples from the distribution. Mathimatically it is defined for a given continous probability mass function $P(X)$ as
+The choice of adequate summary statistics is essential to obtain significant results. Large dimensional data often times demands it to be summarised, so the intended methods a reasonably applicable. In doing so, the manner summary is of great importance because each summarisation usually forfeits some of the principal information. So one is confronted with the problem of how to effectively manage the trade off between the practicability the method and the loss of information that could endager desired results.\\
+The entropy of a distribution measures the existing uncertainty about which event appears if one samples from the distribution. Mathematically it is defined for a given continous probability mass function $P(X)$ as
 \begin{align*}
-h(x) = - \int_{supp(P)}P(x)log(P(x))dx
+h(x) = - \int_{supp(P)}P(x)\log(P(x))dx
 \end{align*}
 The principal of maximum entropy states that given some prior information about the underlying probability distribution, such as already drawn samples or a constraining property, the maximum entropy distribution that incorporates the prior information is the best distribution to respect the remaining uncertainty \cite{jaynes1957information}. In other words, the maximum entropy distribution is the best distribution to fit the already obtained information if no further assumptions are to be added. \\
 For a given mean $\mu$ and covariance $\Sigma$ the multivariate continuous distribution that maximises the entropy is the multivariate Gaussian, for a proof the reader is referred to \cite{cover2012elements}.
 The entropy of the multivariate Gaussian is derived as following:
 
 \begin{align*}
-h(x) & = - \int_{-\infty}^{\infty} N(x|\mu, \Sigma)ln(N(x|\mu, \Sigma))dx \\
-& = E[ln(N(x|\mu, \Sigma)] \\
-& = E[ln(det(2\pi\Sigma)^{-\frac{1}{2}}e^{-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)})] \\
-& = \frac{1}{2} ln(det(2\pi\Sigma)) + \frac{1}{2} E[(x-\mu)^T \Sigma^{-1}(x-\mu)]\\
-& = \frac{1}{2} ln(det(2\pi\Sigma)) + \frac{1}{2} E[trace(\Sigma^{-1}(x-\mu)^T (x-\mu))]\\
-& = \frac{1}{2} ln(det(2\pi\Sigma)) + \frac{1}{2} E[trace(I)]\\
-& = \frac{1}{2} ln(det(2\pi e \Sigma))
+h(x) & = - \int_{-\infty}^{\infty} N(x|\mu, \Sigma)\ln(N(x|\mu, \Sigma))dx \\
+& = E[\ln(N(x|\mu, \Sigma)] \\
+& = E[\ln(det(2\pi\Sigma)^{-\frac{1}{2}}e^{-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)})] \\
+& = \frac{1}{2}\ln(det(2\pi\Sigma)) + \frac{1}{2} E[(x-\mu)^T \Sigma^{-1}(x-\mu)]\\
+& = \frac{1}{2} \ln(det(2\pi\Sigma)) + \frac{1}{2} E[trace(\Sigma^{-1}(x-\mu)^T (x-\mu))]\\
+& = \frac{1}{2} \ln(det(2\pi\Sigma)) + \frac{1}{2} E[trace(I)]\\
+& = \frac{1}{2} \ln(det(2\pi e \Sigma))
 \end{align*}
 
 The only non-constant factor influencing the entropy of a multivariate gaussian is the determinant of the respective covaraince matrix.
-Since any real symmetric matrix is diagonalisable, $det(\Sigma)$ breaks down to $det(\Sigma) = det(\mathbf{Q}^{-1}) \cdot det(\mathbf{\Lambda})\cdot det(\mathbf{Q}) = \prod_{i = 1} \lambda_{i}$, thus revealing that actually the eigenvalues of the covariance matrix are responsible for the magnitude of the entropy. \textbf{This gives evidence that the eigenvectors and eigenvalues of a covariance matrix might be a reasonable choice for summarising data??? more explanation needed!!!}
-
+Since any real symmetric matrix is diagonalisable, $det(\Sigma)$ breaks down to $det(\Sigma) = det(\mathbf{Q}^{-1}) \cdot det(\mathbf{\Lambda})\cdot det(\mathbf{Q}) = \prod_{i = 1} \lambda_{i}$, thus revealing that actually the eigenvalues of the covariance matrix are responsible for the magnitude of the entropy. In conclusion, by summarising the data by its covariance matrix, one implicitly approximates the data as being guassian and secondly it suffices for the summary to only take the eigenvalues into consideration.
 
 \textbf{Assume Data is linearly correlated??? connection to PCA???}
 
