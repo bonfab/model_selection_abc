@@ -274,17 +274,21 @@ The presented modell is strongly related to a modell more commonly known under t
 
 \section{Theory}
 
-\subsection{ABC}
+\subsection{Approximate Bayesian Computation}
 
-At heart of approximate bayesian computing lies the inference of a desired parameter value $\Theta$ for given data $D$ by relating the conditional probability of the data given the parameter value $P(D | \Theta)$ to the symmetric counter part, the conditional probability of the parameter given certain data $P(\Theta | D)$ through Bayes' rule:
+At heart of approximate bayesian computation (ABC) lies the inference of a desired parameter value $\theta$ for given data $D$ by relating the conditional probability of that data given the parameter value $P(D | \theta)$ to the symmetric counter part, the conditional probability of the parameter given the data $P(\theta | D)$. This is done by exploiting Bayes' rule:
 
 \begin{align*}
-P(\Theta | D) = \frac{p(D | \Theta) P(\Theta)}{P(D)}
+P(\theta | D) = \frac{p(D | \theta) P(\theta)}{P(D)}
 \end{align*}
 
-\subsubsection{Rejection Algorithm}
+Where $P(D | \theta)$ is often called the likelihood, $P(\theta | D)$ the posterior, $P(\theta)$ the prior and $P(D)$ the evidence which is used in Bayes' rule solely for nomalisation porpuses. \\
+For many problems the problem space is intractable or dimensionally too large to compute the likelihood. ABC intends to circumvent these problems.
 
-To infer the number of populations $K$ expressed in a given dataset $X$ the conditional probability $P(K | X)$ with respect to $K$ is maximized. Since the large dimensionalities of the used datasets pose substantial computational difficulties, the datasets are summarized  in an effective manner, such that the approximation $P(K|X) \approx P(K | sum(X))$ is sufficient for the intended inference. Bayes' theorem then yields
+\subsubsection{Rejection Algorithm}
+The rejection algorithm employs a basic approach for finding the posterior distribution of the desired parameter $\theta$ for specific data $D$. Given a known prior distribution of $Theta$, the algorithm samples values $\hat{\Theta}$ from the prior and then inputs $\hat{\theta}$ into an appropriate model to simulate some data $\hat{D}$. If the simulated data lies with in a margin of error $\epsilon \geq 0$ from data $D$ for a chosen metric $m$ , so $m(D, \hat{D}) \leq \epsilon$, then the sampled prior value $\hat{\theta}$ is accepted and added to a final sample. The final sample should approximate the desired posterior.
+
+To infer the number of populations $K$ expressed in a given dataset $X$ the conditional probability $P(K | X)$ with respect to $K$ is maximised. Since the large dimensionalities of the used datasets pose substantial computational difficulties, the datasets are summarised  in an effective manner, such that the approximation $P(K|X) \approx P(K | sum(X))$ is sufficient for the intended inference. Bayes' theorem then yields
 
 \begin{align*}
 P(K | sum(X)) = \frac{P(sum(X) | K) P(K)}{P(sum(X))}
