@@ -32,6 +32,8 @@ citestyle=authoryear
 
 \graphicspath{{./images/}}
 
+\DeclareMathOperator*{\argmin}{argmin} % no space, limits underneath in displays
+
 % % % % % % % % % % % % % % % % % % % % % % % %
 % % % % % % % % % % % % % % % % % % % % % % % %
 \newcommand{\thesis}{Bachelor Thesis}
@@ -433,7 +435,48 @@ where $\rho_{\pm} = \sigma^{2}(1 \pm \sqrt[]{y})^{2}$ and $\sigma^2$ is the vari
 
 \newpage
 
-\section{Gradient Boosting}
+\section{Boosting Decision Trees}
+
+\subsection{Gradient Boosting}
+Gradient boosting is a supervised learning method for classification and regression, that iteratively adds basis learners to a linear combination to reduce an arbitrary loss function.\\
+
+Let $\chi$ denote the input space. The task then is to approximate the function $f^*(x)$ that maps an arbitrary input $x \in \chi$ to the desired output $y \in \mathbb{R}$. An ensemble of $M$ different basis learners $g_1,g_2,\ldots,g_M: \chi \rightarrow \mathbb{R}$ can be used to generalise over a training set $((x_1, y_1),(x_2,y_2),\ldots,(x_N, y_N))$ of $N$ training pairs in a linear fashion as following:
+\begin{align*}
+f(x) = \sum_{m=1}^{M}\phi_m g_m(x)
+\end{align*}
+where $\phi_i \in \mathbb{R}$ are the weights for each basis learner. Linear models for a set of given basis learners can be fitted via konventionell methods such as least squares, lasso, ridge \cite{bishop2006pattern}. $f(x)$ can be used as an approximation for various tasks like regression, classification (by for example using a threshhold), \\
+
+The model is limited by the explicit choice of the basis learners. Instead an algorithm that finds the best base learners from a hypothesis space $\mathcal{H}$ would increase the adaptive potential of the model. Thus, for a given lossfunction $l(x, f(x))$, an algorithm should find the best $M$ base learners $h_1, h_2, \ldots, h_m \in \mathcal{H}: \chi \rightarrow \mathbb{R}$ and corresponding weights such that the empirical risk is minimised:
+
+\begin{align*}
+\argmin_{\phi_i}\argmin_{h_i} \frac{1}{N} \sum_{i = 1}^{N} l(y_i, \sum_{m=1}^{M}\phi_m h_m(x_i))
+\end{align*}
+
+Solving this task is an optimisation problem usually beyond practicability. A common optimisation technique is too update the parameters through the use of gradient descent. Several problems arise in the case of differentiating over the hypothesis space:
+
+\begin{itemize}
+\item Firstly, the hypothesis space would need to be parameterised with finite dimensions. In the face of a countless manifold of possible base learners a rather daunting task. One is far better off by confining the possibilities of base learners, by choosing a subset $H \subset \mathcal{H}$ like decision trees or neural networks.
+
+\item Many modelling frameworks such as neural networks (e.g. number of hidden layers) and decision trees (e.g. tree depth) have to be parametrised at least partly discretely. Of course all discrete model features could be fixed to a constant, but that would greatly degrade the modeling capabilities.
+
+\item Lastly, some base learners do not model a differentiable functions. For e.g. decision trees model functions that possess jump discontinuouties.
+\end{itemize}
+
+Gradient boosting, firstly developed and described by \cite{freund1997decision, friedman2001greedy, friedman2002stochastic}, circumvents the necessity of differentiability by growing the ensemble of base learners iteratively with respect to minimising the empirical risk. The method it employs is also called forward stagewise additive modeling.\\
+
+The algorithm works as following:\\
+Let $H \subset \mathcal{H}$ be the chosen set of possible base learners.
+\begin{enumerate}
+\item $f_0(x) = 0$
+\item For each stage $i \in 1,\ldots,M$:
+\begin{enumerate}
+\item add a base learner $h_i(x)$ that reduces the residual  
+\end{enumerate}
+\end{enumerate}
+
+
+\subsection{Decision Trees}
+
 
 \section{Results}
 
