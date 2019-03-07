@@ -101,10 +101,10 @@ PCA_summary <- function(data, reduce_to = 25){
 
 }
 
-generate <- function(K, number_locus = 10000, number_admixed = 1, pop_sizes = NULL, sample_size = 600){
+generate <- function(K, number_locus = 10000, number_admixed = sample(K, 1), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(5000,1)+(K+number_admixed+5) * 10){
 
     #F_values <- runif(K, 0, 1)
-    F_values <- c(0.05, 0.01, 0.99)
+    F_values <- rbeta(K, runif(1, 1, 3), 1)
     F <- F_layer(K, F_values, number_locus)
 
     scaling <- 1
@@ -115,7 +115,10 @@ generate <- function(K, number_locus = 10000, number_admixed = 1, pop_sizes = NU
         pop_sizes <- rep(p, K)
         pop_sizes <- append(pop_sizes, rep(a, number_admixed))
         pop_sizes <- ceiling(pop_sizes * sample_size)
+    } else {
+      pop_sizes <- ceiling(pop_sizes * sample_size)
     }
+    
 
 
     Q <- admixture_layer(nrow(F), number_admixed, sizes = pop_sizes)
@@ -128,7 +131,7 @@ generate <- function(K, number_locus = 10000, number_admixed = 1, pop_sizes = NU
 
 }
 
-make_data <- function(samples = 500, populations = 3:13){
+make_data <- function(samples = 2000, populations = 3:5){
 
   clust <- makeCluster(detectCores() - 2)
   clusterExport(cl=clust, varlist=c("PCA_summary", "generate", "rdirichlet", "F_layer", "admixture_layer", "matrix_binom"))
@@ -141,7 +144,7 @@ make_data <- function(samples = 500, populations = 3:13){
   print("begin generation")
 
   #priors <- seq(0.1, 0.6, by=0.1)
-  pop <- do.call(rbind, parLapply(clust, populations, function(x) t(sapply(1:samples, function(y) PCA_summary(generate(x, number_locus = 10000))))))
+  pop <- do.call(rbind, parLapply(clust, populations, function(x) t(sapply(1:samples, function(y) PCA_summary(generate(x, number_locus = sample(50000, 1)+1999))))))
   label <- as.vector(t(replicate(samples, populations)))
 
   #print(pop)

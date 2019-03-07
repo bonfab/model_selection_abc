@@ -79,6 +79,7 @@ citestyle=authoryear
 %-- Eigentlicher Text --
 
 \tableofcontents
+
 \newpage
 
 \section{Introduction}
@@ -499,12 +500,11 @@ The embedding in the forward additive model allows for the negative gradient $-\
 h_m(x) \approx -\hat{h}_m
 \end{align*}
 as well as possible. A possible approach would be to train a base learner on the training data, but where the labels are exchanged by $-\hat{h}_m$.\\
-Intuitively, a base learner $h_m(x)$ should be considered as a step in the direction of steepest descent of the emirical risk. Following this setup, the weight $\phi_m > 0$ can be considered as the corresponding step size to be adjusted to ones taste. As a conclusion the iterative construction of the final linear model with gradient boosting
+Intuitively, a base learner $h_m(x)$ should be considered as an approximate step in the direction of steepest descent of the emirical risk. Following this setup, the weight $\phi_m > 0$ can be considered as the corresponding step size to be adjusted to ones taste. As a conclusion the iterative construction of the final linear model with gradient boosting
 \begin{align*}
 f(x) = \sum_{m=1}^{M}f_{m-1}(x) + \phi_m h_m(x)
 \end{align*}
 is a sequence of gradient descent steps towards a minimum of the empirical risk. 
-
 
 \subsection{Decision Trees}
 
