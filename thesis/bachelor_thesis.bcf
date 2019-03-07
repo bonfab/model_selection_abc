@@ -1956,6 +1956,7 @@
     <bcf:citekey order="31">freund1997decision</bcf:citekey>
     <bcf:citekey order="31">friedman2001greedy</bcf:citekey>
     <bcf:citekey order="31">friedman2002stochastic</bcf:citekey>
+    <bcf:citekey order="32">friedman2000additive</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nty">

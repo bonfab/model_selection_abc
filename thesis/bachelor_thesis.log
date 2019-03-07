@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.1.4)  6 MAR 2019 23:53
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.1.4)  7 MAR 2019 16:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1151,33 +1151,56 @@ Underfull \hbox (badness 10000) in paragraph at lines 465--466
 
  []
 
-[19] [20] 
+[19]
+
+LaTeX Warning: Citation 'friedman2000additive' on page 20 undefined on input li
+ne 480.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 480--481
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 482--483
+
+ []
+
+[20] [21] 
 AED: lastpage setting LastPage
-[21]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 487.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 487.
+[22]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 518.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 518.
  (./bachelor_thesis.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 487.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 487.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 518.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 518.
 Package rerunfilecheck Info: File `bachelor_thesis.out' has not changed.
 (rerunfilecheck)             Checksum: 90C19BB04151E6D5B6EC47E12A2C54A4;1922.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
+
+LaTeX Warning: There were undefined references.
+
+
+Package biblatex Warning: Please (re)run Biber on the file:
+(biblatex)                bachelor_thesis
+(biblatex)                and rerun LaTeX afterwards.
+
 Package logreq Info: Writing requests to 'bachelor_thesis.run.xml'.
 \openout1 = `bachelor_thesis.run.xml'.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 487.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 518.
  ) 
 Here is how much of TeX's memory you used:
- 14901 strings out of 494880
- 240885 string characters out of 6179602
- 693970 words of memory out of 5000000
+ 14904 strings out of 494880
+ 240911 string characters out of 6179602
+ 694012 words of memory out of 5000000
  17931 multiletter control sequences out of 15000+600000
  18520 words of font info for 51 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 45i,13n,47p,1805b,2734s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 45i,13n,47p,1805b,2730s stack positions out of 5000i,500n,10000p,200000b,80000s
  </home/fabian/.texlive2017/texmf-var/fonts/pk/ljfour/jknappen/ec/ecsi1095.60
 0pk> </home/fabian/.texlive2017/texmf-var/fonts/pk/ljfour/jknappen/ec/ecsx1200.
 600pk> </home/fabian/.texlive2017/texmf-var/fonts/pk/ljfour/jknappen/ec/ecsx109
@@ -1186,21 +1209,22 @@ Here is how much of TeX's memory you used:
 s1095.600pk> </home/fabian/.texlive2017/texmf-var/fonts/pk/ljfour/jknappen/ec/e
 csx1440.600pk> </home/fabian/.texlive2017/texmf-var/fonts/pk/ljfour/jknappen/ec
 /ecsx1728.600pk></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.
-pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
-usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
-symbols/msbm10.pfb>
-Output written on bachelor_thesis.pdf (21 pages, 334440 bytes).
+mbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.p
+fb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></u
+sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/sha
+re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols
+/msbm10.pfb>
+Output written on bachelor_thesis.pdf (22 pages, 345694 bytes).
 PDF statistics:
- 776 PDF objects out of 1000 (max. 8388607)
- 408 compressed objects within 5 object streams
- 98 named destinations out of 1000 (max. 500000)
+ 786 PDF objects out of 1000 (max. 8388607)
+ 417 compressed objects within 5 object streams
+ 101 named destinations out of 1000 (max. 500000)
  271 words of extra memory for PDF output out of 10000 (max. 10000000)
 
