@@ -33,23 +33,31 @@ admixture_layer <- function(K, number_admixed, sizes){
 
     for(admixed in (K+1):(K+number_admixed)){
 
-        admixed_prior <- rdirichlet(1, rep(1, K))
-        admixed_prior <- rep(8, K)
+     #   admixed_prior <- rdirichlet(1, rep(1, K))
+      #  admixed_prior <- rep(8, K)
         
-        if(admixed == K+1){
-            admixed_prior <- rep(10, K)
-            admixed_prior[1] <- 0
-            admixed_prior[3] <- 30
+       # if(admixed == K+1){
+      #      admixed_prior <- rep(10, K)
+       #     admixed_prior[1] <- 0
+        #    admixed_prior[3] <- 30
             #admixed_prior[K-1] <- 120
-        }
-        if(admixed == K+2){
-            admixed_prior <- rep(40, K)
-            admixed_prior[K-1] <- 0
-            admixed_prior[K] <- 120
-        }
-        if(admixed == K+3){
-            admixed_prior <- rep(5, K)
-            admixed_prior[K-2] <- 1
+        #}
+        #if(admixed == K+2){
+         #   admixed_prior <- rep(40, K)
+          #  admixed_prior[K-1] <- 0
+           # admixed_prior[K] <- 120
+        #}
+        #if(admixed == K+3){
+         #   admixed_prior <- rep(5, K)
+          #  admixed_prior[K-2] <- 1
+        #}
+      
+        mixture <- sample(1:K, sample(K-1, 1) + 1)
+        
+        admixed_prior <- rep(0, K)
+        
+        for(i in mixture){
+          admixed_prior[i] <- rbeta(1, 1.5, 1) * 10 
         }
 
         Q[(pointer+1):(pointer + sizes[admixed]),] <- t(replicate(sizes[admixed], rdirichlet(1, admixed_prior), simplify = "matrix"))
@@ -101,7 +109,7 @@ PCA_summary <- function(data, reduce_to = 25){
 
 }
 
-generate <- function(K, number_locus = 10000, number_admixed = sample(K, 1), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(5000,1)+(K+number_admixed+5) * 10){
+generate <- function(K, number_locus = 10000, number_admixed = sample(K, 1), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(5000 - (K+number_admixed+5) * 10,1)+(K+number_admixed+5) * 10){
 
     #F_values <- runif(K, 0, 1)
     F_values <- rbeta(K, runif(1, 1, 3), 1)
@@ -144,17 +152,17 @@ make_data <- function(samples = 2000, populations = 3:5){
   print("begin generation")
 
   #priors <- seq(0.1, 0.6, by=0.1)
-  pop <- do.call(rbind, parLapply(clust, populations, function(x) t(sapply(1:samples, function(y) PCA_summary(generate(x, number_locus = sample(50000, 1)+1999))))))
+  pop <- do.call(rbind, parLapply(clust, populations, function(x) t(sapply(1:samples, function(y) PCA_summary(generate(x, number_locus = sample(40000- 1999, 1)+1999))))))
   label <- as.vector(t(replicate(samples, populations)))
 
   #print(pop)
   #print(label)
 
   #saveRDS(list(pop, label), "data_pop_prio_1-25.rds")
-  saveRDS(list(pop, label), "./data_K/admixed_one_1_5.rds")
+  saveRDS(list(pop, label), "./data_K/admixed_3_to_5.rds")
 
 }
 
-#make_data()
+make_data()
 
-PCA_summary(generate(3, number_admixed = 1, pop_sizes= c(15, 100, 100, 100)))
+#PCA_summary(generate(3, number_admixed = 1, pop_sizes= c(15, 100, 100, 100)))
