@@ -508,6 +508,31 @@ is a sequence of gradient descent steps towards a minimum of the empirical risk.
 
 \subsection{Decision Trees}
 
+Typical decision trees are a supervised learning method that solve a regression or classification problem by segmenting the feature space in to distinct regions, whereby all data points lying in the same region are assigned the same value by the tree. \\
+
+Let ${(x_1,y_1),(x_2, y_2), \ldots, (x_N, y_N)}$ be the training data. The input dimension of a point $x_i$ is $D$.\\
+
+Suppose a tree $T$ partitions the featurespace $X_1, X_2, \ldots, X_D$ into $M$ regions $R_1, R_2, \ldots, R_M$. The response function  outputed by $T$ is given by:
+\begin{align*}
+f_T(x) = \sum_{m = 1}^{M} c_m I(x \in R_m)
+\end{align*}
+where $I$ is an indicator function signaling if the input $x$ is part of a particular region. $c_m$ is the response for a region $R_m$. The optimal value of $c_m$ depends on a chosen loss function that should be minimsed w.r.t $c_m$ over all the training points assigned to region $R_m$. As an example, for square loss in a regression setting this would accord to the empirical average of the label values from the training points lying in the region $R_m$. \\
+
+A far more challenging optimisation task is finding the optimal tree that partitions the feature space into $M$ regions, for a given loss function $l$.
+
+\begin{align*}
+\argmin_{R_m, c_m} \sum_{i =1}^{N} l(y_i, \sum_{m = 1}^{M} c_m I(x_i \in R_m))
+\end{align*}
+
+The possibilities of partitioning feature space grows exponentially with the number of features, rendering the encounter of an optimal tree in most cases computationally infeasable. \\
+
+As an alternative, a greedy approximation approach can be used. The greedy algorithm chooses the best dimension $X_j$ and splitting point $s$ that minimises the loss for the two new regions that arise (w.l.o.g. only binary trees will be considered). The two new regions are defined as:
+\begin{align*}
+R_1(j, s) = \{X | X_j \leq s\} \qquad R_2(j, s) = \{X | X_j > s \}
+\end{align*}
+
+The feature space is divided by a plane that is orthogonal to the axis corresponding to feature $X_j$. The location of the plane is positioned at the value of $s$ on that axis. \\
+The algorithm optimises
 
 \section{Results}
 
