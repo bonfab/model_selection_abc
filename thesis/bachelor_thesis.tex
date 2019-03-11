@@ -526,13 +526,19 @@ A far more challenging optimisation task is finding the optimal tree that partit
 
 The possibilities of partitioning feature space grows exponentially with the number of features, rendering the encounter of an optimal tree in most cases computationally infeasable. \\
 
-As an alternative, a greedy approximation approach can be used. The greedy algorithm chooses the best dimension $X_j$ and splitting point $s$ that minimises the loss for the two new regions that arise (w.l.o.g. only binary trees will be considered). The two new regions are defined as:
+As an alternative, a greedy approximation approach can be used. The greedy algorithm chooses the best dimension $X_d$ and splitting point $s$ that minimises the loss for the two new regions that arise (w.l.o.g. only binary trees will be considered). The two new regions are defined as:
 \begin{align*}
-R_1(j, s) = \{X | X_j \leq s\} \qquad R_2(j, s) = \{X | X_j > s \}
+R_1(d, s) = \{X | X_d \leq s\} \qquad R_2(d, s) = \{X | X_d > s \}
 \end{align*}
 
-The feature space is divided by a plane that is orthogonal to the axis corresponding to feature $X_j$. The location of the plane is positioned at the value of $s$ on that axis. \\
-The algorithm optimises
+The feature space is divided by a plane that is orthogonal to the axis corresponding to feature $X_j$. The plane cuts the value of $s$ on that axis.\\
+The optimisation objective thus reduces to the choice of positioning  the best partitioning plane orthogonal to an axis:
+\begin{align*}
+\argmin_{s, d}[\argmin_{c_1} \sum_{x_i \in R_1(d,s)} l(y_i, x_i) + \argmin_{c_2} \sum_{x_j \in R_2(d,s)} l(y_j, x_j)]
+\end{align*}
+
+The optimisation step yields, for a naive implementation that checks for every dimension the splitting value of a plane between every two neighbouring data points, a worstcase runningtime of $\mathcal{O}(D \cdot N)$, which is computationally much more feasable. However between two neighbouring data points $x_1$ and $x_2$ there are infinitely many positions to place the splitting plane that evaluate to the same empirical risk. As a convention the splitting value $s$ that lies in the middle of $x_1$ and $x_2$, when they are projected on the axis $X_d$, is chosen by convention. The reasoning is that no further assumptions are to be added through the positioning of the plane and since the splitting of the feature space can be viewed as a bernoulli experiment (data point either lies left or right of plane) the bernoulli distribution with expected value of $0.5$ is the maximum entropy bernoulli. \\
+
 
 \section{Results}
 
