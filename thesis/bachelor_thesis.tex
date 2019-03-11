@@ -539,6 +539,20 @@ The optimisation objective thus reduces to the choice of positioning  the best p
 
 The optimisation step yields, for a naive implementation that checks for every dimension the splitting value of a plane between every two neighbouring data points, a worstcase runningtime of $\mathcal{O}(D \cdot N)$, which is computationally much more feasable. However between two neighbouring data points $x_1$ and $x_2$ there are infinitely many positions to place the splitting plane that evaluate to the same empirical risk. As a convention the splitting value $s$ that lies in the middle of $x_1$ and $x_2$, when they are projected on the axis $X_d$, is chosen by convention. The reasoning is that no further assumptions are to be added through the positioning of the plane and since the splitting of the feature space can be viewed as a bernoulli experiment (data point either lies left or right of plane) the bernoulli distribution with expected value of $0.5$ is the maximum entropy bernoulli. \\
 
+After finding the best split, the procedure is repeated on the newly constructed regions until the desired depth of the tree is reached. Regression and classification trees differ from one another only through the selection of a different loss function, such as square loss for regression and the gini index or cross entropy loss for classification. \\
+
+Growing a too big tree $T_0$ is susceptible to overfitting. A regularisation technique that aids in the construction of a well generalising tree is cost-complexity pruning. The goal of pruning is to find a sub-tree $T \subseteq T_0$, by conflating internal nodes of $T$, that minimises:
+\begin{align*}
+C_\alpha(T) = \sum_{i = 1}^{N} l(y_i, f_T(x_i)) + \alpha |T|
+\end{align*}
+where $f_T(x)$ is the estimate of Tree $T$ for input $x$ and $|T|$ denotes the number of terminal nodes of $T$. The tuning parameter $\alpha \geq 0$ punishes larger trees according to its value. It resembles the regularisation term of ridge regression.
+
+\begin{itemize}
+\item pruning
+\item ...
+\end{itemize}
+
+Decision trees exhibit high variance, meaning that completely different splits occur and thus the prediction changes considerably when there are only minor changes added to the training data. 
 
 \section{Results}
 
