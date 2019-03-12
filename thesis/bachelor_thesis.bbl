@@ -139,6 +139,53 @@
       \field{pages}{189\bibrangedash 208}
       \range{pages}{20}
     \endentry
+    \entry{breiman1984classification}{article}{}
+      \name{author}{4}{}{%
+        {{uniquename=0,uniquepart=base,hash=132b7100417675d55d5d4d8b244f7a34}{%
+           family={Breiman},
+           familyi={B\bibinitperiod},
+           given={Leo},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=971cf69058b64a94326dea0f2a8bbcce}{%
+           family={Friedman},
+           familyi={F\bibinitperiod},
+           given={Jerome},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=bdc1a8eaef384fdbc458a35fdd223a8e}{%
+           family={Olshen},
+           familyi={O\bibinitperiod},
+           given={Richard},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=3bca424d1afe6c8f61e01e3743c6bd01}{%
+           family={Stone},
+           familyi={S\bibinitperiod},
+           given={Charles},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{3a2470c8fd470cc40d886536285a6eb3}
+      \strng{fullhash}{7350bb6b6491e5c3442622f1703d4df2}
+      \strng{bibnamehash}{3a2470c8fd470cc40d886536285a6eb3}
+      \strng{authorbibnamehash}{3a2470c8fd470cc40d886536285a6eb3}
+      \strng{authornamehash}{3a2470c8fd470cc40d886536285a6eb3}
+      \strng{authorfullhash}{7350bb6b6491e5c3442622f1703d4df2}
+      \field{sortinit}{B}
+      \field{sortinithash}{276475738cc058478c1677046f857703}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Group}
+      \field{number}{15}
+      \field{title}{Classification and regression trees. Wadsworth Int}
+      \field{volume}{37}
+      \field{year}{1984}
+      \field{pages}{237\bibrangedash 251}
+      \range{pages}{15}
+    \endentry
     \entry{bryc2013separation}{article}{}
       \name{author}{3}{}{%
         {{uniquename=1,uniquepart=given,hash=08023bfa900f27a198f249fa4d5a5977}{%
@@ -513,12 +560,12 @@
     \endentry
     \entry{friedman2001greedy}{article}{}
       \name{author}{1}{}{%
-        {{uniquename=0,uniquepart=base,hash=35b9098abeddd115c394c7b2e7ea0264}{%
+        {{uniquename=1,uniquepart=given,hash=35b9098abeddd115c394c7b2e7ea0264}{%
            family={Friedman},
            familyi={F\bibinitperiod},
            given={Jerome\bibnamedelima H},
            giveni={J\bibinitperiod\bibinitdelim H\bibinitperiod},
-           givenun=0}}%
+           givenun=1}}%
       }
       \list{publisher}{1}{%
         {JSTOR}%
@@ -543,12 +590,12 @@
     \endentry
     \entry{friedman2002stochastic}{article}{}
       \name{author}{1}{}{%
-        {{uniquename=0,uniquepart=base,hash=35b9098abeddd115c394c7b2e7ea0264}{%
+        {{uniquename=1,uniquepart=given,hash=35b9098abeddd115c394c7b2e7ea0264}{%
            family={Friedman},
            familyi={F\bibinitperiod},
            given={Jerome\bibnamedelima H},
            giveni={J\bibinitperiod\bibinitdelim H\bibinitperiod},
-           givenun=0}}%
+           givenun=1}}%
       }
       \list{publisher}{1}{%
         {Elsevier}%
@@ -572,6 +619,52 @@
       \field{year}{2002}
       \field{pages}{367\bibrangedash 378}
       \range{pages}{12}
+    \endentry
+    \entry{friedman2000additive}{article}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{3}{}{%
+        {{uniquename=1,uniquepart=given,hash=971cf69058b64a94326dea0f2a8bbcce}{%
+           family={Friedman},
+           familyi={F\bibinitperiod},
+           given={Jerome},
+           giveni={J\bibinitperiod},
+           givenun=1}}%
+        {{uniquename=0,uniquepart=base,hash=0cb8fe4210baa81c4b0e67913b4d2768}{%
+           family={Hastie},
+           familyi={H\bibinitperiod},
+           given={Trevor},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{uniquename=0,uniquepart=base,hash=88eea600247d798f8b2ce0b2dc614492}{%
+           family={Tibshirani},
+           familyi={T\bibinitperiod},
+           given={Robert},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Institute of Mathematical Statistics}%
+      }
+      \strng{namehash}{7101fa5d54215220aa16ec2c6ee03b81}
+      \strng{fullhash}{7101fa5d54215220aa16ec2c6ee03b81}
+      \strng{bibnamehash}{7101fa5d54215220aa16ec2c6ee03b81}
+      \strng{authorbibnamehash}{7101fa5d54215220aa16ec2c6ee03b81}
+      \strng{authornamehash}{7101fa5d54215220aa16ec2c6ee03b81}
+      \strng{authorfullhash}{7101fa5d54215220aa16ec2c6ee03b81}
+      \field{sortinit}{F}
+      \field{sortinithash}{669c706c6f1fbf3b5a83d26f1d9e9e72}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{year}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The annals of statistics}
+      \field{number}{2}
+      \field{title}{Additive logistic regression: a statistical view of boosting (with discussion and a rejoinder by the authors)}
+      \field{volume}{28}
+      \field{year}{2000}
+      \field{pages}{337\bibrangedash 407}
+      \range{pages}{71}
     \endentry
     \entry{harter2004origin}{article}{}
       \name{author}{6}{}{%

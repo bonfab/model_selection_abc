@@ -541,16 +541,12 @@ The optimisation step yields, for a naive implementation that checks for every d
 
 After finding the best split, the procedure is repeated on the newly constructed regions until the desired depth of the tree is reached. Regression and classification trees differ from one another only through the selection of a different loss function, such as square loss for regression and the gini index or cross entropy loss for classification. \\
 
-Growing a too big tree $T_0$ is susceptible to overfitting. A regularisation technique that aids in the construction of a well generalising tree is cost-complexity pruning. The goal of pruning is to find a sub-tree $T \subseteq T_0$, by conflating internal nodes of $T$, that minimises:
+Growing a too big tree $T_0$ is susceptible to overfitting. A regularisation technique that aids in the construction of a well generalising tree is cost-complexity pruning. The goal of pruning is to find a sub-tree $T \subseteq T_0$, by conflating all hierarchically lower nodes that lead off an internal node into that internal nodes, that minimises:
 \begin{align*}
 C_\alpha(T) = \sum_{i = 1}^{N} l(y_i, f_T(x_i)) + \alpha |T|
 \end{align*}
-where $f_T(x)$ is the estimate of Tree $T$ for input $x$ and $|T|$ denotes the number of terminal nodes of $T$. The tuning parameter $\alpha \geq 0$ punishes larger trees according to its value. It resembles the regularisation term of ridge regression.
-
-\begin{itemize}
-\item pruning
-\item ...
-\end{itemize}
+where $f_T(x)$ is the estimate of Tree $T$ for input $x$ and $|T|$ denotes the number of terminal nodes of $T$. The tuning parameter $\alpha \geq 0$ punishes larger more complex trees according to its value. It resembles the regularisation term of ridge regression. \\
+The optimal sub-tree corresponding to a particular tuning parameter $T_{\alpha}$ can be found using weakest link pruning. Weakest link pruning conflates those terminal nodes into an internal node to which the terminal nodes are all adjacent, such that the empirical risk increases minimally. Continuing with this procedure until only the root stub remains gives a sequence of subtrees $T_1, T_2, \ldots, T_n$ in which with a probability of $1$ the optimal subtree $T_{\alpha}$ can be found \cite{breiman1984classification}.\\
 
 Decision trees exhibit high variance, meaning that completely different splits occur and thus the prediction changes considerably when there are only minor changes added to the training data. 
 
