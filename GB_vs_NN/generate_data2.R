@@ -5,6 +5,7 @@ library(parallel)
 library(MCMCpack)
 library(LaplacesDemon)
 library(elasticnet)
+dyn.load("sample_bernoulli_matrix.so")
 
 
 F_layer <- function(K, F_values, number_locus = 10000){
@@ -69,22 +70,24 @@ admixture_layer <- function(K, number_admixed, sizes){
 
 matrix_binom <- function(matrix, ploidy = 1){
 
-    for(i in 1:nrow(matrix)){
-        for(j in 1:ncol(matrix)){
+    #for(i in 1:nrow(matrix)){
+    #    for(j in 1:ncol(matrix)){
             
-            if(matrix[i, j] > 1){
+    #        if(matrix[i, j] > 1){
                 #print(matrix[i,j])
                 #print(matrix[i,j] > 1)
                 #print(matrix[i, j] - 1)
                 #print(rbinom(1,1, matrix[i,j]))
                 #print("")
-                x <- 1
-            } else {
-                x <- rbinom(1, ploidy, matrix[i, j])
-            }
+    #            x <- 1
+    #        } else {
+    #            x <- rbinom(1, ploidy, matrix[i, j])
+    #        }
 
-            matrix[i,j] <- x
-        }
+    #        matrix[i,j] <- x
+    #    }
+
+    .C("bernoulli_matrix", matrix = matrix, nrow = nrow(matrix), ncol = ncol(matrix))
     }
 
     return(matrix)
@@ -163,6 +166,6 @@ make_data <- function(samples = 2000, populations = 3:5){
 
 }
 
-make_data()
+#make_data()
 
-#PCA_summary(generate(3, number_admixed = 1, pop_sizes= c(15, 100, 100, 100)))
+PCA_summary(generate(3, number_admixed = 1, pop_sizes= c(15, 100, 100, 100)))
