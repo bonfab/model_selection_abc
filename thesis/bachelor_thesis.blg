@@ -1,15 +1,15 @@
-[0] Config.pm:302> INFO - This is Biber 2.9
-[0] Config.pm:305> INFO - Logfile is 'bachelor_thesis.blg'
-[26] biber:313> INFO - === Sa Mär 16, 2019, 20:56:01
-[44] Biber.pm:371> INFO - Reading 'bachelor_thesis.bcf'
-[95] Biber.pm:857> INFO - Found 29 citekeys in bib section 0
-[106] Biber.pm:3981> INFO - Processing section 0
-[115] Biber.pm:4154> INFO - Looking for bibtex format file 'sources.bib' for section 0
-[117] bibtex.pm:1468> INFO - LaTeX decoding ...
-[149] bibtex.pm:1294> INFO - Found BibTeX data source 'sources.bib'
-[331] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[331] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[331] Biber.pm:3809> INFO - Sorting list 'none/global//global/global' of type 'entry' with template 'none' and locale 'en-US'
-[331] Biber.pm:3815> INFO - No sort tailoring available for locale 'en-US'
-[349] bbl.pm:617> INFO - Writing 'bachelor_thesis.bbl' with encoding 'UTF-8'
-[372] bbl.pm:720> INFO - Output to bachelor_thesis.bbl
+[0] Config.pm:304> INFO - This is Biber 2.12
+[0] Config.pm:307> INFO - Logfile is 'bachelor_thesis.blg'
+[24] biber:315> INFO - === mar. mars 19, 2019, 14:02:13
+[67] Biber.pm:371> INFO - Reading 'bachelor_thesis.bcf'
+[136] Biber.pm:889> INFO - Found 29 citekeys in bib section 0
+[149] Biber.pm:4093> INFO - Processing section 0
+[159] Biber.pm:4254> INFO - Looking for bibtex format file 'sources.bib' for section 0
+[161] bibtex.pm:1523> INFO - LaTeX decoding ...
+[192] bibtex.pm:1340> INFO - Found BibTeX data source 'sources.bib'
+[364] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[364] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[364] Biber.pm:3921> INFO - Sorting list 'anyt/global//global/global' of type 'entry' with template 'anyt' and locale 'en-US'
+[365] Biber.pm:3927> INFO - No sort tailoring available for locale 'en-US'
+[388] bbl.pm:636> INFO - Writing 'bachelor_thesis.bbl' with encoding 'UTF-8'
+[409] bbl.pm:739> INFO - Output to bachelor_thesis.bbl
