@@ -19,6 +19,7 @@ F_layer <- function(K, F_values, number_locus = 10000){
 
 admixture_layer <- function(K, number_admixed, sizes){
 
+    print(sum(sizes))
     Q <- matrix(0, nrow = sum(sizes), ncol = K)
 
     pointer <- 0
@@ -68,7 +69,7 @@ admixture_layer <- function(K, number_admixed, sizes){
     return(Q)
 }
 
-matrix_binom <- function(matrix, ploidy = 1){
+matrix_binom <- function(prob, ploidy = 1){
 
     #for(i in 1:nrow(matrix)){
     #    for(j in 1:ncol(matrix)){
@@ -87,8 +88,8 @@ matrix_binom <- function(matrix, ploidy = 1){
     #        matrix[i,j] <- x
     #    }
 
-    .C("bernoulli_matrix", matrix = matrix, nrow = nrow(matrix), ncol = ncol(matrix))
-    }
+    .C("sample_bernoulli_matrix", matrix = as.double(prob), nrow = as.integer(nrow(prob)), ncol = as.integer(ncol(prob)))
+    
 
     return(matrix)
 }
@@ -112,14 +113,17 @@ PCA_summary <- function(data, reduce_to = 25){
 
 }
 
-generate <- function(K, number_locus = 10000, number_admixed = sample(K, 1), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(5000 - (K+number_admixed+5) * 10,1)+(K+number_admixed+5) * 10){
+generate <- function(K, number_locus = 10000, number_admixed = sample(K, 1), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(5000 - (K+number_admixed+5) * 10, 1)+(K+number_admixed+5) * 10){
 
+    print(sample_size)
     #F_values <- runif(K, 0, 1)
     F_values <- rbeta(K, runif(1, 1, 3), 1)
     F <- F_layer(K, F_values, number_locus)
 
     scaling <- 1
 
+    print(pop_sizes)
+    
     if(is.null(pop_sizes)){
         p <- 1/(K + scaling*number_admixed)
         a <- (1 - (K*p))/number_admixed
@@ -130,13 +134,15 @@ generate <- function(K, number_locus = 10000, number_admixed = sample(K, 1), pop
       pop_sizes <- ceiling(pop_sizes * sample_size)
     }
     
-
+    print(pop_sizes)
 
     Q <- admixture_layer(nrow(F), number_admixed, sizes = pop_sizes)
     
-    print(Q)
+    #print(Q)
 
     prob <- Q %*% F
+    
+    print(prob)
 
     return(matrix_binom(prob))
 
@@ -168,4 +174,4 @@ make_data <- function(samples = 2000, populations = 3:5){
 
 #make_data()
 
-PCA_summary(generate(3, number_admixed = 1, pop_sizes= c(15, 100, 100, 100)))
+PCA_summary(generate(3, number_admixed = 1, pop_sizes= c(0.1, 0.4, 0.4, 0.1)))
