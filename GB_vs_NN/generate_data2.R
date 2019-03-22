@@ -2,10 +2,11 @@
 # Created on: 22/01/19
 
 library(parallel)
-library(MCMCpack)
+#library(MCMCpack)
 library(LaplacesDemon)
 library(elasticnet)
-dyn.load("sample_bernoulli_matrix.so")
+library(Rcpp)
+library(RSpectra)
 
 
 F_layer <- function(K, F_values, number_locus = 10000){
@@ -14,10 +15,25 @@ F_layer <- function(K, F_values, number_locus = 10000){
 
     F <- t(vapply(F_values, function(F_value) vapply(ancestral_pop, function(x) rbeta(1, x*(1-F_value)/F_value, (1-x)*(1-F_value)/F_value), numeric(1)), numeric(number_locus)))
 
+    #F <- F[, apply(F, 2, function(x) !(length(unique(x)) == 1))]
+
     return(F)
 }
 
 admixture_layer <- function(K, number_admixed, sizes){
+
+
+    #check_dir <- function(alphas){
+    #    repeat{
+    #        values <- rdirichlet(1, alphas)
+    #        if(sum(values) <= 1){
+    #            break
+    #        } else {
+    #            print("wtf")
+    #        }
+    #    }
+    #    return(values)
+    #}
 
     print(sum(sizes))
     Q <- matrix(0, nrow = sum(sizes), ncol = K)
@@ -53,6 +69,8 @@ admixture_layer <- function(K, number_admixed, sizes){
          #   admixed_prior <- rep(5, K)
           #  admixed_prior[K-2] <- 1
         #}
+
+
       
         mixture <- sample(1:K, sample(K-1, 1) + 1)
         
@@ -63,53 +81,34 @@ admixture_layer <- function(K, number_admixed, sizes){
         }
 
         Q[(pointer+1):(pointer + sizes[admixed]),] <- t(replicate(sizes[admixed], rdirichlet(1, admixed_prior), simplify = "matrix"))
+
         pointer <- pointer + sizes[admixed]
     }
 
     return(Q)
 }
 
-matrix_binom <- function(prob, ploidy = 1){
-
-    #for(i in 1:nrow(matrix)){
-    #    for(j in 1:ncol(matrix)){
-            
-    #        if(matrix[i, j] > 1){
-                #print(matrix[i,j])
-                #print(matrix[i,j] > 1)
-                #print(matrix[i, j] - 1)
-                #print(rbinom(1,1, matrix[i,j]))
-                #print("")
-    #            x <- 1
-    #        } else {
-    #            x <- rbinom(1, ploidy, matrix[i, j])
-    #        }
-
-    #        matrix[i,j] <- x
-    #    }
-
-    .C("sample_bernoulli_matrix", matrix = as.double(prob), nrow = as.integer(nrow(prob)), ncol = as.integer(ncol(prob)))
-    
-
-    return(matrix)
-}
-
 
 
 PCA_summary <- function(data, reduce_to = 25){
 
-    data <- data[, apply(data, 2, function(x) !(length(unique(x)) == 1))]
+    #print(dim(data))
+    print("finish")
 
-    pca <- prcomp(data, scale = T)
+    #data <- data[, apply(data, 2, function(x) !(length(unique(x)) == 1))]
+    #data <- scale(data)
+    #data <- data[, apply(data, 2, function(x) !(sum(x) == 0))
+    #data <- data[,scale]
+    #pca <- prcomp(data, scale = F)
 
-
+    eigval <- svds(data, k = reduce_to, nu = 0, nv = 0)
     #trunc <- pca$rotation[,1:reduce_to] %*% pca$x[1:reduce_to,1:reduce_to]
 
-    plot(pca)
-    plot(pca$x)
-    eigen_sum <- sum(pca$sdev)
+    #plot(pca)
+    #plot(pca$x)
+    eigen_sum <- sum(eigval$d)
 
-    return(append(append(pca$sdev[1:reduce_to], eigen_sum), dim(data)))
+    return(append(append(eigval$d, eigen_sum), dim(data)))
 
 }
 
@@ -119,6 +118,7 @@ generate <- function(K, number_locus = 10000, number_admixed = sample(K, 1), pop
     #F_values <- runif(K, 0, 1)
     F_values <- rbeta(K, runif(1, 1, 3), 1)
     F <- F_layer(K, F_values, number_locus)
+
 
     scaling <- 1
 
@@ -137,15 +137,16 @@ generate <- function(K, number_locus = 10000, number_admixed = sample(K, 1), pop
     print(pop_sizes)
 
     Q <- admixture_layer(nrow(F), number_admixed, sizes = pop_sizes)
-    
+
     #print(Q)
 
     prob <- Q %*% F
     
-    print(prob)
+    #print(prob)
 
-    return(matrix_binom(prob))
+    print(dim(prob))
 
+    bernoulli_matrix(prob)
 }
 
 make_data <- function(samples = 2000, populations = 3:5){
@@ -172,6 +173,7 @@ make_data <- function(samples = 2000, populations = 3:5){
 
 }
 
+Rcpp::sourceCpp("sample_bernoulli_matrix.cpp")
 #make_data()
 
 PCA_summary(generate(3, number_admixed = 1, pop_sizes= c(0.1, 0.4, 0.4, 0.1)))
