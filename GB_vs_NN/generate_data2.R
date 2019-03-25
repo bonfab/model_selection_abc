@@ -9,7 +9,7 @@ library(Rcpp)
 library(RSpectra)
 
 
-F_layer <- function(K, F_values, number_locus = 10000){
+F_layer <- function(K, F_values, number_locus = sample(40000 - 8000, 1) + 8000){
 
     ancestral_pop <- runif(number_locus)
 
@@ -35,7 +35,6 @@ admixture_layer <- function(K, number_admixed, sizes){
     #    return(values)
     #}
 
-    print(sum(sizes))
     Q <- matrix(0, nrow = sum(sizes), ncol = K)
 
     pointer <- 0
@@ -77,7 +76,7 @@ admixture_layer <- function(K, number_admixed, sizes){
         admixed_prior <- rep(0, K)
         
         for(i in mixture){
-          admixed_prior[i] <- rbeta(1, 1.5, 1) * 10 
+          admixed_prior[i] <- rbeta(1, 1, 1) * sample(10, 1)
         }
 
         Q[(pointer+1):(pointer + sizes[admixed]),] <- t(replicate(sizes[admixed], rdirichlet(1, admixed_prior), simplify = "matrix"))
@@ -92,8 +91,7 @@ admixture_layer <- function(K, number_admixed, sizes){
 
 PCA_summary <- function(data, reduce_to = 25){
 
-    #print(dim(data))
-    print("finish")
+    print(dim(data))
 
     #data <- data[, apply(data, 2, function(x) !(length(unique(x)) == 1))]
     #data <- scale(data)
@@ -103,18 +101,18 @@ PCA_summary <- function(data, reduce_to = 25){
 
     eigval <- svds(data, k = reduce_to, nu = 0, nv = 0)
     #trunc <- pca$rotation[,1:reduce_to] %*% pca$x[1:reduce_to,1:reduce_to]
-
     #plot(pca)
     #plot(pca$x)
-    eigen_sum <- sum(eigval$d)
+    eigval <- eigval$d^2 / (nrow(data)- 1)
+    barplot(eigval)
+    eigen_sum <- sum(eigval)
 
-    return(append(append(eigval$d, eigen_sum), dim(data)))
+    return(append(append(eigval, eigen_sum), dim(data)))
 
 }
 
-generate <- function(K, number_locus = 10000, number_admixed = sample(K, 1), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(5000 - (K+number_admixed+5) * 10, 1)+(K+number_admixed+5) * 10){
+generate <- function(K, number_locus = sample(40000 - 8000, 1) + 8000, number_admixed = sample(K, 1), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = ceiling(rbeta(1, 1, 2) * sample(10000 - 1200, 1) + 1200)){
 
-    print(sample_size)
     #F_values <- runif(K, 0, 1)
     F_values <- rbeta(K, runif(1, 1, 3), 1)
     F <- F_layer(K, F_values, number_locus)
@@ -122,7 +120,6 @@ generate <- function(K, number_locus = 10000, number_admixed = sample(K, 1), pop
 
     scaling <- 1
 
-    print(pop_sizes)
     
     if(is.null(pop_sizes)){
         p <- 1/(K + scaling*number_admixed)
@@ -133,47 +130,49 @@ generate <- function(K, number_locus = 10000, number_admixed = sample(K, 1), pop
     } else {
       pop_sizes <- ceiling(pop_sizes * sample_size)
     }
-    
-    print(pop_sizes)
+
 
     Q <- admixture_layer(nrow(F), number_admixed, sizes = pop_sizes)
 
-    #print(Q)
 
     prob <- Q %*% F
-    
-    #print(prob)
-
-    print(dim(prob))
 
     bernoulli_matrix(prob)
 }
 
-make_data <- function(samples = 2000, populations = 3:5){
+make_data <- function(samples = 1000, populations = 2:16){
 
-  clust <- makeCluster(detectCores() - 2)
-  clusterExport(cl=clust, varlist=c("PCA_summary", "generate", "rdirichlet", "F_layer", "admixture_layer", "matrix_binom"))
+  #clust <- makeCluster(detectCores() - 2)
+  #clusterExport(cl=clust, varlist=c("PCA_summary", "generate", "rdirichlet", "F_layer", "admixture_layer", "bernoulli_matrix"))
 
+   # clusterEvalQ(clust, source("generate_data2.R"))
   #pop <- do.call(rbind, lapply(populations, function(x) t(replicate(samples, PCA_summary(generate_admixture_prior(x, 10000))))))
   #pop <- do.call(rbind, parLapply(clust, populations, function(x) t(replicate(samples, PCA_summary(generate_admixture_prior(x, 10000))))))
-
-  #label <- unlist(lapply(populations, function(x) rep(x, samples)))
+  labels <- lapply(populations, function(x) rep(x, samples))
 
   print("begin generation")
-
   #priors <- seq(0.1, 0.6, by=0.1)
-  pop <- do.call(rbind, parLapply(clust, populations, function(x) t(sapply(1:samples, function(y) PCA_summary(generate(x, number_locus = sample(40000- 1999, 1)+1999))))))
-  label <- as.vector(t(replicate(samples, populations)))
+  result <- list()
+    for(p in labels){
 
-  #print(pop)
-  #print(label)
+        print(paste("populations:", as.character(p[1]), sep = " "))
+        #pop <- t(parSapply(clust , p, function(y) PCA_summary(generate(y, number_locus = sample(40000- 2000, 1)+2000))))
+        pop <- t(sapply(p, function(y) PCA_summary(generate(y, number_locus = sample(40000- 2000, 1)+2000))))
+        append(result, pop)
+    }
+    #stopCluster(clust)
+  pop <- do.call(rbind, result)
+    labels <- unlist(labels)
+  #label <- as.vector(t(replicate(samples, populations)))
+
 
   #saveRDS(list(pop, label), "data_pop_prio_1-25.rds")
-  saveRDS(list(pop, label), "./data_K/admixed_3_to_5.rds")
+  saveRDS(list(pop, labels), "./data_K/admixed_2_to_16(2).rds")
 
 }
 
+Sys.setlocale("LC_MESSAGES", "en_US.utf8")
 Rcpp::sourceCpp("sample_bernoulli_matrix.cpp")
-#make_data()
+make_data()
 
-PCA_summary(generate(3, number_admixed = 1, pop_sizes= c(0.1, 0.4, 0.4, 0.1)))
+#PCA_summary(generate(3, number_admixed = 1, pop_sizes = c(0.1, 0.4, 0.4, 0.1)))
