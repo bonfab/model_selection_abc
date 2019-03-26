@@ -2,9 +2,10 @@ source("gradient_boosting.R")
 source("testing.R")
 
 
-load_data <- function(RDS_file = "data_K/admixed_one_1_5.rds"){
+load_data <- function(RDS_file = "data_K/admixed_2_to_16.rds"){
   
   data <- readRDS(RDS_file)
+  print(data)
   
   return(cbind(data[[1]], data[[2]]))
   
@@ -28,9 +29,12 @@ get_test_indices <- function(labels, proportion = 0.1){
 
 m <- load_data()
 
+print(dim(m))
+print(m[1])
+
 indices <- get_test_indices(m[,ncol(m)])
 
-print(indices)
+#print(indices)
 #print(as.vector(indices))
 
 train <- m[-indices,]
