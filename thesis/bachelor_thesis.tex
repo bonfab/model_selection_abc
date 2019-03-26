@@ -131,6 +131,12 @@ A more "modern" approach involves the insight that a cluster structure is also r
 \\
 Approaches have been made with random matrix theory (RMT) to concretise the behaviour of the first $k-1$ eigenevalues \cite{patterson2006population}, including a mathematical threshhold that destinguishes significantly larger eigenvalues from lower ones \cite {bryc2013separation}. Utilising insights from random matrix theory furtherly remains its beginnings, so far no well performing method based on RMT has been developed. \textbf{cite ???}
 
+STRUCTURE is widely used for inferring the number of populations, however in a different way than originally intended. Most often the decision of $K$ follows a heuristic based on the likelihood $P(X|K)$, which is calculated with the implemented monte carlo algorithm in STRUCTURE. The heuristic most commonly applied, investigated and proposed by \cite{evanno2005detecting}, relies on the search for the largest jump in the second derivative of a composed loglikelihood function. The likelihood function $L(K)$ is calculated by averaging the loglikelihood of each MCMC step and further subtracting half of the variance off that mean \textbf{(a penalisation for instable models)}. The second derivative is defined as $L''(K|X) = L'(K+1) - L'(K)$ with of couse $L'(K) = L(K+1) - L(K)$. Several runs are completed and therefore also several results for $L(K)$ received. The selection criteria then is $\Delta K = \frac{m(L''(K))}{s(L(K))}$, where $m$ is the mean and $s$ the standard deviation.
+\begin{figure}
+\includegraphics[scale=0.4]{delta_K} 
+\end{figure}
+The method offers reasonable results, even for hierarchichal clusters (the population structure in the highest hierarchy layer is the expected result), however it was conceived only as an adhoc solution strongly reliant on the results outputed by the STRUCTURE algorithm. Furthermore, there are indications that the method is biased towards lower $K$s if not several exhaustive sampling with the MCMC is completed, which tends to be at least computationally very time comsuming as the dimension of genotype data has rapidly expanded with the introduction of more modern genom sequencing equipment.
+
 
 \section{Biological Background}
 

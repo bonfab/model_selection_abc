@@ -2002,6 +2002,7 @@
     <bcf:citekey order="3">rosenberg2001empirical</bcf:citekey>
     <bcf:citekey order="4">pritchard2000inference</bcf:citekey>
     <bcf:citekey order="4">falush2003inference</bcf:citekey>
+<<<<<<< HEAD
     <bcf:citekey order="5">pritchard2000inference</bcf:citekey>
     <bcf:citekey order="6">falush2003inference</bcf:citekey>
     <bcf:citekey order="7">corander2004baps</bcf:citekey>
@@ -2021,6 +2022,27 @@
     <bcf:citekey order="21">patterson2006population</bcf:citekey>
     <bcf:citekey order="22">patterson2006population</bcf:citekey>
     <bcf:citekey order="23">bryc2013separation</bcf:citekey>
+=======
+    <bcf:citekey order="5">falush2003inference</bcf:citekey>
+    <bcf:citekey order="6">corander2004baps</bcf:citekey>
+    <bcf:citekey order="7">pritchard2000inference</bcf:citekey>
+    <bcf:citekey order="8">falush2003inference</bcf:citekey>
+    <bcf:citekey order="9">rosenberg2002genetic</bcf:citekey>
+    <bcf:citekey order="10">harter2004origin</bcf:citekey>
+    <bcf:citekey order="11">rosenberg2001empirical</bcf:citekey>
+    <bcf:citekey order="12">evanno2005detecting</bcf:citekey>
+    <bcf:citekey order="13">pritchard2000inference</bcf:citekey>
+    <bcf:citekey order="14">donath1973lower</bcf:citekey>
+    <bcf:citekey order="15">fiedler1973algebraic</bcf:citekey>
+    <bcf:citekey order="16">shi2000normalized</bcf:citekey>
+    <bcf:citekey order="17">meila2001random</bcf:citekey>
+    <bcf:citekey order="18">ng2002spectral</bcf:citekey>
+    <bcf:citekey order="19">von2007tutorial</bcf:citekey>
+    <bcf:citekey order="20">patterson2006population</bcf:citekey>
+    <bcf:citekey order="21">patterson2006population</bcf:citekey>
+    <bcf:citekey order="22">bryc2013separation</bcf:citekey>
+    <bcf:citekey order="23">evanno2005detecting</bcf:citekey>
+>>>>>>> c131e72a8ff6e6d1a26b37223225ef8533d05048
     <bcf:citekey order="24">falush2003inference</bcf:citekey>
     <bcf:citekey order="25">pritchard2000inference</bcf:citekey>
     <bcf:citekey order="26">bishop2006pattern</bcf:citekey>

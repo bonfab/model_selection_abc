@@ -140,7 +140,7 @@ generate <- function(K, number_locus = sample(40000 - 8000, 1) + 8000, number_ad
     bernoulli_matrix(prob)
 }
 
-make_data <- function(samples = 1000, populations = 2:16){
+make_data <- function(samples = 2, populations = 2:3){
 
   #clust <- makeCluster(detectCores() - 2)
   #clusterExport(cl=clust, varlist=c("PCA_summary", "generate", "rdirichlet", "F_layer", "admixture_layer", "bernoulli_matrix"))
@@ -167,7 +167,7 @@ make_data <- function(samples = 1000, populations = 2:16){
 
 
   #saveRDS(list(pop, label), "data_pop_prio_1-25.rds")
-  saveRDS(list(pop, labels), "./data_K/admixed_2_to_16(2).rds")
+  saveRDS(list(pop, labels), "./data_K/test.rds")
 
 }
 
