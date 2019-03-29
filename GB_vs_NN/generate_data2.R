@@ -115,7 +115,7 @@ PCA_summary <- function(data, reduce_to = 25){
 
 }
 
-generate <- function(K, number_locus = sample(40000 - 8000, 1) + 8000, number_admixed = sample(K, 1), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = ceiling(rbeta(1, 1, 2) * sample(10000 - 1200, 1) + 1200)){
+generate <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_admixed = sample(K, 1), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = ceiling(rbeta(1, 1, 2) * sample(10000 - 600, 1) + 600)){
 
     #F_values <- runif(K, 0, 1)
     F_values <- rbeta(K, runif(1, 1, 3), 1)
@@ -144,7 +144,7 @@ generate <- function(K, number_locus = sample(40000 - 8000, 1) + 8000, number_ad
     bernoulli_matrix(prob)
 }
 
-make_data <- function(samples = 2, populations = 2:16){
+make_data <- function(samples = 1000, populations = 2:16){
 
   #clust <- makeCluster(detectCores() - 2)
   #clusterExport(cl=clust, varlist=c("PCA_summary", "generate", "rdirichlet", "F_layer", "admixture_layer", "bernoulli_matrix"))
@@ -161,10 +161,10 @@ make_data <- function(samples = 2, populations = 2:16){
 
         print(paste("populations:", as.character(p[1]), sep = " "))
         #pop <- t(parSapply(clust , p, function(y) PCA_summary(generate(y, number_locus = sample(40000- 2000, 1)+2000))))
-        #pop <- t(sapply(p, function(y) PCA_summary(generate(y, number_locus = sample(40000- 2000, 1)+2000))))
-        #result <- rbind(result, pop)
-        pop <- lapply(p, function(y) generate(y, number_locus = sample(40000- 2000, 1)+2000))
-        result <- append(result, pop)
+        pop <- t(sapply(p, function(y) PCA_summary(generate(y, number_locus = sample(40000- 2000, 1)+2000))))
+        result <- rbind(result, pop)
+        #pop <- lapply(p, function(y) generate(y, number_locus = sample(40000- 2000, 1)+2000))
+        #result <- append(result, pop)
 
     }
     #stopCluster(clust)
@@ -177,7 +177,7 @@ make_data <- function(samples = 2, populations = 2:16){
   #saveRDS(list(pop, label), "data_pop_prio_1-25.rds")
     #print(pop)
     #print(list(result, labels))
-  saveRDS(list(result, labels), "./data_K/full_data_pop_prio_1-25.rds")
+  saveRDS(list(result, labels), "./data_K/data_pop_prio_1-25.rds")
 
 }
 

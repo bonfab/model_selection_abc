@@ -115,7 +115,8 @@ PCA_summary <- function(data, reduce_to = 25){
 
 }
 
-generate <- function(K, number_locus = sample(40000 - 8000, 1) + 8000, number_admixed = sample(K, 1), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = ceiling(rbeta(1, 1, 2) * sample(10000 - 1200, 1) + 1200)){
+#generate <- function(K, number_locus = sample(40000 - 8000, 1) + 8000, number_admixed = sample(K, 1), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = ceiling(rbeta(1, 1, 2) * sample(10000 - 1200, 1) + 1200)){
+generate <- function(K, number_locus = sample(36000 - 6000, 1) + 6000, number_admixed = 0, pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = ceiling(rbeta(1, 1, 2) * sample(8000 - 400, 1) + 400)){
 
     #F_values <- runif(K, 0, 1)
     F_values <- rbeta(K, runif(1, 1, 3), 1)
@@ -188,7 +189,7 @@ make_data()
 
 #a <- generate(3, number_admixed = 1, pop_sizes = c(0.2, 0.2, 0.4, 0.2))
 #print(dim(a))
-p <- prcomp(a)
+#p <- prcomp(a)
 
 #plot(p)
 
