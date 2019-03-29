@@ -48,6 +48,10 @@ admixture_layer <- function(K, number_admixed, sizes){
 
     #print(sizes)
 
+    if(number_admixed == 0){
+        return(Q)
+    }
+
     for(admixed in (K+1):(K+number_admixed)){
 
      #   admixed_prior <- rdirichlet(1, rep(1, K))
@@ -76,7 +80,7 @@ admixture_layer <- function(K, number_admixed, sizes){
         admixed_prior <- rep(0, K)
         
         for(i in mixture){
-          admixed_prior[i] <- rbeta(1, 1, 1) * sample(10, 1)
+          admixed_prior[i] <- rbeta(1, 1, 1) * sample(8, 1)
         }
 
         Q[(pointer+1):(pointer + sizes[admixed]),] <- t(replicate(sizes[admixed], rdirichlet(1, admixed_prior), simplify = "matrix"))
@@ -104,7 +108,7 @@ PCA_summary <- function(data, reduce_to = 25){
     #plot(pca)
     #plot(pca$x)
     eigval <- eigval$d^2 / (nrow(data)- 1)
-    barplot(eigval)
+    #barplot(eigval)
     eigen_sum <- sum(eigval)
 
     return(append(append(eigval, eigen_sum), dim(data)))
@@ -140,7 +144,7 @@ generate <- function(K, number_locus = sample(40000 - 8000, 1) + 8000, number_ad
     bernoulli_matrix(prob)
 }
 
-make_data <- function(samples = 2, populations = 2:3){
+make_data <- function(samples = 2, populations = 2:16){
 
   #clust <- makeCluster(detectCores() - 2)
   #clusterExport(cl=clust, varlist=c("PCA_summary", "generate", "rdirichlet", "F_layer", "admixture_layer", "bernoulli_matrix"))
@@ -157,17 +161,23 @@ make_data <- function(samples = 2, populations = 2:3){
 
         print(paste("populations:", as.character(p[1]), sep = " "))
         #pop <- t(parSapply(clust , p, function(y) PCA_summary(generate(y, number_locus = sample(40000- 2000, 1)+2000))))
-        pop <- t(sapply(p, function(y) PCA_summary(generate(y, number_locus = sample(40000- 2000, 1)+2000))))
-        append(result, pop)
+        #pop <- t(sapply(p, function(y) PCA_summary(generate(y, number_locus = sample(40000- 2000, 1)+2000))))
+        #result <- rbind(result, pop)
+        pop <- lapply(p, function(y) generate(y, number_locus = sample(40000- 2000, 1)+2000))
+        result <- append(result, pop)
+
     }
     #stopCluster(clust)
-  pop <- do.call(rbind, result)
+    #print(result)
+    #pop <- do.call(rbind, result)
     labels <- unlist(labels)
   #label <- as.vector(t(replicate(samples, populations)))
 
 
   #saveRDS(list(pop, label), "data_pop_prio_1-25.rds")
-  saveRDS(list(pop, labels), "./data_K/test.rds")
+    #print(pop)
+    #print(list(result, labels))
+  saveRDS(list(result, labels), "./data_K/full_data_pop_prio_1-25.rds")
 
 }
 
@@ -175,4 +185,11 @@ Sys.setlocale("LC_MESSAGES", "en_US.utf8")
 Rcpp::sourceCpp("sample_bernoulli_matrix.cpp")
 make_data()
 
-#PCA_summary(generate(3, number_admixed = 1, pop_sizes = c(0.1, 0.4, 0.4, 0.1)))
+
+#a <- generate(3, number_admixed = 1, pop_sizes = c(0.2, 0.2, 0.4, 0.2))
+#print(dim(a))
+p <- prcomp(a)
+
+#plot(p)
+
+#PCA_summary(generate(3, number_admixed = 0, pop_sizes = c(0.2, 0.4, 0.4))
