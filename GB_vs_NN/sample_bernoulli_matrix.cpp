@@ -10,8 +10,8 @@ NumericVector bernoulli_matrix(NumericMatrix prob_matrix){
 	int ncol = prob_matrix.ncol();
 	int var_sum = 0;	
 
-	int val, count1, count2, sum;
-	double mean, variance;
+	int count1, count2, sum;
+	double mean, variance, val;
 
 	NumericVector variance_flags(ncol);
 
@@ -22,10 +22,16 @@ NumericVector bernoulli_matrix(NumericMatrix prob_matrix){
 			
 		for(int i=0; i<nrow; i++){
 			
-			val = ::unif_rand() < prob_matrix(i,j);
-			val += ::unif_rand() < prob_matrix(i,j);
+			if(::unif_rand() < prob_matrix(i,j)){
+				val = 1.0;
+			} else{
+				val = 0.0;
+			}
+			if(::unif_rand() < prob_matrix(i,j)){
+				val += 1.0;
+			}
 
-			if(val ==1) count1 += 1;
+			if(val == 1) count1 += 1;
 
 			if(val == 2) count2 += 1;
 			
@@ -40,9 +46,9 @@ NumericVector bernoulli_matrix(NumericMatrix prob_matrix){
 
 		if(sum != 0 && nrow != count1 && nrow != count2){
 			
-			variance = ((mean*mean)*(nrow - (count1+count2)) + (1 - mean)*(1-mean)*count1 + (2-mean)*(2-mean)*count2) /nrow;
+			//variance = ((mean*mean)*(nrow - (count1+count2)) + (1 - mean)*(1-mean)*count1 + (2-mean)*(2-mean)*count2) /nrow;
 
-			for(int i=0; i<nrow; i++) prob_matrix(i, j) = (prob_matrix(i, j) - mean) / variance;
+			for(int i=0; i<nrow; i++) prob_matrix(i, j) = (prob_matrix(i, j) - mean);// / variance;
 			
 			variance_flags[j] = 1;
 			var_sum += 1;

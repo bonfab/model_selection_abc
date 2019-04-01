@@ -2,12 +2,43 @@ source("gradient_boosting.R")
 source("testing.R")
 
 
-load_data <- function(RDS_file = "data_K/admixed_2_to_16.rds"){
+load_data <- function(RDS_file = "data_K/data_pop_prio_1-25.rds"){
   
   data <- readRDS(RDS_file)
-  print(data)
-  
-  return(cbind(data[[1]], data[[2]]))
+
+  m <- matrix(0, nrow = nrow(data[[1]]), ncol = ncol(data[[1]])+1)
+
+  print(data[[1]])
+  print(typeof(data[[1]]))
+  print(typeof(data[[1]][1]))
+  print(typeof(data[[1]][1,]))
+  print(data[[1]][1])
+  print(typeof(matrix(data[[1]], nrow = nrow(data[[1]]))))
+
+  print(typeof(matrix(cbind(data[[1]], data[[2]]))))
+
+  print(dim(m))
+  print(length(data[[1]][1,]))
+  print(length(data[[1]]))
+  print(m[3, 1])
+  print(data[[1]][3, 1])
+  print(dim(data[[1]]))
+
+  for(i in 1:ncol(data[[1]])){
+    for(j in 1:nrow(data[[1]])){
+      #print(list(i,j))
+      m[j, i] <- as.numeric(data[[1]][j, i])
+    }
+  }
+
+  for(i in 1:nrow(data[[1]])){
+    m[i, ncol(data[[1]])+1] <- data[[2]][i]
+  }
+
+  return(m)
+  #print(m)
+  #print(typeof(m))
+  #return(cbind(as.matrix(data[[1]]), as.matrix(data[[2]])))
   
 }
 
@@ -29,8 +60,6 @@ get_test_indices <- function(labels, proportion = 0.1){
 
 m <- load_data()
 
-print(dim(m))
-print(m[1])
 
 indices <- get_test_indices(m[,ncol(m)])
 
@@ -41,6 +70,8 @@ train <- m[-indices,]
 train <- train[sample(nrow(train)),]
 test <- m[indices,]
 test <- test[sample(nrow(test)),]  # not really necessary
+
+print(min(m[,length(m[1,])]))
 
 xgb_compatible <- min(m[,length(m[1,])])
 
