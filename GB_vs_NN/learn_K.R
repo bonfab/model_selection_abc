@@ -2,28 +2,16 @@ source("gradient_boosting.R")
 source("testing.R")
 
 
-load_data <- function(RDS_file = "data_K/data_pop_prio_1-25.rds"){
+load_data <- function(RDS_file = "data_K/test_data_pop_prio_1-25.rds"){
   
   data <- readRDS(RDS_file)
 
   m <- matrix(0, nrow = nrow(data[[1]]), ncol = ncol(data[[1]])+1)
 
+
+
+  print(data)
   print(data[[1]])
-  print(typeof(data[[1]]))
-  print(typeof(data[[1]][1]))
-  print(typeof(data[[1]][1,]))
-  print(data[[1]][1])
-  print(typeof(matrix(data[[1]], nrow = nrow(data[[1]]))))
-
-  print(typeof(matrix(cbind(data[[1]], data[[2]]))))
-
-  print(dim(m))
-  print(length(data[[1]][1,]))
-  print(length(data[[1]]))
-  print(m[3, 1])
-  print(data[[1]][3, 1])
-  print(dim(data[[1]]))
-
   for(i in 1:ncol(data[[1]])){
     for(j in 1:nrow(data[[1]])){
       #print(list(i,j))
@@ -38,7 +26,7 @@ load_data <- function(RDS_file = "data_K/data_pop_prio_1-25.rds"){
   return(m)
   #print(m)
   #print(typeof(m))
-  #return(cbind(as.matrix(data[[1]]), as.matrix(data[[2]])))
+  #return(cbind(data[[1]], data[[2]]))
   
 }
 

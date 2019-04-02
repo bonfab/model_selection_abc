@@ -19,7 +19,7 @@ trainXGBoost <- function(train_data, train_label, iterations = 200){
     colsample_bytree = .75,
     lambda = 1.5,
     feature_selector = "thrifty",
-    nrounds = 200
+    nrounds = 500
   )
   
   bstDMatrix <- xgboost(param = params, data = dtrain, nrounds = iterations)

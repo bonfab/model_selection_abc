@@ -5,7 +5,7 @@
 
 library(mclust)
 
-load_data <- function(RDS_file = "data_K/full_data_2-16.rds"){
+load_data <- function(RDS_file = "data_K/full_admixed1_data_pop_2-16.rds"){
 
   data <- readRDS(RDS_file)
 

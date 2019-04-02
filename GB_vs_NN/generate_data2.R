@@ -75,7 +75,7 @@ admixture_layer <- function(K, number_admixed, sizes){
 
 
       
-        mixture <- sample(1:K, sample(K-1, 1) + 1)
+        mixture <- sample(1:K, sample(K-2, 1) + 2)
         
         admixed_prior <- rep(0, K)
         
@@ -103,23 +103,23 @@ PCA_summary <- function(data, reduce_to = 25){
     #data <- data[,scale]
     #pca <- prcomp(data, scale = F)
 
-    eigval <- svds(data, k = reduce_to, nu = 0, nv = 0)
+    eigval <- svds(data, k = reduce_to + 1, nu = 0, nv = 0)
     #trunc <- pca$rotation[,1:reduce_to] %*% pca$x[1:reduce_to,1:reduce_to]
     #plot(pca)
     #plot(pca$x)
     eigval <- eigval$d^2 / (nrow(data)- 1)
-    barplot(eigval)
-    plot(prcomp(data))
-    eigen_sum <- sum(eigval)
 
-    return(eigval)
-
+    #plot(prcomp(data))
+    #eigen_sum <- sum(eigval)
+    eigval <- (eigval - min(eigval)) / (max(eigval) - min(eigval))
+    #barplot(eigval)
+    return(eigval[-(reduce_to+1)])
 }
 
-generate <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_admixed = floor(rbeta(1, 1, 3) * K), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(10000 - 600, 1) + 600){
+generate <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_admixed = floor(rbeta(1, 1, 1.2) * K), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(10000 - 500, 1) + 500){
 
-    F_values <- runif(K, 0, 1)
-    #F_values <- rbeta(K, runif(1, 1, 3))
+    #F_values <- runif(K, 0, 1)
+    F_values <- rbeta(K, 1, 3)
     print(paste("F_values:", as.character(F_values), sep = " "))
     F <- F_layer(K, F_values, number_locus)
 
@@ -144,25 +144,25 @@ generate <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_ad
 
     prob <- Q %*% F
 
-    data <- matrix(0, nrow = nrow(prob), ncol = ncol(prob))
-    for(i in 1:ncol(prob)){
-        for(j in 1:nrow(prob)){
-            data[j, i] <- rbinom(1, 2, prob[j, i])
-        }
-    }
+    #data <- matrix(0, nrow = nrow(prob), ncol = ncol(prob))
+    #for(i in 1:ncol(prob)){
+    #    for(j in 1:nrow(prob)){
+    #        data[j, i] <- rbinom(1, 2, prob[j, i])
+    #    }
+    #}
 
-    data <- data[, apply(data, 2, function(x) !(length(unique(x)) == 1))]
-    data <- scale(data)
-    print("scale")
-    print(dim(data))
+    #data <- data[, apply(data, 2, function(x) !(length(unique(x)) == 1))]
+    #data <- scale(data)
+    #print("scale")
+    #print(dim(data))
     prob <- bernoulli_matrix(prob)
-    print("c")
-    print(dim(prob))
-    print(prob[,1])
+    #print("c")
+    #print(dim(prob))
+    #print(prob[,1])
     return(prob)
 }
 
-make_data <- function(samples = 1, populations = 4:4){
+make_data <- function(samples = 1000, populations = 2:16){
 
   #clust <- makeCluster(detectCores() - 2)
   #clusterExport(cl=clust, varlist=c("PCA_summary", "generate", "rdirichlet", "F_layer", "admixture_layer", "bernoulli_matrix"))
@@ -195,13 +195,13 @@ make_data <- function(samples = 1, populations = 4:4){
   #saveRDS(list(pop, label), "data_pop_prio_1-25.rds")
     #print(pop)
     #print(list(result, labels))
-  #saveRDS(list(result, labels), "./data_K/test_data_pop_prio_1-25.rds")
+  saveRDS(list(result, labels), "./data_K/nr1_data_pop_2-16.rds")
 
 }
 
 Sys.setlocale("LC_MESSAGES", "en_US.utf8")
 Rcpp::sourceCpp("sample_bernoulli_matrix.cpp")
-#make_data()
+make_data()
 
 
 #a <- generate(3, number_admixed = 1, pop_sizes = c(0.2, 0.2, 0.4, 0.2))
@@ -210,4 +210,4 @@ Rcpp::sourceCpp("sample_bernoulli_matrix.cpp")
 
 #plot(p)
 
-PCA_summary(generate(3, number_admixed = 0, number_locus = 1000, sample_size = 600))
+#PCA_summary(generate(10))
