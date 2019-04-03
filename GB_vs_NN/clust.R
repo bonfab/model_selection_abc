@@ -18,7 +18,7 @@ reduce_dim <- function(data, reduce_to = 25){
   d <- eigval$A$d
   d <- diag(d)
   
-  data %*% U %*% solve(d)
+  data %*% (U %*% solve(d))
   
 }
 
