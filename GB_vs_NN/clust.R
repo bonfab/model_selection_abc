@@ -6,25 +6,30 @@
 library(mclust)
 library(RSpectra)
 
-load_data <- function(RDS_file = "data_K/full_admixed1_data_pop_2-16.rds"){
+load_data <- function(RDS_file = "data_K/full_test_admixed1_data_pop_2-16.rds"){
 
   data <- readRDS(RDS_file)
 
 }
 
-reduce_dim <- function(data, reduce_to = 25){
+reduce_dim <- function(data, reduce_to = 50){
   eigval <- svds(data, k = reduce_to, nu = reduce_to, nv = 0)
-  U <- eigval$A$u
-  d <- eigval$A$d
+  U <- eigval$u
+  d <- eigval$d
+  barplot(d)
+  
+  
   d <- diag(d)
   
-  data %*% (U %*% solve(d))
+  
+  t(data) %*% (U %*% solve(d))
   
 }
 
 
 test <- function(data, true_k){
 
+    #data <- reduce_dim(data)
     print("true_k:")
     print(true_k)
     print("estimate:")
@@ -35,7 +40,7 @@ test <- function(data, true_k){
 d <- load_data()
 
 for(i in 1:length(d[[1]])){
-    test(reduce_dim(d[[1]][[i]]), d[[2]][[i]])
+    test(d[[1]][[i]], d[[2]][[i]])
 }
 
 #for(d in load_data()){
