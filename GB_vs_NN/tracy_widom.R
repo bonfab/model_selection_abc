@@ -35,9 +35,14 @@ test <- function(data, true_k){
   
 }
 
-d <- load_data()
+run <- function(){
+    d <- load_data()
 
-for(i in 1:length(d[[1]])){
-  test(d[[1]][[i]], d[[2]][[i]])
+    #test(d[[1]][[1]], d[[2]][[1]])
+
+    for(i in 1:length(d[[1]])){
+        test(d[[1]][[i]], d[[2]][[i]])
+    }
+
 }
 

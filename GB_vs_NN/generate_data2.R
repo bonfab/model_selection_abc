@@ -116,6 +116,37 @@ PCA_summary <- function(data, reduce_to = 25){
     return(eigval[-(reduce_to+1)])
 }
 
+generate_prob <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_admixed = floor(rbeta(1, 1, 1.2) * K), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(10000 - 500, 1) + 500){
+
+    #F_values <- runif(K, 0, 1)
+    F_values <- rbeta(K, 1, 3)
+    print(paste("F_values:", as.character(F_values), sep = " "))
+    F <- F_layer(K, F_values, number_locus)
+
+
+    scaling <- 1
+
+
+    if(is.null(pop_sizes)){
+        p <- 1/(K + scaling*number_admixed)
+        a <- (1 - (K*p))/number_admixed
+        pop_sizes <- rep(p, K)
+        pop_sizes <- append(pop_sizes, rep(a, number_admixed))
+        pop_sizes <- ceiling(pop_sizes * sample_size)
+    } else {
+      pop_sizes <- ceiling(pop_sizes * sample_size)
+    }
+
+    print(paste("admixed:", as.character(number_admixed), sep = " "))
+    print(paste("pop sizes", as.character(pop_sizes), sep = " "))
+    Q <- admixture_layer(nrow(F), number_admixed, sizes = pop_sizes)
+
+
+    prob <- Q %*% F
+
+    return(prob)
+}
+
 generate <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_admixed = floor(rbeta(1, 1, 1.2) * K), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(10000 - 500, 1) + 500){
 
     #F_values <- runif(K, 0, 1)
@@ -201,7 +232,7 @@ make_data <- function(samples = 1000, populations = 2:16){
 
 Sys.setlocale("LC_MESSAGES", "en_US.utf8")
 Rcpp::sourceCpp("sample_bernoulli_matrix.cpp")
-make_data()
+#make_data()
 
 
 #a <- generate(3, number_admixed = 1, pop_sizes = c(0.2, 0.2, 0.4, 0.2))
