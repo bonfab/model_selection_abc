@@ -115,7 +115,7 @@ PCA_summary <- function(data, reduce_to = 25){
 
 }
 
-generate <- function(K, number_locus = sample(40000 - 8000, 1) + 8000, number_admixed = 1, pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = ceiling(rbeta(1, 1, 2) * sample(10000 - 1200, 1) + 1200)){
+generate <- function(K, number_locus = sample(40000 - 8000, 1) + 8000, number_admixed = 0, pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = ceiling(rbeta(1, 1, 2) * sample(10000 - 1200, 1) + 1200)){
 #generate <- function(K, number_locus = sample(36000 - 6000, 1) + 6000, number_admixed = 0, pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = ceiling(rbeta(1, 1, 2) * sample(8000 - 400, 1) + 400)){
 
     #F_values <- runif(K, 0, 1)
@@ -145,7 +145,7 @@ generate <- function(K, number_locus = sample(40000 - 8000, 1) + 8000, number_ad
     bernoulli_matrix(prob)
 }
 
-make_data <- function(samples = 2, populations = 2:10){
+make_data <- function(samples = 1, populations = 2:5){
 
   #clust <- makeCluster(detectCores() - 2)
   #clusterExport(cl=clust, varlist=c("PCA_summary", "generate", "rdirichlet", "F_layer", "admixture_layer", "bernoulli_matrix"))
@@ -178,7 +178,7 @@ make_data <- function(samples = 2, populations = 2:10){
   #saveRDS(list(pop, label), "data_pop_prio_1-25.rds")
     #print(pop)
     #print(list(result, labels))
-  saveRDS(list(result, labels), "./data_K/full_admixed1_data_pop_2-16.rds")
+  saveRDS(list(result, labels), "./data_K/full_test_admixed1_data_pop_2-16.rds")
 
 }
 
