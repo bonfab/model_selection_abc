@@ -4,7 +4,6 @@
 library(parallel)
 #library(MCMCpack)
 library(LaplacesDemon)
-library(elasticnet)
 library(Rcpp)
 library(RSpectra)
 
@@ -120,7 +119,7 @@ generate_prob <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, numb
 
     #F_values <- runif(K, 0, 1)
     F_values <- rbeta(K, 1, 3)
-    print(paste("F_values:", as.character(F_values), sep = " "))
+    #print(paste("F_values:", as.character(F_values), sep = " "))
     F <- F_layer(K, F_values, number_locus)
 
 
@@ -137,8 +136,8 @@ generate_prob <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, numb
       pop_sizes <- ceiling(pop_sizes * sample_size)
     }
 
-    print(paste("admixed:", as.character(number_admixed), sep = " "))
-    print(paste("pop sizes", as.character(pop_sizes), sep = " "))
+    #print(paste("admixed:", as.character(number_admixed), sep = " "))
+    #print(paste("pop sizes", as.character(pop_sizes), sep = " "))
     Q <- admixture_layer(nrow(F), number_admixed, sizes = pop_sizes)
 
 

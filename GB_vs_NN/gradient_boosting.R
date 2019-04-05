@@ -57,6 +57,11 @@ classifyXGBoost <- function(model, test_data){
   return(predict(model, as.matrix(test_data)))
 }
 
+classifyXGBoostSingle <- function(model, test_data){
+
+  return(predict(model, t(test_data)))
+}
+
 
 parameterSearch <- function(){
   
@@ -64,3 +69,14 @@ parameterSearch <- function(){
   
   
 }
+
+save_model <- function(model, file = "./xgb_trained.model"){
+
+  xgb.save(model, file)
+
+}
+
+load_model <- function(file = "./xgb_trained.model"){
+  return(xgb.load(file))
+}
+
