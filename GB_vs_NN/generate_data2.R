@@ -226,7 +226,7 @@ make_data <- function(samples = 1000, populations = 2:16){
   #saveRDS(list(pop, label), "data_pop_prio_1-25.rds")
     #print(pop)
     #print(list(result, labels))
-  saveRDS(list(result, labels), "./data_K/nr1_data_pop_2-16.rds")
+  saveRDS(list(result, labels), "./data_K/nr2_data_pop_2-16.rds")
 
 }
 
