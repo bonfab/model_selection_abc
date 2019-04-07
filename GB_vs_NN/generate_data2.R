@@ -116,7 +116,7 @@ PCA_summary <- function(data, reduce_to = 25){
 }
 
 #generate_prob <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_admixed = floor(rbeta(1, 1, 1.2) * K), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(10000 - 500, 1) + 500){
-generate_prob <- function(K, number_locus = 10000, number_admixed = 0, pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = 1000){
+generate_prob <- function(K, number_locus = 8000, number_admixed = 0, pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = 600){
 
     #F_values <- runif(K, 0, 1)
     F_values <- rbeta(K, 1, 3)
