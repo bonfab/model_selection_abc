@@ -30,9 +30,6 @@ compare <- function(K = 2:2, size = 1){
             #call structure
             get_structure_result(data)
 
-
-
-
             #plot(prcomp(data))
 
 
