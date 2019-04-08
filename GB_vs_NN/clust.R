@@ -12,7 +12,7 @@ load_data <- function(RDS_file = "data_K/full_test_admixed1_data_pop_2-16.rds"){
 
 }
 
-reduce_dim <- function(data, reduce_to = 2){
+reduce_dim <- function(data, reduce_to = 100){
   eigval <- svds(data, k = reduce_to, nu = reduce_to, nv = 0)
   U <- eigval$u
   d <- eigval$d

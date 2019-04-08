@@ -5,15 +5,18 @@ load_data <- function(RDS_file = "data_K/full_test_admixed1_data_pop_2-16.rds"){
   data <- readRDS(RDS_file)
 }
 
-get_structure_result <- function(data, input_file = "~/structure/console/input", output_file = "~/structure/console/output", structure_path = "~/structure/console"){
+get_structure_result <- function(data, input_file = "~/structure/console/input", output_file = "~/structure/console/output", structure_path = "~/structure/console", max_k = 20, iter = 10){
 
-    for(k in 2:20){
+  max_k <- 10
+  iter <- 4
+  
+  results <- matrix(0, nrow = max_k, ncol = 2)
+  
+  round <- matrix(0, nrow = iter, ncol = 2)
+  
+    for(k in 2:max_k){
       
-      results <- matrix(0, nrow = 20, ncol = 2)
-      
-      round <- list()
-      
-      for(i in 1:10){
+      for(i in 1:iter){
         
         write.matrix(data, input_file, sep = " ")
         K <- paste("-K", k, sep = " ")
@@ -29,7 +32,7 @@ get_structure_result <- function(data, input_file = "~/structure/console/input",
         command <- paste(c(program, mainparams, extraparams, K, loci, sample_size, input, output), collapse = " ")
         system(command)
         
-        append(round, parse_output())
+        round[i] = parse_output()
       }
       
       results[k,] <- round_stats(round)
@@ -43,26 +46,28 @@ round_stats <- function(round_results){
   
   mean_llike <- sum(round_results)/(length(round_results))
   
-  std <- sqrt(sum(sapply(round_results, (function(x) x - meanllike)^2))/(length(round_results)-1))
+  std <- sqrt(sum((round_results - mean_llike)^2)/(length(round_results)-1))
   
   return(c(mean_llike, std))
 }
 
 likelihood_derivative <- function(values){
   
-  derivative <- vector(0, length = length(values)-1)
+  derivative <- vector("numeric", length = length(values)-1)
   
   for(i in 2:length(values)){
     derivative[i-1] <- values[i]- values[i-1]
   }
+  print(past("d ", derivative))
   return(derivative)
 }
 
 evanno_statistic <- function(stats){
   
+  print(stats)
   sec_derivatives <- likelihood_derivative(likelihood_derivative(stats[1,]))
   
-  result <- vector(0, length = length(sec_derivatives))
+  result <- vector("numeric", length = length(sec_derivatives))
   
   for(i in 1:length(sec_derivatives)){
     result[i] <- sec_derivatives[i] / stats[i]
