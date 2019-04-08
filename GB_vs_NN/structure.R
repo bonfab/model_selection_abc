@@ -7,8 +7,8 @@ load_data <- function(RDS_file = "data_K/full_test_admixed1_data_pop_2-16.rds"){
 
 get_structure_result <- function(data, input_file = "~/structure/console/input", output_file = "~/structure/console/output", structure_path = "~/structure/console", max_k = 20, iter = 10){
 
-  max_k <- 10
-  iter <- 4
+  max_k <- 8
+  iter <- 3
   
   results <- matrix(0, nrow = max_k, ncol = 2)
   
@@ -58,7 +58,7 @@ likelihood_derivative <- function(values){
   for(i in 2:length(values)){
     derivative[i-1] <- values[i]- values[i-1]
   }
-  print(past("d ", derivative))
+  print(paste("d ", derivative))
   return(derivative)
 }
 

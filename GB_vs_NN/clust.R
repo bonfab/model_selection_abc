@@ -15,22 +15,18 @@ load_data <- function(RDS_file = "data_K/full_test_admixed1_data_pop_2-16.rds"){
 reduce_dim <- function(data, reduce_to = 100){
   eigval <- svds(data, k = reduce_to, nu = reduce_to, nv = 0)
   U <- eigval$u
-  d <- eigval$d
-  #barplot(d)
-  
-  
-  d <- diag(d)
-  
-  
-  t(data) %*% (U %*% solve(d))
+
+  t(U) %*% data
   
 }
 
 
 test <- function(data, true_k){
 
+    print(dim(data))
     data <- reduce_dim(data)
-    plot(data)
+    print(dim(data))
+    #plot(data)
     print("true_k:")
     print(true_k)
     print("estimate:")
