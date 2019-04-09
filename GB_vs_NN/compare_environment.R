@@ -6,10 +6,13 @@ source("gradient_boosting.R")
 library(elasticnet)
 library(sparsepca)
 
-compare <- function(K = 2:2, size = 1){
+compare <- function(K = 3:16, size = 1){
 
     #load xgb model
     xgb_model <- load_model()
+    
+    final <- matrix()
+    reduction_degree <- list()
 
     for(k in K){
 
@@ -22,26 +25,34 @@ compare <- function(K = 2:2, size = 1){
 
             scaled <- scale(data, center = T, scale = F)
 
-            data <- data[,sparsePCA_indices(scaled)]
+            data_reduced <- data[,sparsePCA_indices(scaled)]
 
             print(dim(scaled))
-            print(dim(data))
+            print(dim(data_reduced))
 
             #call structure
-            get_structure_result(data)
-
-            #plot(prcomp(data))
-
-
+            structure_estimate <- get_structure_result(data_reduced)
+            
+            cluster_estimate <- get_clust_estimate(scaled)
+            
+            xgb_estimate <- xgb_result(scaled, xgb_model)
+            
+            tracy_widom_estimate <- get_tw_estimate(data)
+            
+            final <- rbind(final, c(k, xgb_estimate, structure_estimate, tracy_widom_estimate, cluster_estimate))
+            reduction_degree <- append(reduction_degree, dim(data_reduced)[2]/dim(data)[2])
         }
 
     }
+    
+    saveRDS(list(final, reduction_degree), "data_K/comparison_1.rds")
 
 }
 
 xgb_result <- function(data, model){
 
-    #summary <- PCA_summary(data)
+    summary <- PCA_summary(data)
+    return(classifyXGBoostSingle(xgb_model, summary) + 2)
     #print(paste("XGB:", classifyXGBoostSingle(xgb_model, summary) + 2, sep = " "))
 
 }

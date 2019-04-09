@@ -116,10 +116,14 @@ PCA_summary <- function(data, reduce_to = 25){
 }
 
 #generate_prob <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_admixed = floor(rbeta(1, 1, 1.2) * K), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(10000 - 500, 1) + 500){
-generate_prob <- function(K, number_locus = 4000, number_admixed = 0, pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = 100){
+generate_prob <- function(K, number_locus = 4000, number_admixed = 0, pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = 120){
 
     #F_values <- runif(K, 0, 1)
     F_values <- rbeta(K, 1, 3)
+    while(length(which(F_values < 0.01)) > 0){
+        F_values <- rbeta(K, 1, 3)
+    }
+
     #print(paste("F_values:", as.character(F_values), sep = " "))
     F <- F_layer(K, F_values, number_locus)
 
@@ -147,13 +151,23 @@ generate_prob <- function(K, number_locus = 4000, number_admixed = 0, pop_sizes 
     return(prob)
 }
 
-generate <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_admixed = floor(rbeta(1, 1, 1.2) * K), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(10000 - 500, 1) + 500){
+generate <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_admixed = floor(rbeta(1, 1, 1.2) * K), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(5000 - 100, 1) + 100){
+
+    while(length(which((pop_sizes[K] * sample_size) < 30*K /(K+number_admixed))) > 0){
+    pop_sizes <- rdirichlet(1, rep(1, K + number_admixed))
+    }
 
     #F_values <- runif(K, 0, 1)
     F_values <- rbeta(K, 1, 3)
     print(paste("F_values:", as.character(F_values), sep = " "))
-    F <- F_layer(K, F_values, number_locus)
 
+
+    F_values <- rbeta(K, 1, 3)
+    while(length(which(F_values < 0.01)) > 0){
+        F_values <- rbeta(K, 1, 3)
+    }
+
+    F <- F_layer(K, F_values, number_locus)
 
     scaling <- 1
 
@@ -226,7 +240,7 @@ make_data <- function(samples = 1000, populations = 2:16){
   #saveRDS(list(pop, label), "data_pop_prio_1-25.rds")
     #print(pop)
     #print(list(result, labels))
-  saveRDS(list(result, labels), "./data_K/nr2_data_pop_2-16.rds")
+  saveRDS(list(result, labels), "./data_K/nr3_data_pop_2-16.rds")
 
 }
 

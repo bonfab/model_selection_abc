@@ -7,16 +7,18 @@ load_data <- function(RDS_file = "data_K/full_test_admixed1_data_pop_2-16.rds"){
 
 get_structure_result <- function(data, input_file = "~/structure/console/input", output_file = "~/structure/console/output", structure_path = "~/structure/console", max_k = 20, iter = 10){
 
-  max_k <- 8
-  iter <- 3
+  max_k <- 16
+  iter <- 5
   
-  results <- matrix(0, nrow = max_k, ncol = 2)
+  results <- matrix(0, nrow = iter, ncol = max_k)
   
-  round <- matrix(0, nrow = iter, ncol = 2)
+  seque <- vector("numeric", length = max_k)
   
-    for(k in 2:max_k){
+  for(i in 1:iter){
+  
+    for(k in 1:max_k){
       
-      for(i in 1:iter){
+      
         
         write.matrix(data, input_file, sep = " ")
         K <- paste("-K", k, sep = " ")
@@ -32,48 +34,54 @@ get_structure_result <- function(data, input_file = "~/structure/console/input",
         command <- paste(c(program, mainparams, extraparams, K, loci, sample_size, input, output), collapse = " ")
         system(command)
         
-        round[i] = parse_output()
+        seque[k] = parse_output()
       }
       
-      results[k,] <- round_stats(round)
+    results[i,] <- seque
     }
   
   print(evanno_statistic(results))
 }
 
 
-round_stats <- function(round_results){
-  
-  mean_llike <- sum(round_results)/(length(round_results))
-  
-  std <- sqrt(sum((round_results - mean_llike)^2)/(length(round_results)-1))
-  
-  return(c(mean_llike, std))
-}
-
 likelihood_derivative <- function(values){
   
   derivative <- vector("numeric", length = length(values)-1)
   
-  for(i in 2:length(values)){
-    derivative[i-1] <- values[i]- values[i-1]
+  for(i in 1:(length(values)-1)){
+    derivative[i] <- values[i+1]- values[i]
   }
-  print(paste("d ", derivative))
   return(derivative)
 }
 
+# FIRST SEQUENCE THEN MEAN
+
 evanno_statistic <- function(stats){
   
-  print(stats)
-  sec_derivatives <- likelihood_derivative(likelihood_derivative(stats[1,]))
+  #print(stats)
+  #sec_derivatives <- abs(likelihood_derivative(likelihood_derivative(stats[,1])))
   
-  result <- vector("numeric", length = length(sec_derivatives))
+  deriv <- t(apply(stats, 1, likelihood_derivative))
+  #print("div1")
+  #print(deriv)
+  deriv <- t(apply(deriv, 1, likelihood_derivative))
+  #print("div2")
+  #print(deriv)
+  deriv <- t(apply(deriv, 1, abs))
+  means <- apply(deriv, 2, mean)
   
-  for(i in 1:length(sec_derivatives)){
-    result[i] <- sec_derivatives[i] / stats[i]
-  }
+  sds <- apply(stats, 2, sd)
   
-  return(result)
+  #print("sds:")
+  #print(sds)
+  #print("means:")
+  #print(means)
+  
+  result <- means/(sds[3:length(sds)])
+  
+  #print(result)
+  
+  return(which.max(result)+2)
 }
 
 
@@ -86,7 +94,7 @@ parse_output <- function(filepath = "~/structure/console/output_f"){
   while(T){
     line <- readLines(con, n = 1)
     #print(line)
-    if(grepl("^Mean value of ln likelihood = *", line,  perl = T)[1]){
+    if(grepl("^Estimated Ln Prob of Data*", line,  perl = T)[1]){
       llike <- strsplit(line, " ")[[1]]
       llike <- llike[length(llike)]
       break

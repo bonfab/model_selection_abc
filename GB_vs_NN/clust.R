@@ -20,6 +20,10 @@ reduce_dim <- function(data, reduce_to = 100){
   
 }
 
+get_clust_estimate <- function(data){
+  data <- reduce_dim(data)
+  return(Mclust(data, 1:18, c("EII"))$G)
+}
 
 test <- function(data, true_k){
 
@@ -30,7 +34,7 @@ test <- function(data, true_k){
     print("true_k:")
     print(true_k)
     print("estimate:")
-    print(Mclust(data, 1:20, c("EII"))$G)
+    print()
 
 }
 
