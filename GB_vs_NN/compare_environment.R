@@ -35,7 +35,7 @@ compare <- function(K = 3:16, size = 1){
             
             cluster_estimate <- get_clust_estimate(scaled)
             
-            xgb_estimate <- xgb_result(scaled, xgb_model)
+            xgb_estimate <- classifyXGBoostSingle(xgb_model, test_data)
             
             tracy_widom_estimate <- get_tw_estimate(data)
             
