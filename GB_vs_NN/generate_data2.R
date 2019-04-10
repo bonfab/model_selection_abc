@@ -153,7 +153,7 @@ generate_prob <- function(K, number_locus = 4000, number_admixed = 0, pop_sizes 
 
 generate <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_admixed = floor(rbeta(1, 1, 1.2) * K), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(5000 - 100, 1) + 100){
 
-    while(length(which((pop_sizes[K] * sample_size) < 30*K /(K+number_admixed))) > 0){
+    while(length(which((pop_sizes[K] * sample_size) < sample_size*0.5 /(K+number_admixed))) > 0){
     pop_sizes <- rdirichlet(1, rep(1, K + number_admixed))
     }
 
