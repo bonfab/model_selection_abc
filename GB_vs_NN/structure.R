@@ -34,7 +34,7 @@ get_structure_result <- function(data, input_file = "~/structure/console/input",
         command <- paste(c(program, mainparams, extraparams, K, loci, sample_size, input, output), collapse = " ")
         system(command)
         
-        seque[k] = parse_output()
+        seque[k] = parse_output(paste(output_file, "_f", sep = ""))
       }
       
     results[i,] <- seque

@@ -43,19 +43,19 @@ print(imputed_n)
 print(class(imputed_n))
 #print(dim(snp_data))
 
-xgb_model <- load_model()
+#xgb_model <- load_model()
 
-print("summary")
-summary <- PCA_summary(imputed_n)
+#print("summary")
+#summary <- PCA_summary(imputed_n)
 #print(paste("XGB:", classifyXGBoostSingle(xgb_model, summary) + 2, sep = " "))
 
-print("xgb")
-xgb_estimate <- classifyXGBoostSingle(xgb_model, summary) + 2
-print(xgb_estimate)
+#print("xgb")
+#xgb_estimate <- classifyXGBoostSingle(xgb_model, summary) + 2
+#print(xgb_estimate)
 
-#print("structure")
-#structure_estimate <- get_structure_result(imputed)
-#print(structure_estimate)
+print("structure")
+structure_estimate <- get_structure_result(imputed, "~/structure/console/asia_input", "~/structure/console/asia_output")
+print(structure_estimate)
 
 #print("tracy widom")
 #tw_estimate <- get_tw_estimate(imputed)
