@@ -164,7 +164,7 @@ generate <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_ad
 
     F_values <- rbeta(K, 1, 3)
     while(length(which(F_values < 0.01)) > 0){
-        F_values <- rbeta(K, 1, 3)
+        F_values <- rbeta(K, 0.1, 1)
     }
 
     F <- F_layer(K, F_values, number_locus)
@@ -194,7 +194,7 @@ generate <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_ad
     prob[prob > 1] <- 1
     prob[prob < 0] <- 0
 
-    prob <- apply(prob, 2, function(x) vapply(x, function(y) rnorm(1, y, sqrt(0.005 * y*(1-y))), numeric(1)))
+    prob <- apply(prob, 2, function(x) vapply(x, function(y) rnorm(1, y, sqrt(0.5 * y*(1-y))), numeric(1)))
     
     #data <- matrix(0, nrow = nrow(prob), ncol = ncol(prob))
     #for(i in 1:ncol(prob)){
@@ -257,9 +257,10 @@ Rcpp::sourceCpp("sample_bernoulli_matrix.cpp")
 
 
 #a <- generate(3, number_admixed = 1, pop_sizes = c(0.2, 0.2, 0.4, 0.2))
-#print(dim(a))
-#p <- prcomp(a)
+a  <- generate(3)
+print(dim(a))
+p <- prcomp(a)
 
-#plot(p)
+plot(p)
 
 #PCA_summary(generate(10))
