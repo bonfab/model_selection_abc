@@ -337,23 +337,22 @@ By determining the variance of two individuals from the same population and ther
 But before calculating the variance, for simplicity reasons the expectation of the genetic difference squared is calculated:
 
 \begin{align*}
-\mathbb{E}[D^2] &= \frac{1}{N^2} \mathbb{E}[(\sum^{N}_{n = 1} |l^i_n - l^j_n|)^2] \\
-&= \frac{1}{N^2} \sum^{N}_{n = 1}\sum^{N}_{m = 1}\mathbb{E}[ |l^i_n - l^j_n||l^i_m - l^j_m|] \\
-&= \frac{1}{N^2}( \sum^{N}_{n = 1}\mathbb{E}[|l^i_n - l^j_n|^2] + \sum^{N}_{n = 1}\sum^{N}_{\overset{m = 1}{m \neq n}} \mathbb{E}[|l^i_n - l^j_n||l^i_m - l^j_m|]) \\
-&= \frac{1}{N^2}( \sum^{N}_{n = 1}2(p(l_n) - p(l_n)^2) + \sum^{N}_{n = 1}\sum^{N}_{\overset{m = 1}{m \neq n}} 4(p(l_n)-p(l_n)^2)(p(l_m)-p(l_m)^2) \\
+\mathbb{E}[D^2|i,j \in k] &= \frac{1}{4N^2} \mathbb{E}[(\sum^{N}_{n = 1} |l^i_n - l^j_n|)^2] \\
+&= \frac{1}{4N^2} \sum^{N}_{n = 1}\sum^{N}_{m = 1}\mathbb{E}[ |l^i_n - l^j_n||l^i_m - l^j_m|] \\
+&= \frac{1}{4N^2}( \sum^{N}_{n = 1}\mathbb{E}[|l^i_n - l^j_n|^2] + \sum^{N}_{n = 1}\sum^{N}_{\overset{m = 1}{m \neq n}} \mathbb{E}[|l^i_n - l^j_n||l^i_m - l^j_m|]) \\
+&= \frac{1}{4N^2}( \sum^{N}_{n = 1}2p(l_n)^4-2p(l_n)^3+p(l_n)^2+p(l_n) + \sum^{N}_{n = 1}\sum^{N}_{\overset{m = 1}{m \neq n}} 4p(l_n)(1-p(l_n)p(l_m)(1-p(l_m))) \\
 \end{align*}
 
 and since
 \begin{align*}
-\mathbb{E}[D]^2 &= \frac{4}{N^2}( \sum^{N}_{n = 1}\sum^{N}_{m = 1} (p(l_n) - p(l_n)^2)(p(l_m)-p(l_m)^2)\\
+\mathbb{E}[D|i,j \in k]^2 &= \frac{4}{4N^2}( \sum^{N}_{n = 1}\sum^{N}_{m = 1} p(l_n)(1-p(l_n)p(l_m)(1-p(l_m)))\\
 \end{align*}
 The variance simplifies to
 \begin{align*}
 Var(D) &= \mathbb{E}[D^2] - \mathbb{E}[D]^2\\
-&= \frac{2}{N^2} (\sum^{N}_{n = 1} (p(l_n) - p(l_n)^2) - 2\sum^{N}_{n = 1} (p(l_n) - p(l_n)^2)^2) \\
-&= \frac{2}{N^2} (\sum^{N}_{n = 1} p(l_n) - 3p(l_n)^2 + 4p(l_n)^3 - 2p(l_n)^4)
+&= \frac{1}{4N^2} (\sum^{N}_{n = 1} -p(l_n)^4+4p(l_n)^3-3p(l_n)^2+p(l_n))
 \end{align*}
-This reveals that the variance decreases significantly of the order $\mathcal{O}(N^{-2})$ with the number of loci. Therefore, less severe outliers and better observable clusters are to be expected the more loci are simulated.
+This reveals that the variance decreases significantly of the order $\mathcal{O}(N^{-2})$ with the number of loci. Therefore, less severe outliers and better observable clusters are to be expected the more loci are simulated. Furthermore, the terms in the summation possess a single maximum at $0.5$, so a higher variance exists the further alles are from fixation.
 
 \subsection{Relationship to LDA}
 The presented modell is strongly related to a modell more commonly known under the name latent dirichlet allocation (LDA) \cite{blei2003latent}. LDA uses in the setting of natural language processing (NLP) an ensemble of words that are probabilistically associated with certain topics, in order to determine which topics are exhibited by analysed documents, that preferably possess some associated words. Since not all existing words are associated with topics but only a selection, the selected words can be perceived as reasonable indicators of the topic context, as are the used genetic markers to determine population affiliation. A one hot encoding of wether a word is present in a document or not is the respective equivalent of wether an individual possess a gene variant at a genetic maker or not. The encoding of the selected words or respectively of the genetic markers span the feature space in which the topics/populations lie. The topics/populations then span a simplex in which the documents/individuals are mapped according to the admixture. \\
