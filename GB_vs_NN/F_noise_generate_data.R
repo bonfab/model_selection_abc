@@ -153,7 +153,7 @@ generate_prob <- function(K, number_locus = 4000, number_admixed = 0, pop_sizes 
 
 generate <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_admixed = floor(rbeta(1, 1, 1.2) * K), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(5000 - 100, 1) + 100){
 
-    while(length(which((pop_sizes[K] * sample_size) < sample_size*0.5 /(K+number_admixed))) > 0){
+    while(length(which((pop_sizes[1:K] * sample_size) < sample_size*0.5 /(K+number_admixed))) > 0){
     pop_sizes <- rdirichlet(1, rep(1, K + number_admixed))
     }
 
@@ -194,7 +194,7 @@ generate <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_ad
     prob[prob > 1] <- 1
     prob[prob < 0] <- 0
 
-    prob <- apply(prob, 2, function(x) vapply(x, function(y) rnorm(1, y, sqrt(0.5 * y*(1-y))), numeric(1)))
+    prob <- apply(prob, 2, function(x) vapply(x, function(y) rnorm(1, y, sqrt(1 * y*(1-y))), numeric(1)))
     
     #data <- matrix(0, nrow = nrow(prob), ncol = ncol(prob))
     #for(i in 1:ncol(prob)){
@@ -257,10 +257,14 @@ Rcpp::sourceCpp("sample_bernoulli_matrix.cpp")
 
 
 #a <- generate(3, number_admixed = 1, pop_sizes = c(0.2, 0.2, 0.4, 0.2))
-a  <- generate(3)
-print(dim(a))
-p <- prcomp(a)
+a  <- generate(3, number_locus = 5000, sample_size = 250)
+p <- PCA_summary(a)
+print(p)
 
-plot(p)
+png(filename = "./barplot.png")
+barplot(p)
+dev.off()
+
+#plot(p)
 
 #PCA_summary(generate(10))
