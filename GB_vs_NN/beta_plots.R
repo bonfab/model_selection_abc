@@ -23,3 +23,10 @@ a[,2] <- as.factor(a[,2])
 ggplot(a, aes(x = Frequencies, y=..scaled.., color = pA)) + geom_density()
 
 ggsave("rebta_plot_001", device = "png")
+
+x <- rbeta(10000, 0.2, 2)
+
+x <- as.data.frame(x)
+
+ggplot(x, aes(x = x, y=..scaled..)) + geom_density()
+

@@ -22,9 +22,8 @@
 \BOOKMARK [3][-]{subsubsection.4.2.2}{In context to clustering}{subsection.4.2}% 22
 \BOOKMARK [2][-]{subsection.4.3}{Examples}{section.4}% 23
 \BOOKMARK [3][-]{subsubsection.4.3.1}{Difficulties}{subsection.4.3}% 24
-\BOOKMARK [2][-]{subsection.4.4}{RMT}{section.4}% 25
-\BOOKMARK [1][-]{section.5}{Boosting Decision Trees}{}% 26
-\BOOKMARK [2][-]{subsection.5.1}{Gradient Boosting}{section.5}% 27
-\BOOKMARK [2][-]{subsection.5.2}{Decision Trees}{section.5}% 28
-\BOOKMARK [1][-]{section.6}{Results}{}% 29
-\BOOKMARK [1][-]{section.7}{Discussion}{}% 30
+\BOOKMARK [1][-]{section.5}{Boosting Decision Trees}{}% 25
+\BOOKMARK [2][-]{subsection.5.1}{Gradient Boosting}{section.5}% 26
+\BOOKMARK [2][-]{subsection.5.2}{Decision Trees}{section.5}% 27
+\BOOKMARK [1][-]{section.6}{Results}{}% 28
+\BOOKMARK [1][-]{section.7}{Discussion}{}% 29

@@ -153,20 +153,22 @@ generate_prob <- function(K, number_locus = 4000, number_admixed = 0, pop_sizes 
 
 generate <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_admixed = floor(rbeta(1, 1, 1.2) * K), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(5000 - 100, 1) + 100){
 
-    while(length(which((pop_sizes[1:K] * sample_size) < sample_size*0.5 /(K+number_admixed))) > 0){
+    while(length(which((pop_sizes[1:K] * sample_size) < sample_size*0.4 /(K+number_admixed))) > 0){
     pop_sizes <- rdirichlet(1, rep(1, K + number_admixed))
     }
 
     #F_values <- runif(K, 0, 1)
-    F_values <- rbeta(K, 1, 3)
-    print(paste("F_values:", as.character(F_values), sep = " "))
+    #F_values <- rbeta(K, 1, 3)
+    
 
 
-    F_values <- rbeta(K, 1, 3)
-    while(length(which(F_values < 0.01)) > 0){
-        F_values <- rbeta(K, 0.1, 1)
+    F_values <- rbeta(K, 0.2, 2)
+    while(length(which(F_values < 0.005)) > 0){
+        F_values <- rbeta(K, 0.2, 2)
     }
 
+    print(paste("F_values:", as.character(F_values), sep = " "))
+    
     F <- F_layer(K, F_values, number_locus)
 
     scaling <- 1
@@ -194,8 +196,11 @@ generate <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_ad
     prob[prob > 1] <- 1
     prob[prob < 0] <- 0
 
-    prob <- apply(prob, 2, function(x) vapply(x, function(y) rnorm(1, y, sqrt(1 * y*(1-y))), numeric(1)))
+    #prob <- apply(prob, 2, function(x) vapply(x, function(y) rnorm(1, y, sqrt(1 * y*(1-y))), numeric(1)))
+    prob <- apply(prob, 2, function(x) vapply(x, function(y) rnorm(1, y, sqrt(0.01 * y*(1-y))), numeric(1)))
     
+    #print(abs(prob-prob2))
+    #prob <- prob2
     #data <- matrix(0, nrow = nrow(prob), ncol = ncol(prob))
     #for(i in 1:ncol(prob)){
     #    for(j in 1:nrow(prob)){
@@ -214,7 +219,7 @@ generate <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_ad
     return(prob)
 }
 
-make_data <- function(samples = 250, populations = 2:16){
+make_data <- function(samples = 1000, populations = 2:16){
 
   #clust <- makeCluster(detectCores() - 2)
   #clusterExport(cl=clust, varlist=c("PCA_summary", "generate", "rdirichlet", "F_layer", "admixture_layer", "bernoulli_matrix"))
@@ -247,7 +252,7 @@ make_data <- function(samples = 250, populations = 2:16){
   #saveRDS(list(pop, label), "data_pop_prio_1-25.rds")
     #print(pop)
     #print(list(result, labels))
-  saveRDS(list(result, labels), "./data_K/F_noise4_data_pop_2-16.rds")
+  saveRDS(list(result, labels), "./data_K/F_2_noise_data_pop_2-16.rds")
 
 }
 
@@ -257,13 +262,13 @@ Rcpp::sourceCpp("sample_bernoulli_matrix.cpp")
 
 
 #a <- generate(3, number_admixed = 1, pop_sizes = c(0.2, 0.2, 0.4, 0.2))
-a  <- generate(3, number_locus = 5000, sample_size = 250)
-p <- PCA_summary(a)
-print(p)
+#a  <- generate(5, number_locus = 10000, sample_size = 400)
+#p <- PCA_summary(a)
+#print(p)
 
-png(filename = "./barplot.png")
-barplot(p)
-dev.off()
+#png(filename = "./barplot.png")
+#barplot(p)
+#dev.off()
 
 #plot(p)
 
