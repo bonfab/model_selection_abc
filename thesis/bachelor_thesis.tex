@@ -674,6 +674,14 @@ Remedies that address model stability involve the introduction of bias. The bias
 %Furthermore, the greedy algorithm is greatly affected by the horizon effect. Meaning it does not recognise if a split with a lower loss reduction would lead to a split that greatly reduces the loss later on. \\
 \section{Results}
 
+\subsection{Training}
+The training data set is composed of $30.000$ synthetically generated instances, with the population sizes evenly distributed ranging from $2-16$.
+The number of loci was uniformly randomly varied ranging from $2000$ to $40000$ as well as the sample size, which could include from $100$ to $5000$ individuals. The $F-values$ are sampled from a beta ....
+The eigenvalues $\lambda_1 \ldots \lambda_K$ are determined by first calculating the singular value decomposition of the simulated genotype matrix and then setting $\lambda_i = s_i^2 / (n-1)$ where $s_1, \ldots, s_K$ are the singular values.\\
+
+For training the mlogloss function ...?
+
+\subsection{•}
 \section{Discussion}
 
 \printbibliography
