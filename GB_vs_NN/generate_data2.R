@@ -115,12 +115,12 @@ PCA_summary <- function(data, reduce_to = 25){
     return(eigval[-(reduce_to+1)])
 }
 
-#generate_prob <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_admixed = floor(rbeta(1, 1, 1.2) * K), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(10000 - 500, 1) + 500){
-generate_prob <- function(K, number_locus = 4000, number_admixed = 0, pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = 120){
+generate_prob <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_admixed = floor(rbeta(1, 1, 1.2) * K), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(5000 - 500, 1) + 500){
+#generate_prob <- function(K, number_locus = 4000, number_admixed = 0, pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = 120){
 
     #F_values <- runif(K, 0, 1)
     F_values <- rbeta(K, 1, 3)
-    while(length(which(F_values < 0.01)) > 0){
+    while(length(which(F_values < 0.003)) > 0){
         F_values <- rbeta(K, 1, 3)
     }
 

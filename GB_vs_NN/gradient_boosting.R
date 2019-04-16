@@ -8,17 +8,16 @@ trainXGBoost <- function(train_data, train_label, iterations = 100){
   params <- list(
     objective = "multi:softmax",
     eval_metric = "mlogloss",
-    nthread = 12,
+    nthread = 8,
     num_class = length(unique(train_label)),
-    eta_decay = .995,
-    eta = 0.08,
+    eta_decay = .999,
+    eta = 0.06,
     gamma = .63,
-    max_depth = 9,
-    min_child_weight = 3,
+    max_depth = 7,
+    min_child_weight = 2,
     #subsample = .9,
     colsample_bytree = .75,
-    lambda = 1,
-    feature_selector = "thrifty",
+    lambda = 1.5,
     max_delta_step = 6,
     nrounds = 500
   )
@@ -71,13 +70,13 @@ parameterSearch <- function(){
   
 }
 
-save_model <- function(model, file = "./xgb_trained2.model"){
+save_model <- function(model, file = "./xgb_trained3.model"){
 
   xgb.save(model, file)
 
 }
 
-load_model <- function(file = "./xgb_trained2.model"){
+load_model <- function(file = "./xgb_trained3.model"){
   return(xgb.load(file))
 }
 

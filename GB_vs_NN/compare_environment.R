@@ -1,12 +1,16 @@
+library(elasticnet)
+library(sparsepca)
+library(LEA)
+
 source("clust.R")
 source("structure.R")
 source("tracy_widom.R")
 source("generate_data2.R")
 source("gradient_boosting.R")
-library(elasticnet)
-library(sparsepca)
+source("snmf.R")
 
-compare <- function(K = 3:16, size = 1){
+
+compare <- function(K = 4:4, size = 1){
 
     #load xgb model
     xgb_model <- load_model()
@@ -25,22 +29,30 @@ compare <- function(K = 3:16, size = 1){
 
             scaled <- scale(data, center = T, scale = F)
 
-            data_reduced <- data[,sparsePCA_indices(scaled)]
+            #data_reduced <- data[,sparsePCA_indices(scaled)]
 
             print(dim(scaled))
-            print(dim(data_reduced))
+            #print(dim(data_reduced))
 
             #call structure
-            structure_estimate <- get_structure_result(data_reduced)
+            #structure_estimate <- get_structure_result(data_reduced)
             
-            cluster_estimate <- get_clust_estimate(scaled)
+            #cluster_estimate <- get_clust_estimate(scaled)
             
-            xgb_estimate <- classifyXGBoostSingle(xgb_model, test_data)
+            xgb_estimate <- classifyXGBoostSingle(xgb_model, PCA_summary(scaled))+2
+            print(xgb_estimate)
             
-            tracy_widom_estimate <- get_tw_estimate(data)
+            tracy_widom_estimate <- which.max(likelihood_derivative(likelihood_derivative(get_tw_estimate(data, all = T)))) + 2
+            print(tracy_widom_estimate)
             
-            final <- rbind(final, c(k, xgb_estimate, structure_estimate, tracy_widom_estimate, cluster_estimate))
-            reduction_degree <- append(reduction_degree, dim(data_reduced)[2]/dim(data)[2])
+            snmf_estimate <- get_snmf_estimate(data, max_K = 6)
+            #print(snmf_estimate)
+            
+            print(xgb_estimate)
+            print(tracy_widom_estimate)
+            print(snmf_estimate)
+            #final <- rbind(final, c(k, xgb_estimate, structure_estimate, tracy_widom_estimate, cluster_estimate))
+            #reduction_degree <- append(reduction_degree, dim(data_reduced)[2]/dim(data)[2])
         }
 
     }

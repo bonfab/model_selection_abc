@@ -1,4 +1,4 @@
-library(LEA)
+#library(LEA)
 
 load_data <- function(RDS_file = "data_K/full_test_admixed1_data_pop_2-16.rds"){
   
@@ -6,14 +6,18 @@ load_data <- function(RDS_file = "data_K/full_test_admixed1_data_pop_2-16.rds"){
   
 }
 
-get_tw_estimate <- function(data, p_value = 0.04){
+get_tw_estimate <- function(data, all = F, p_value = 0.04){
 
-    data <- matrix(data, nrow = nrow(data), byrow = T)
+    #data <- matrix(data, nrow = nrow(data), byrow = T)
   
   write.lfmm(data, "genotypes.lfmm")
   pc <- pca("genotypes.lfmm", scale = TRUE)
   
   tw <- tracy.widom(pc)
+  
+  if(all){
+    return(tw$percentage)
+  }
   
   significant <- 0
   for(i in tw$percentage){

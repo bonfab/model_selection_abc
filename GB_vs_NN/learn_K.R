@@ -42,6 +42,30 @@ load_data2 <- function(RDS_file = "data_K/nr1_data_pop_2-16.rds"){
   
 }
 
+load_multiple <- function(files  = c("data_K/nr1_data_pop_2-16.rds", "data_K/nr2_data_pop_2-16.rds", "data_K/nr3_data_pop_2-16.rds")){
+
+  data <- lapply(files, readRDS)
+
+
+  total_row <- sum(vapply(data, function (x) length(x[[2]]), integer(1)))
+
+  m <- matrix(0, nrow = total_row, ncol = length(data[[1]][[1]][1,])+1)
+  print(dim(m))
+  print(ncol(m))
+
+  i <- 1
+  for(d in data){
+    for(j in 1:length(d[[1]][,1])){
+      m[i,1:(ncol(m)-1)] <- as.numeric(d[[1]][j,])
+      #plot(m[i,1:(ncol(m)-1)])
+      m[i, ncol(m)] <- as.numeric(d[[2]][j])
+      #print(m[i, ncol(m)])
+      i <- i+1
+    }
+}
+  return(m)
+}
+
 load_data <- function(RDS_file = "data_K/nr1_data_pop_2-16.rds"){
 
   data <- readRDS(RDS_file)
@@ -68,7 +92,6 @@ load_data <- function(RDS_file = "data_K/nr1_data_pop_2-16.rds"){
   #print(m)
   #print(typeof(m))
   #return(cbind(data[[1]], data[[2]]))
-
 }
 
 
@@ -120,11 +143,11 @@ train_save <- function(train){
 
 }
 
-m <- load_data2()
+#m <- load_multiple()
 
 #train_test(m)
 
-train_save(m)
+#train_save(m)
 
 
 
