@@ -14,9 +14,8 @@ library(LEA)
 
 
 
-get_snmf_estimate <- function(data, rep = 5, max_K = 17){
+get_snmf_estimate <- function(data, rep = 5, max_K = 15){
   
-  rep <- 5
   
   write.geno(data, "geno_output.geno")
   

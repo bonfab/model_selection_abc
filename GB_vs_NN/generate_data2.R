@@ -115,8 +115,8 @@ PCA_summary <- function(data, reduce_to = 25){
     return(eigval[-(reduce_to+1)])
 }
 
-generate_prob <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_admixed = floor(rbeta(1, 1, 1.2) * K), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(5000 - 500, 1) + 500){
-#generate_prob <- function(K, number_locus = 4000, number_admixed = 0, pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = 120){
+#generate_prob <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_admixed = floor(rbeta(1, 1, 1.2) * K), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(5000 - 500, 1) + 500){
+generate_prob <- function(K, number_locus = sample(8000 - 2000, 1) + 2000, number_admixed = 0, pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(400 - 200, 1) + 200){
 
     #F_values <- runif(K, 0, 1)
     F_values <- rbeta(K, 1, 3)
@@ -124,6 +124,10 @@ generate_prob <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, numb
         F_values <- rbeta(K, 1, 3)
     }
 
+    while(length(which((pop_sizes[1:K] * sample_size) < sample_size*0.3 /(K+number_admixed))) > 0){
+      pop_sizes <- rdirichlet(1, rep(1, K + number_admixed))
+    }
+    
     #print(paste("F_values:", as.character(F_values), sep = " "))
     F <- F_layer(K, F_values, number_locus)
 
