@@ -48,7 +48,7 @@ plot(pc)
 
 #print(dim(snp_data))
 
-xgb_model <- load_model()
+xgb_model <- load_model("model_noise.model")
 
 #print("summary")
 summary <- PCA_summary(imputed_n)

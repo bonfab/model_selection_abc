@@ -133,13 +133,17 @@ train_test <- function(m){
 
 }
 
-train_save <- function(train){
+train_save <- function(train, file = NULL){
 
   xgb_compatible <- min(train[,length(train[1,])])
   train <- train[sample(nrow(train)),]
   model <- trainXGBoost(train[,1:ncol(train) -1], train[,ncol(train)] - xgb_compatible)
+  if(is.null(file)){
+    save_model(model)
+  } else{
+    save_model(model, file)
+  }
 
-  save_model(model)
 
 }
 
@@ -149,7 +153,7 @@ train_save <- function(train){
 
 #train_save(m)
 
-
+#m_noise <- load_multiple(c("data_K/F_noise1_data_pop_2-16.rds", "data_K/F_noise2_data_pop_2-16.rds", "data_K/F_noise3_data_pop_2-16.rds", "data_K/F_noise4_data_pop_2-16.rds"))
 
 
 

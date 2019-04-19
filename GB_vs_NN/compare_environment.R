@@ -10,7 +10,7 @@ source("gradient_boosting.R")
 source("snmf.R")
 
 
-compare <- function(K = 3:13, size = 5){
+compare <- function(K = 3:16, size = 10){
 
     #load xgb model
     xgb_model <- load_model()
@@ -46,20 +46,19 @@ compare <- function(K = 3:13, size = 5){
             xgb_estimate <- classifyXGBoostSingle(xgb_model, PCA_summary(scaled))+2
             #print(xgb_estimate)
             
-            snmf_estimate <- get_snmf_estimate(data, max_K = 15)
+            snmf_estimate <- get_snmf_estimate(data, max_K = 17)
             #print(snmf_estimate)
             
             print(xgb_estimate)
             print(tracy_widom_estimate)
             print(snmf_estimate)
-            final[i*(k-min(K)+1),] <-  c(k, xgb_estimate, snmf_estimate, tracy_widom_estimate)
+            final[size*(k-min(K))+i,] <-  c(k, xgb_estimate, snmf_estimate, tracy_widom_estimate)
             #reduction_degree <- append(reduction_degree, dim(data_reduced)[2]/dim(data)[2])
         }
-
     }
     
     #saveRDS(list(final, reduction_degree), "data_K/comparison_1.rds")
-    saveRDS(list(final), "data_K/comparison_1.rds")
+    saveRDS(final, "data_K/comparison.rds")
 
 }
 
