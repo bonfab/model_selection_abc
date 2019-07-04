@@ -6,6 +6,7 @@ library(parallel)
 library(LaplacesDemon)
 library(Rcpp)
 library(RSpectra)
+library(kernlab)
 
 
 F_layer <- function(K, F_values, number_locus = sample(40000 - 8000, 1) + 8000){
@@ -90,29 +91,88 @@ admixture_layer <- function(K, number_admixed, sizes){
     return(Q)
 }
 
+PCA_summary <- function(data, reduce_to = 18){
+  
+  #print(dim(data))
+  
+  #data <- data[, apply(data, 2, function(x) !(length(unique(x)) == 1))]
+  #data <- scale(data)
+  #data <- data[, apply(data, 2, function(x) !(sum(x) == 0))
+  #data <- data[,scale]
+  #pca <- prcomp(data, scale = F)
+  
+  #data2 <- kernelMatrix(vanilladot(), data)
+  
+  eigval <- svds(data, k = reduce_to + 1, nu = 0, nv = 0)
+  #trunc <- pca$rotation[,1:reduce_to] %*% pca$x[1:reduce_to,1:reduce_to]
+  #plot(pca)
+  #plot(pca$x)
+  eigval <- eigval$d^2 / (nrow(data)- 1)
+  
+  #plot(prcomp(data))
+  #eigen_sum <- sum(eigval)
+  eigval <- (eigval - min(eigval)) / (max(eigval) - min(eigval))
+  
+  #eigval2 <- eigs(data2, k = reduce_to + 1, which = "LM")[[1]]
+  
+  #print(eigval2)
+  #trunc <- pca$rotation[,1:reduce_to] %*% pca$x[1:reduce_to,1:reduce_to]
+  #plot(pca)
+  #plot(pca$x)
+  
+  #plot(prcomp(data))
+  #eigen_sum <- sum(eigval)
+  #eigval2 <- (eigval2 - min(eigval2)) / (max(eigval2) - min(eigval2))
+  
+  #barplot(eigval)
+  
+  #plot(eigval[-(reduce_to+1)])
+  #plot(eigval2[-(reduce_to+1)])
+  
+  return(eigval[-(reduce_to+1)])
+}
 
 
-PCA_summary <- function(data, reduce_to = 25){
+PCA_summary_deprecated <- function(data, reduce_to = 18){
 
-    print(dim(data))
+    #print(dim(data))
 
     #data <- data[, apply(data, 2, function(x) !(length(unique(x)) == 1))]
     #data <- scale(data)
     #data <- data[, apply(data, 2, function(x) !(sum(x) == 0))
     #data <- data[,scale]
     #pca <- prcomp(data, scale = F)
+    print("kernel")
+    data2 <- kernelMatrix(vanilladot(), data)
+    print("done")
 
-    eigval <- svds(data, k = reduce_to + 1, nu = 0, nv = 0)
+    #eigval <- svds(data, k = reduce_to + 1, nu = 0, nv = 0)
     #trunc <- pca$rotation[,1:reduce_to] %*% pca$x[1:reduce_to,1:reduce_to]
     #plot(pca)
     #plot(pca$x)
-    eigval <- eigval$d^2 / (nrow(data)- 1)
+    #eigval <- eigval$d^2 / (nrow(data)- 1)
 
     #plot(prcomp(data))
     #eigen_sum <- sum(eigval)
-    eigval <- (eigval - min(eigval)) / (max(eigval) - min(eigval))
+    #eigval <- (eigval - min(eigval)) / (max(eigval) - min(eigval))
+    
+    eigval2 <- eigs(data2, k = reduce_to + 1, which = "LR", retvec = F)[[1]]
+    
+    #print(eigval2)
+    #trunc <- pca$rotation[,1:reduce_to] %*% pca$x[1:reduce_to,1:reduce_to]
+    #plot(pca)
+    #plot(pca$x)
+    
+    #plot(prcomp(data))
+    #eigen_sum <- sum(eigval)
+    eigval2 <- (eigval2 - min(eigval2)) / (max(eigval2) - min(eigval2))
+    
     #barplot(eigval)
-    return(eigval[-(reduce_to+1)])
+    
+    #plot(eigval[-(reduce_to+1)])
+    #plot(eigval2[-(reduce_to+1)])
+    
+    return(eigval2[-(reduce_to+1)])
 }
 
 #generate_prob <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_admixed = floor(rbeta(1, 1, 1.2) * K), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(5000 - 500, 1) + 500){
@@ -155,7 +215,7 @@ generate_prob <- function(K, number_locus = sample(20000 -5000, 1) + 5000, numbe
     return(prob)
 }
 
-generate <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_admixed = floor(rbeta(1, 1, 1.2) * K), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(5000 - 100, 1) + 100){
+generate <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_admixed = floor(rbeta(1, 1, 1.2) * K), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(5000 - 250, 1) + 250){
 
     while(length(which((pop_sizes[K] * sample_size) < sample_size*0.5 /(K+number_admixed))) > 0){
     pop_sizes <- rdirichlet(1, rep(1, K + number_admixed))
@@ -211,7 +271,7 @@ generate <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_ad
     return(prob)
 }
 
-make_data <- function(samples = 1000, populations = 2:16){
+make_data <- function(samples = 1000, populations = 2:15){
 
   #clust <- makeCluster(detectCores() - 2)
   #clusterExport(cl=clust, varlist=c("PCA_summary", "generate", "rdirichlet", "F_layer", "admixture_layer", "bernoulli_matrix"))
@@ -253,8 +313,16 @@ Rcpp::sourceCpp("sample_bernoulli_matrix.cpp")
 #make_data()
 
 
-#a <- generate(3, number_admixed = 1, pop_sizes = c(0.2, 0.2, 0.4, 0.2))
+#a <- generate(3, number_locus = 40000, number_admixed = 1, pop_sizes = c(0.2, 0.2, 0.4, 0.2), sample_size = 2000)
 #print(dim(a))
+#start <- Sys.time()
+#b <- PCA_summary(a)
+#print(Sys.time() - start)
+#print(b)
+#start <- Sys.time()
+#b <- PCA_summary_deprecated(a)
+#print(Sys.time() - start)
+#print(b)
 #p <- prcomp(a)
 
 #plot(p)
