@@ -215,15 +215,15 @@ generate_prob <- function(K, number_locus = sample(20000 -5000, 1) + 5000, numbe
     return(prob)
 }
 
-generate <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_admixed = floor(rbeta(1, 1, 1.2) * K), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(5000 - 250, 1) + 250){
+generate <- function(K, number_locus = sample(30000 - 2000, 1) + 2000, number_admixed = floor(rbeta(1, 1, 1.2) * K), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(3000 - 250, 1) + 250){
 
     while(length(which((pop_sizes[K] * sample_size) < sample_size*0.5 /(K+number_admixed))) > 0){
     pop_sizes <- rdirichlet(1, rep(1, K + number_admixed))
     }
 
     #F_values <- runif(K, 0, 1)
-    F_values <- rbeta(K, 1, 3)
-    print(paste("F_values:", as.character(F_values), sep = " "))
+    #F_values <- rbeta(K, 1, 3)
+    #print(paste("F_values:", as.character(F_values), sep = " "))
 
 
     F_values <- rbeta(K, 1, 3)
@@ -271,7 +271,7 @@ generate <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_ad
     return(prob)
 }
 
-make_data <- function(samples = 1000, populations = 2:15){
+make_data <- function(samples = 1000, populations = 2:14){
 
   #clust <- makeCluster(detectCores() - 2)
   #clusterExport(cl=clust, varlist=c("PCA_summary", "generate", "rdirichlet", "F_layer", "admixture_layer", "bernoulli_matrix"))
@@ -288,7 +288,7 @@ make_data <- function(samples = 1000, populations = 2:15){
 
         print(paste("populations:", as.character(p[1]), sep = " "))
         #pop <- t(parSapply(clust , p, function(y) PCA_summary(generate(y, number_locus = sample(40000- 2000, 1)+2000))))
-        pop <- t(sapply(p, function(y) PCA_summary(generate(y, number_locus = sample(40000- 2000, 1)+2000))))
+        pop <- t(sapply(p, function(y) PCA_summary(generate(y, number_locus = sample(30000- 2000, 1)+2000))))
         result <- rbind(result, pop)
         #pop <- lapply(p, function(y) generate(y, number_locus = sample(40000- 2000, 1)+2000))
         #result <- append(result, pop)
@@ -304,7 +304,7 @@ make_data <- function(samples = 1000, populations = 2:15){
   #saveRDS(list(pop, label), "data_pop_prio_1-25.rds")
     #print(pop)
     #print(list(result, labels))
-  saveRDS(list(result, labels), "./data_K/nr3_data_pop_2-16.rds")
+  saveRDS(list(result, labels), "./data_K/train_plain_1.rds")
 
 }
 
