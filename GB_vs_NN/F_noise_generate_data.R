@@ -115,12 +115,12 @@ PCA_summary <- function(data, reduce_to = 16){
     return(eigval[-(reduce_to+1)])
 }
 
-#generate_prob <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_admixed = floor(rbeta(1, 1, 1.2) * K), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(10000 - 500, 1) + 500){
-generate_prob <- function(K, number_locus = 4000, number_admixed = 0, pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = 120){
+generate_prob <- function(K, number_locus = sample(12000 - 6000, 1) + 6000, number_admixed = floor(rbeta(1, 1, 1.2) * K), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(2000 - 250, 1) + 250){
+#generate_prob <- function(K, number_locus = 4000, number_admixed = 0, pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = 120){
 
     #F_values <- runif(K, 0, 1)
     F_values <- rbeta(K, 1, 3)
-    while(length(which(F_values < 0.01)) > 0){
+    while(length(which(F_values < 0.003)) > 0){
         F_values <- rbeta(K, 1, 3)
     }
 
@@ -151,7 +151,7 @@ generate_prob <- function(K, number_locus = 4000, number_admixed = 0, pop_sizes 
     return(prob)
 }
 
-generate <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_admixed = floor(rbeta(1, 1, 1.2) * K), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(5000 - 100, 1) + 100){
+generate <- function(K, number_locus = sample(20000 - 4000, 1) + 4000, number_admixed = floor(rbeta(1, 1, 1.2) * K), pop_sizes = rdirichlet(1, rep(1, K + number_admixed)), sample_size = sample(2500 - 100, 1) + 100){
 
     while(length(which((pop_sizes[1:K] * sample_size) < sample_size*0.4 /(K+number_admixed))) > 0){
     pop_sizes <- rdirichlet(1, rep(1, K + number_admixed))
@@ -198,7 +198,7 @@ generate <- function(K, number_locus = sample(40000 - 2000, 1) + 2000, number_ad
 
     #prob <- apply(prob, 2, function(x) vapply(x, function(y) rnorm(1, y, sqrt(1 * y*(1-y))), numeric(1)))
     #prob <- apply(prob, 2, function(x) vapply(x, function(y) rnorm(1, y, sqrt(0.01 * y*(1-y))), numeric(1)))
-    #prob <- apply(prob, 2, function(x) vapply(x, function(y) rbeta(1, 10*y, 10*(1-y)), numeric(1)))
+    #prob <- apply(prob, 2, function(x) vapply(x, function(y) rbeta(1, 1*y, 2*(1-y)), numeric(1)))
     
     #print(abs(prob-prob2))
     #prob <- prob2
@@ -259,7 +259,7 @@ make_data <- function(samples = 250, populations = 2:12){
 
 Sys.setlocale("LC_MESSAGES", "en_US.utf8")
 Rcpp::sourceCpp("sample_bernoulli_matrix.cpp")
-make_data()
+#make_data()
 
 
 #a <- generate(3, number_admixed = 1, pop_sizes = c(0.2, 0.2, 0.4, 0.2))
@@ -275,3 +275,4 @@ make_data()
 
 #a <- PCA_summary(generate(8, number_locus = 6000))
 #plot(a[8:length(a)])
+#plot(a)

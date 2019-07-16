@@ -6,16 +6,21 @@ load_data <- function(RDS_file = "data_K/full_test_admixed1_data_pop_2-16.rds"){
   
 }
 
-get_tw_estimate <- function(data, all = F, p_value = 0.04){
+get_tw_estimate <- function(data, all = F, p_value = 0.05){
 
-    #data <- matrix(data, nrow = nrow(data), byrow = T)
-  
+  data <- matrix(data, nrow = nrow(data), byrow = T)
+  #print(class(data))
   write.lfmm(data, "genotypes.lfmm")
   pc <- pca("genotypes.lfmm", scale = TRUE)
   
   tw <- tracy.widom(pc)
   
+  #plot(tw)
+  #print(tw$percentage)
+  #print(tw$pvalue)
+  
   if(all){
+    remove.pcaProject("./genotypes.pcaProject")
     return(tw$percentage)
   }
   
@@ -28,6 +33,7 @@ get_tw_estimate <- function(data, all = F, p_value = 0.04){
   
   #print(tw$pvalues[1:5])
   #plot(tw$percentage)
+  remove.pcaProject("./genotypes.pcaProject")
   return(significant)
 }
 

@@ -3,6 +3,7 @@
 \usepackage{geometry}
 \geometry{a4paper,left=30mm,right=30mm, top=35mm, bottom=30mm}
 
+\usepackage{hyperref}
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc} 
 \usepackage[T1]{fontenc}
@@ -14,6 +15,11 @@
 \usepackage{csquotes}
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
+\usepackage{subfigure}
+\usepackage{mathptmx}
+\usepackage[scaled=0.92]{helvet}
+\usepackage{courier}
+\usepackage[T1]{fontenc}
 
 \usepackage{lastpage} % Seitenzahlen
 
@@ -28,9 +34,10 @@
 
 \usepackage[
 backend=biber,
-style=alphabetic,
+style=authoryear,
 citestyle=authoryear
 ]{biblatex}
+
 
 \graphicspath{{./images/}}
 
@@ -111,7 +118,7 @@ Subsequently approximate bayesian computation is used by constructing a summary 
 %Gradient Boosting is a supervised machine learning method, thus it requires a significant amount of data for training and testing. Real world genotype data however is too extensiv to acquire in such a magnitude as is necessary, therefore an artificial data set is simulated and used. The generation of the artificial data follows commonly accepted theories for the simulation of population structure.
 
 \subsection{Reframing the Problem}
-With the established biological framework, the task can be formulated more specific: Given the SNP genotype data of individuals from the same species, each entry holds a value from $\{0,1,2\}$, organised in a matrix $X$ where each row corresponds to an individual and each column to a locus, the task is to infer how many populations $K$ are present in the data $X$. If the markers sufficiently captures the genetic variation of the sampled individuals, it is expected for members of the same population to cluster together in the feature space spanned by the parametarised alleles of the selected SNP markers. A cluster is a set of data points that are similar enough (by some means of evaluation) to be grouped together, which coenciedes with the given definition for a population. So for the $K$ populations $K$ different clusters should be observable in the feature space. Each cluster corresponding to a specific population, where the position of the cluster should be determined by the allele frequencies of the respective population.\\
+With the established biological framework, the task can be formulated in a more general manner: Given the SNP genotype data of individuals from the same species, each entry holds a value from $\{0,1,2\}$, organised in a matrix $X$ where each row corresponds to an individual and each column to a locus, the task is to infer how many populations $K$ are present in the data $X$. If the markers sufficiently captures the genetic variation of the sampled individuals, it is expected for members of the same population to cluster together in the feature space spanned by the parametarised alleles of the selected SNP markers. A cluster is a set of data points that are similar enough (by some means of evaluation) to be grouped together, which coenciedes with the given definition for a population. So for the $K$ populations $K$ different clusters should be observable in the feature space. Each cluster corresponding to a specific population, where the position of the cluster should be determined by the allele frequencies of the respective population.\\
 
 %An allele is a variant of a gene found at a specific location on a chromosome (locus). Its existence originates from a random mutation in a gene. Alleles found at the same locus are generally considered to be interchangeable which allows for the random passing on of an allele from the parents to their offspring. For example, in a diploid species (as humans are) an individual possesses pairs of homologous chromosomes, meaning they possess two alleles (not necessarily different) of the same gene. Only one of the two alleles is randomly passed on to the child, the other is received by the child from the corresponding mating partner. Many other factors such as non-random mating, natural selection, linkage disequilibrium and so forth furtherly influence the successful spreading of an allele. As a result, alleles are responsible for the appearance of genetic variation in a species.\\
 %Since individuals in a population possess similar genotypes, so some alleles are encountered more frequently in these individuals than others and what therefore sets them apart, the allele frequencies sufficiently summarise the population. An allele frequency describes the probability $p(a | k)$ that an individual from population $k$ has the allele $a$. \\
@@ -123,28 +130,31 @@ With the established biological framework, the task can be formulated more speci
 \subsection{Approaches currently used}
 Clustering problems have been well invstigated and many methods for solving these problems have been proposed. The methods can predominantly be apportioned among two groups.\\
 One group compares the similarities between datapoints by the means of a distance measure. Structure is attempted to be recognized by evaluating the distance of every datapoint to every other datapoint. Examples of distance based clustering methods are centroid based clustering, hierarchical clustering, etc.\\
-The other group contains methods that are based on statistical model assumptions. Every datapoint is considered to be a random draw of a probability distribution. The parameters of the distributions are inferred via common statistical methods, such as maximum likelihood or baysian methods. \\
-For a long time model based approaches were favored and used for determining desired parameter values. A widely applied \parencite{rosenberg2002genetic, harter2004origin, rosenberg2001empirical} implementation of a model based method is the software package STRUCTURE first developed by \parencite{pritchard2000inference, falush2003inference}. In short, at its core lies the modelling of $K$ unobserved populations by assigning them specific allele frequencies, where it is assumed that the genotype of an individual is drawn according to its population allele frequencies. Furtherly the whole is embedded into a bayesian framework, where priors are set over the population membership of each individual and the allele frequencies of each population, in order to include scenario specific conditions like geography into the model and thus increase the model flexibility. Given some genotype data, the parameters of the model are inferred via a Markov Chain Monte Carlo (MCMC) algorithm with Gibbs sampling.\\
+The other group contains methods that are based on statistical model assumptions. Every datapoint is considered to be a random draw of a probability distribution. The parameters of the distributions are inferred via common statistical methods, such as maximum likelihood or bayesian methods. \\
+Model based approaches, because of the easier interpretability and flexibility by introducing explicit parameters, have been a popular choice in population genetics. A widely applied \parencite{rosenberg2002genetic, harter2004origin, rosenberg2001empirical} implementation of a model based method is the software package STRUCTURE first developed by \parencite{pritchard2000inference, falush2003inference}. In short, at its core lies the modelling of $K$ unobserved populations by assigning them specific allele frequencies, where it is assumed that the genotype of an individual is drawn according to its population allele frequencies. Furtherly the whole is embedded into a bayesian framework, where priors are set over the population membership of each individual and the allele frequencies of each population, in order to include scenario specific conditions like geography into the model and thus increase the model flexibility. Given some genotype data, the parameters of the model are inferred via a Markov Chain Monte Carlo (MCMC) algorithm with Gibbs sampling.\\
 For the matter of determining the number of populations $K$ present in the data the posterior $P(K|X)$ distribution is approximated for various $K$, where $X$ is the given data. As only the maximum posterior of the selected $K$ values is to be determined following reduced relation is received
 \begin{align*}
 P(K|X) \propto P(X|K)P(K) 
 \end{align*}
 (For further information on Bayes' theorem see section about Approximate Bayesian Computation)\\
-The likelihood $P(X|K)$ is estimated by making a gaussian assumption about the distribution of the deviance $D$ of the parameters model parameters conditioned on the data $X$. The assumption allows for determining the gaussian distribution by only calculating the mean and variance of $D$ with the MCMC samples of the stationary distribution. \textbf{further information appendix} However, even \textcite{pritchard2000inference} themselves describe this as a "dubious" assumption rendering the method as only a supportive argument for picking $K$.\\
+The likelihood $P(X|K)$ is estimated by making a gaussian assumption about the distribution of the deviance $D$ of the parameters model parameters conditioned on the data $X$. The assumption allows for determining the gaussian distribution by only calculating the mean and variance of $D$ with the MCMC samples of the stationary distribution. However, even \textcite{pritchard2000inference} themselves describe this as a "dubious" assumption rendering the method as only a supportive argument for picking $K$.\\
 Nonetheless, STRUCTURE is widely used for inferring the number of populations, however in a different way than originally intended. Most often the decision of $K$ follows a heuristic based on the likelihood $P(X|K)$, which is calculated with the implemented Monte Carlo algorithm in STRUCTURE. The heuristic most commonly applied, investigated and proposed by \cite{evanno2005detecting}, relies on the search for the largest jump in the second derivative of a composed loglikelihood function. The likelihood function $L(K)$ is calculated by averaging the loglikelihood of each MCMC step and further subtracting half of the variance off that mean \textbf{(a penalisation for unstable models)}. The second derivative is defined as $L''(K|X) = L'(K+1) - L'(K)$ with of course $L'(K) = L(K+1) - L(K)$. Several runs are completed and therefore also several results for $L(K)$ received. The selection criteria then is $\Delta K = \frac{m(L''(K))}{s(L(K))}$, where $m$ is the mean and $s$ the standard deviation. \\
 \begin{figure}
-\includegraphics[scale=0.4]{delta_K} 
+\centering
+\includegraphics[scale=0.4]{delta_K}
+\caption{heuristic}
 \end{figure}
-The method offers reasonable results, even for hierarchical clusters (the population structure in the highest hierarchy layer is the expected result), however it was conceived only as an ad-hoc solution strongly reliant on the results outputted by the STRUCTURE algorithm. Furthermore, there are indications that the method is biased towards lower $K$s if not several exhaustive sampling rounds with the MCMC algorithm is completed, which tends to be at least computationally very time consuming as the dimension of genotype data has rapidly expanded with the introduction of more modern genome sequencing equipment.\\
+The method offers reasonable results, even for hierarchical clusters (the population structure in the highest hierarchy layer is the expected result), however it was conceived only as an ad-hoc solution strongly reliant on the results outputted by the STRUCTURE algorithm. Furthermore, multiple exhaustive rounds of the MCMC algorithm have to be completed, which tends to be at least computationally very time consuming (even impractical) as the dimension of genotype data has rapidly expanded with the introduction of more modern genome sequencing equipment. \\
 
-\textbf{add snmf - crossentropy}
-Another method that also holds the underlying assumption that the genotypes of individuals can be described through the admixture of $K$ populations uses an sNMF (sparse non-negative matrix factorization) framework. An approximate factorization of genotype data matrix $X$ in to $QG$ is sought, such that a least squares criterion $\parallel X - QG \parallel^2_F$ is minimized. Whereby $Q$ should attain the admixture proportions of the populations for each individual and $G$ the loci probabilities of each population. The number of populations $K$ is predicted via a cross-entropy criterion, where $5\% $ of the genotype values of $X$ are masked and then imputed by the algorithm. The value of $K$ is chosen that minimizes the cross-entropy between the masked and the imputed values.\\
+Another method that also holds the underlying assumption that the genotypes of individuals can be described through the admixture of $K$ populations uses an sNMF (sparse non-negative matrix factorization) framework \parencite{frichot2014fast}. An approximate factorization of genotype data matrix $X$ in to $QG$ is sought, such that a least squares criterion $\parallel X - QG \parallel^2_F$ is minimized. Whereby $Q$ should attain the admixture proportions of the populations for each individual and $G$ the loci probabilities of each population. The number of populations $K$ is predicted via a cross-entropy criterion, where $5\% $ of the genotype values of $X$ are masked and then imputed by the algorithm. The value of $K$ is chosen that minimizes the cross-entropy between the masked and the imputed values.\\
 
-A more recent approach involves the insight that cluster structure is also resembled in a structured form in the spectrum of the covariance matrix from the respective data. The connection between the spectrum of a matrix and its clustering structure has been subject to research for a fair amount of time. It was first discovered in graph theory \cite{donath1973lower} \cite{fiedler1973algebraic} and later introduced into machine learning \parencite{shi2000normalized, meila2001random, ng2002spectral} for further information see \cite{von2007tutorial}. In general the relevant insight states that: suppose $K$ clusters can be observed in the data matrix $X$ (w.l.o.g. $X$ is a square matrix), then the first $k-1$ eigenvalues $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_{k-1}$ are significantly larger than the remaining eigenvalues, also the corresponding eigenvectors. The number of clusters can thus be inferred by examining the eigenvalues of the data.\\ the In the context of inferring the number of populations by exploiting the appearence of population structure in the eigenvalues was firstly applied by \cite{patterson2006population}. They used insights from random matrix theory, which state that (under various assumptions, like the covariance matrix has properties of a random Wishart matrix) the significant $K-1$ eigenvalues are approximately Tracy-Widom distributed. The Tracy-Widom distribution describes the distribution of the largest eigenvalue for varoius random gaussian matrix ensembles, like the Gaussian orthogonal ensemble ($\beta = 1$) to which the Wishart-matrix belongs. A statistical test is constructed where the eigenvalues are checked with a chosen p-value if there is substantial evidence for the eigenvalue to be Tracy-Widom distributed.\\
+A more recent approach involves the insight that cluster structure is also resembled in a structured form in the spectrum of the covariance matrix of the respective data. The connection between the spectrum of a matrix and its clustering structure has been subject to research for a fair amount of time. It was first discovered in graph theory \cite{donath1973lower} \cite{fiedler1973algebraic} and later introduced into machine learning \parencite{shi2000normalized, meila2001random, ng2002spectral} for further information see \cite{von2007tutorial}. In general the relevant insight states that: suppose $K$ clusters can be observed in the data matrix $X$ (w.l.o.g. $X$ is a square matrix), then the first $k-1$ eigenvalues $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_{k-1}$ are significantly larger than the remaining eigenvalues, also the corresponding eigenvectors. The number of clusters can thus be inferred by examining the eigenvalues of the data.\\
+Inferring the number of populations by exploiting the occurrence of population structure in the eigenvalues was firstly applied by \cite{patterson2006population}. They used insights from random matrix theory, which state that (under various assumptions, like the covariance matrix has properties of a random Wishart matrix) the significant $K-1$ eigenvalues are approximately Tracy-Widom distributed. The Tracy-Widom distribution describes the distribution of the largest eigenvalue for varoius random gaussian matrix ensembles, like the Gaussian orthogonal ensemble ($\beta = 1$) to which the Wishart-matrix belongs. A statistical test is constructed where the eigenvalues are checked with a chosen p-value if there is substantial evidence for the eigenvalue to be Tracy-Widom distributed.\\
 
-Further research has been made with random matrix theory (RMT) to concretise the behaviour of the first $k-1$ eigenevalues, including, under certain assumptions, a mathematicaly quantifieable threshhold that destinguishes significantly larger eigenvalues from lower ones. \cite{bryc2013separation}, indicating further that it is only necessary to detect the jump point in the eigenvalues to infer the number of populations. Therefore, instead of relying on ad hoc heuristics or attempting to formulate specific mathematical methods with multiple underlying assumptions which in turn have trouble with real data, the use of a machine learning technique that generalises the connection between the number of populations present in genotype data and the correlating structure observed in the eigenvalues.\\
+Further research has been made with random matrix theory (RMT) to concretise the behaviour of the first $k-1$ eigenevalues, including, under certain assumptions, a mathematicaly quantifieable threshhold that destinguishes significantly larger eigenvalues from lower ones. \cite{bryc2013separation}, indicating further that it is only necessary to detect the phase transition point in the eigenvalues to infer the number of populations. However explicit calculations tend to have problems when confronted with real world problem instances.\\
+Out of these reasons, instead of relying on ad hoc heuristics or attempting to formulate specific mathematical methods with multiple underlying assumptions which in turn have trouble with real data, the use of a machine learning technique that generalises the connection between the number of populations present in genotype data and the correlating structure observed in the eigenvalues.\\
 
-\cite{patterson2006population} regards the eigenvalues approach as a black-box method, nonetheless it could also be categorised as distance method as it is dictated by the second central moment (variance), which is determined by the distance of the samples from the mean. The following presented supervised learning approach, using a model to generate synthetic training data and then summarising it by its eigenvalues, can therefore be viewed as a synthesis of model based and distance based clustering.
+\cite{patterson2006population} regards the eigenvalues approach as a black-box method, nonetheless it could also be categorised as distance method as it is dictated by the second central moment (variance), which is determined by the distance of the samples from the mean. The following presented supervised learning approach, using a model to generate synthetic training data and then summarising it by its eigenvalues, can therefore be viewed as a synthesis of model based and distance based cluster analysis.
 
 %A natural approach for solving problems involving clustering, would be to use well established and commonly used methods, like maximising the likelihood of an expactation maximisation in combination with a model quality estimator such as the Bayesian Information Criterion to counter overfitting. In general bayesian approaches, sucha as maximising the likelihood with regard to a theoretical model of the population structure is always a possible approach, however makes the estimation of the number of populations highly dependable on the a-priori assumptions of the model for what determines mathematically a new population \cite{falush2003inference}. Fitting a hierarchical tree model with bayesian methods has also been attempted \cite{corander2004baps}. Different assumptions from different models could lead to different estimations, which would undermine their comparability. Nevertheless, a maximum-likelihood approach was implemented in the software STRUCTURE \cite{pritchard2000inference} \cite{falush2003inference} and widely applied \cite{rosenberg2002genetic} \cite{harter2004origin} \cite{rosenberg2001empirical}. Furthermore, in some cases, especially for data that involves a high number of populations, a very distinctive maximum is not obtained, for the maximum-likelihood function tends to be smoother as higher values are examined \textbf{more explanation???}. Some approaches add further heuristics, such as also taking the second order rate of change of the likelihood function into consideration \cite{evanno2005detecting}, which however appears more like mending the performance of an approach that was solely conceived as preliminary remedy \cite{pritchard2000inference}.\\
 %A more recent approach involves the insight that a cluster structure is also resembled in a structured form in the spectrum of the respective data matrix. The connection between the spectrum and a matrix was first discovered in graph theory \cite{donath1973lower} \cite{fiedler1973algebraic} and later introduced into machine learning \cite{shi2000normalized} \cite{meila2001random} \cite{ng2002spectral}, for further information see \cite{von2007tutorial}. In general the relevant insight states that: suppose $K$ clusters can be observed in the data matrix $X$ (w.l.o.g. $X$ is a square matrix), then the first $k-1$ eigenvalues $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_{k-1}$ are significantly larger than the remaining eigenvalues, also the corresponding eigenvectors \textbf{span a subspace that approximates a simplex with the clusters as vertices???}. The number of clusters can thus be inferred by examining the eigenvalues of the data, firstly detected and applied in the context of population genetics by \cite{patterson2006population}. 
@@ -174,11 +184,11 @@ Further research has been made with random matrix theory (RMT) to concretise the
 %\end{itemize}
 
 \section{The Generative Model}
-The subsequently presented model resembles the hierarchical model implemented in STRUCTURE. A first layer, referred to subsequently as the F-layer, originates from \cite{falush2003inference} to introduce the possibility of adjusting the correlation of allele frequencies between populations. The F-layer is responsible for determining the allele frequencies of the populations. The second layer, from now on referred to as the admixture layer, stems from \cite{pritchard2000inference} and allows for individuals to have admixed genotypes. In other words, the frequencies of several populations are partially contributing to the pool from which the genotype of an admixed individual is sampled from. Thus, the admixture layer samples the genotypes of the individuals, whereby controlling the proportions every population contributes to the genotype of an individual.
+The subsequently presented model resembles the hierarchical model implemented in STRUCTURE. A first layer, referred to followingly as the F-layer, originates from \cite{falush2003inference} to introduce the possibility of adjusting the correlation of allele frequencies between populations. The F-layer is responsible for determining the allele frequencies of the populations. The second layer, from now on referred to as the admixture layer, stems from \cite{pritchard2000inference} and allows for individuals to have admixed genotypes. In other words, the frequencies of several populations are partially contributing to the pool from which the genotype of an admixed individual is sampled from. Thus, the admixture layer samples the genotypes of the individuals, whereby controlling the proportions each population contributes to the genotype of an individual.
 
 %The genetic information to evaluate individuals is gathered from specific locations in the genome (loci) that can exhibit known genetic variants (alleles). These specific locations are called markers allow for an easier handling of the demensionality and complexity of a genom for certain tasks, such as classefication. To detect properly the magnitude of difference between the genotypes of two individuals from the same species, a sufficient amount of loci that carry genetic variation have to be used. For modelling SNP variations will be used. The biological meaning of the loci generated by the following model for the task of inferring the number of populations is irrelevant, solely necessary is the fact that at each loci different alleles should exist. Each population expresses the alleles at different frequencies, such that, by the law of large numbers, the more loci are simulated the more seperable the populations should be from another and individuals easierly assignable to a population. From a modelling view, it is the different allele frequencies that define a population. \\
 
-Alleles captured from SNP markers are biallelic, for the SNP markers locate a mutation in a single nucleotide base pair. That a base pair is effected by several mutations and these mutations assert themselves in the population is, because of the low chances of single nucleotide being affected by a mutation, very unlikely and therefore the possibilities of more than two alleles at an SNP marker is neglected. This allows for a notation simplification of the allele frequencies. Let subsequently  $p_{kl}$ determine the probability that an individual from population $k$ has a mutation at locus $l$. Of course the existence of mutant variants is always relative to some reference genome from which over sufficiently long amount of time mutations formed and were able to gather some share in the allele frequencies of a population.\\
+Alleles captured from SNP markers are biallelic, since the SNP markers locate a mutation in a single nucleotide base pair. That a base pair is effected by several mutations and these mutations assert themselves in the population is, because of the low chances of single nucleotide being affected by a mutation, very unlikely and therefore the possibility of more than two alleles occuring at an SNP marker is neglected. This allows for a notation simplification of the allele frequencies. Let subsequently  $p_{kl}$ determine the probability that an individual from population $k$ has a mutation at locus $l$. Of course the existence of mutant variants is always relative to some reference genome from which over sufficiently long amount of time mutations formed and were able to gather some share in the allele frequencies of a population.\\
 
 %The allele frequencies of a population $k$ at a locus $l$ for an allele $a$ will be denoted as $p_k(l_a)$. For simplification purposes each loci in the model can be interpreted as having only two alleles. The model assumes a point in time where \textbf{no different alleles existed??? or alleles where considered the same???} and overtime mutations introduced new alleles that could asser themselves. However the model does not distinguish between the new alleles, only if an individual carries a mutant variant or not (furthermore ploidity is also ignored). The notation therefore also simplifies for the modell to $p_k(l)$ (probability of having a mutant allele at locus l if from population $k$).
 
@@ -196,20 +206,21 @@ Alleles captured from SNP markers are biallelic, for the SNP markers locate a mu
 
 \subsection{F-Layer}
 
-\textbf{further informations, reader can consult textbooks}
 The motivation for introducing correlation between allele frequencies of populations is that populations often originate from a common ancestral population, so each population stems from the same starting allele frequencies. Reasons for the emergence of new populations are numerous, ranging from geographical divides to social structure impacting the genetic make-up, the component common to all is that a group of individuals excludes themselves sufficiently from mating with the rest of the population and thus practices inbreeding. Schematically in population genetics these scenarios of fragmentation are often abstracted as a set of $K$ secluded islands to which some individuals of an ancestral population $A$ migrated and interbreeding on each island occurs.
 
 \begin{figure}
+\centering
 \includegraphics[scale=0.5]{level_1}
+\caption{island model}
 \end{figure}
 
-The formation of populations on the islands with distinct allele frequencies is due to a phenomenon called random genetic drift. From a simplified view point, excluding all the biological idiosyncrasies and only looking at the alleles at a single locus, random genetic drift can be seen as an urn model, where the alleles at the locus make up the balls that are drawn from the urn. The proportions of the balls should represent the allele frequencies of the population. The alleles that the offspring receives are sampled from the urn (with replacement). However, since the amount of individuals in the offspring is finite, the offspring will most likely not possess exactly the same allele frequencies as the parents did. This causes the allele frequencies of a population to vary until one allele achieves fixation. Fixation occurs when by chance only one specific allele is sampled from the urn, thus eliminating all its competing alleles.\\
+The formation of different populations on the islands, described by their distinct allele frequencies, is due to a phenomenon called random genetic drift. From a simplified view point, excluding all the biological idiosyncrasies and only looking at the alleles at a single locus, random genetic drift can be seen as an urn model. Each allele receives a different colored ball and the  proportions of the balls lying in the urn should represent the allele frequencies of the population. The alleles that the offspring receives are sampled from the urn (with replacement). However, since the amount of individuals in the offspring is finite, the offspring will most likely not possess exactly the same allele frequencies as the parents did (not have the same ball proportions). This causes the allele frequencies of a population to vary until one allele achieves fixation. Fixation occurs when by chance only one specific allele is sampled from the urn  (only one colour), thus eliminating all its competing alleles. For more information consult \parencite{hartl1997principles, gillespie2004population}\\
 
-Repeated over time and expanded to the continuous case, genetic drift can be formulated mathematically as a stochastic process on the change of allele frequencies, where the total dominance of an allele is an absorbing state \parencite{crow1970introduction}. Therefore, after a sufficient amount of time a decrease in genetic diversity will be observed in inbreeding populations as more alleles tend to fixation. Wright's F-statistic is a widely used measure for evaluating the divergence of allele frequencies of populations from the mean. It consists of a single value $F_{ST}$ and is calculated as $F_{ST} = Var(p_a) / \overline{p_a}(1-\overline{p_a})$, where $Var(p_a)$ is the variance of the allele frequencies for allele $a$ across the evaluated populations and $\overline{p_a}$ the mean. Once all alleles are fixed in (considering an infinite amount of populatoins), it is expected for a proportionate amount according to $\overline{p_a}$ to have fixed the allele $a$. The variance would consequently conclude to $\overline{p_a}(1-\overline{p_a})$ making the equation equal to one and indicating total fixation. If the variance is near zero all populations would still most likely have not diverged far from the overall starting allele frequency.\\
+Repeated over time and expanded to the continuous case, genetic drift can be formulated mathematically as a stochastic process over the change of allele frequencies, where the total dominance of an allele is an absorbing state \parencite{crow1970introduction}. Therefore, after a sufficient amount of time a decrease in genetic diversity will be observed in inbreeding populations as more alleles tend to fixation. Wright's F-statistic is a widely used measure for evaluating the divergence of allele frequencies of populations from the mean. It consists of a single value $F_{ST}$ and is calculated as $F_{ST} = Var(p_a) / \overline{p_a}(1-\overline{p_a})$, where $Var(p_a)$ is the variance of the allele frequencies for allele $a$ across the evaluated populations and $\overline{p_a}$ the mean. Once all alleles are fixed in (considering an infinite amount of populations), it is expected for a proportionate amount according to $\overline{p_a}$ to have fixed the allele $a$. The variance would consequently conclude to $\overline{p_a}(1-\overline{p_a})$ making the equation equal to one and indicating total fixation. If the variance is near zero all populations would still most likely have not diverged far from the overall starting allele frequency. For \\
 
 The model will employ an analogous adoption of the F-statistic. The ancestral allele frequency $p_{Al}$ acts as the mean from which all other frequencies originate. Instead of a single parameter $F_{st}$, a hyperparameter $F_k$ for each population $k$ is introduced that controls the magnitude of its divergence from the ancestral population.\\
 
-The alleles frequencies for a population $k$ are sampled from a beta distribution, with following parametrisation:
+The allele frequencies for a population $k$ are sampled from a beta distribution, with following parametrisation:
 
 \begin{align}
 p_{kl} = beta(p_{Al} \frac{1 - F_k}{F_k}, (1-p_{Al}) \frac{1 - F_k}{F_k})
@@ -221,7 +232,6 @@ The choice of using a beta distribution is motivated by the fact that it is the 
 \parencite{balding2003likelihood}
  
 It is assumed that the loci are independent from one another, as a consequence factors like linkage disequilibrium can not be respected, however it allows for the independent sampling at each locus with the same $F_k$ value.
-
 
 Proceeding, the allele frequencies for a population $k$ are joined together to a vector $p_k$ and then merged with all other $K$ populations to a matrix $\mathbf{F} = [p_1 p_2 \ldots p_K]^T$ of size $K \times L$, where $L$ is the number of loci. Each column of $\mathbf{F}$ gives the allele frequency for each population at a specific locus $l$.\\
 
@@ -267,15 +277,17 @@ Proceeding, the allele frequencies for a population $k$ are joined together to a
 Apart from populations drifting from another apart, individuals of populations also migrate and mate with other individuals of other populations, which results in individuals having a genotype that exhibits the shared ancestry of different populations. The admixture layer introduces the prospect of modelling diverse ancestry according to the admixture model presented in \cite{pritchard2000inference}, whereby the flexibility is achieved by sampling the proportions of admixture from a Dirichlet distribution. Its hyperparameters allow for the finetuning of the probabilities over the potential admixing proportions of the populations. Section 3.6 provides a more thorough look of the modelling with the Dirichlet distribution.
 
 \begin{figure}
+\centering
 \includegraphics[scale=0.5]{level_2}
+\caption{admixture}
 \end{figure}
 
 
-Before translating the admixture proportions to the genotypes of individuals, another matrix  $\mathbf{Q}$ is created that contains the admixture proportions of every individual. Mathematically, for an individual $i$ the mixture weights $q_i$ are sampled from a Dirichlet distribution with $K$, according to the number of populations, influencing hyperparameters $\alpha1, \alpha2, \ldots,  \alpha_K$. A "non admixed" individual $j$ also receives admixture proportions with the speciality that the only non-zero value is a one at the $k$th position (with a lenient notation), indicating that the individual belongs to population $k$, so $q_j = [0_1, \ldots, 1_k, \ldots, 0_K]^T$. All $N$ individuals are combined to a mixing matrix $\mathbf{Q} = [q_1,q_2, \ldots q_M]^T$ of dimensions $N \times K$. \\
+Before translating the admixture proportions to the genotypes of individuals, another matrix  $\mathbf{Q}$ is created that contains the admixture proportions of every individual. Mathematically, for an individual $i$ the mixture weights $q_i$ are sampled from a Dirichlet distribution with $K$, parameterised according to the number of populations with influencing hyperparameters $\alpha1, \alpha2, \ldots,  \alpha_K$. A "non admixed" individual $j$ also receives admixture proportions with the speciality that the only non-zero value is a one at the $k$th position (with a lenient notation), indicating that the individual belongs to population $k$, so $q_j = [0_1, \ldots, 1_k, \ldots, 0_K]^T$. All $N$ individuals are combined to a mixing matrix $\mathbf{Q} = [q_1,q_2, \ldots q_M]^T$ of dimensions $N \times K$. \\
 
 \subsection{Combining the Layers}
 
-The admixture proportions of an individual act upon each locus by weighing the allele frequency of each population at the locus according to the respective proportions and subsequently summing them. Since this accords to a linear operation, the matrix multiplication with both established matrices $\mathbf{P} = \mathbf{Q}\mathbf{F}$ yields a matrix $\mathbf{P}$ of dimension $N \times L$ that holds the allele frequencies at each locus for all individual from which their genotypes are sampled. In a final step each entry of $\mathbf{P}$ is used to sample twice from a Bernoulli distribution (binomial - two tries), as it is assumed that individuals are diploidic. Each individual consequently has at each locus a value of $0, 1, 2$, according to how many mutations in total their both of their chromosomes exhibit.\\
+The admixture proportions of an individual act upon each locus by weighting the allele frequency of each population at the locus according to the respective proportions and subsequently summing them. Since this accords to a linear operation, the matrix multiplication with both established matrices $\mathbf{P} = \mathbf{Q}\mathbf{F}$ yields a matrix $\mathbf{P}$ of dimension $N \times L$ that holds the allele frequencies at each locus for all individual from which their genotypes are sampled. In a final step each entry of $\mathbf{P}$ is used to sample twice from a Bernoulli distribution (binomial - two tries), as it is assumed that individuals are diploidic. Each individual consequently has at each locus a value of $0, 1, 2$, according to how many mutations in total their both of their chromosomes exhibit. Adpating to species with a different ploidity is easily possible.\\
 
 Further assumptions that the model expresses include random mating and thus the absence of further lower level population structure within the populations and that the alleles captured by the markers are neutral, meaning that they have no impact on the fitness of an individual and are therefore (with the allele independence assumption) exempt from natural selection.
 
@@ -299,7 +311,7 @@ In summary the generation of a new population setting for which the number of po
 \end{enumerate}
 
 \subsection{Looking at Admixture}
-The admixture of an individual is determined by the Dirichlet distribution. The Dirichlet distribution is parametrised by $K$ hyperparameters $\alpha_1,\alpha_2, \ldots, \alpha_k$. $K$ corresponds to the desired dimension of the output. The probability density function
+The admixture of an individual is determined by the Dirichlet distribution. The Dirichlet distribution is parametrised by $K$ hyperparameters $\alpha_1,\alpha_2, \ldots, \alpha_k$. $K$ corresponds to the desired dimension of the output. The probability density function is defined as following
 
 \begin{align*}
 f(x_1, \ldots, x_K, \alpha_1, \ldots, \alpha_K) = \frac{1}{B(\alpha)} \prod^{K}_{i=1}x_i^{\alpha_i-1}
@@ -309,27 +321,47 @@ Of particular interest for the described model are the hyperparameters, also cal
 \begin{align*}
 x_i = \frac{\alpha_i - 1}{\sum^K_{k=1} a_k -K} \\
 \end{align*}
-The mode moves therefore more towards those directions, simplex vertices that have a relatively higher valued corresponding hyperparameter compared to the other hyperparameters. In addition, the variance $\sigma$, given by 
+The mode moves therefore more towards those simplex vertices/populations that possess a relatively higher valued hyperparameter compared to the others. In addition, the variance $\sigma$, given by 
 \begin{align*}
 \sigma_i = \frac{\alpha_i(\alpha_0 - \alpha_i)}{\alpha_0^2(\alpha_0 + 1)}
 \end{align*} 
 where $\alpha_0 = \sum^{K}_{i = 1} \alpha_i$, reveals that higher values of hyperparameters leads to a decrease of the variance, meaning a higher concentration around the mode. \\
-These two properties can be exploited to control the probability of sampling certain admixture coefficients. Furthermore, by sampling from the same Dirichlet distribution one is able to simulate various population scenarios, such as a detached admixed cluster, which would correspond to a mode with high concentration parameters, or a population that experienced migration originating from another population, which would coincide with a degenerated Dirichlet distribution that only has two non-zero, concentration values for the two involved population, which is in the end a beta distribution.
+These two properties can be exploited to control the probability of sampling certain admixture coefficients. Furthermore, by sampling from the same Dirichlet distribution one is able to simulate various population scenarios, such as a detached admixed cluster, which would correspond to a mode with high concentration parameters, or a population that experienced migration originating from another population, which would coincide with a degenerated Dirichlet distribution that only has two non-zero concentration values for the two involved population (in the end a beta distribution).
+
+\subsection{Investigating the F-Value}
+The F-value, of which each population receives its own, determines the dispersion of the allele frequencies of a population from the ancestral allele frequencies. In general low F-values lead to a strong correlation of the allele frequencies with the ancestral ones, a high value leads to a decoupling.\\
+The effect of the F-value can be best evaluated through the visualization of some example beta distribution plots. Figures 4, 5, 6 depict the distribution of a single allele frequency originating from different ancestral allele frequencies $p^A_l \in \{0.3, 0.5, 0.95\}$ for F-values $0.01$, $0.1$ and $0.5$. Two main insights can be concluded: Firstly, the proposition is supported, that the higher the F-value the more probable a more different allele frequency than the ancestral one is chosen, expressed in the increase in variance. Therefore, it is to be expected that if the populations are assigned large enough F-values they will be more easily distinguishable. And secondly, as $p_l^A$ leans towards fixation, the sampled allele frequency will most likely fixate the same allele. This leads to the conclusion, that if the genotypes in the ancestral population are more homogenic then the offspring populations are probably similarly homogenic and harder to distinguish. Higher F-values also lead to a higher tendency of fixation. This coincides with the intention that a high F-value corresponds to for e.g. longer time in isolation, such that allele frequencies had time to drift and most likely fixate.\\
+\begin{figure}
+\centering
+\begin{subfigure}
+\centering
+\caption{F-value of $0.01$}
+\includegraphics[scale=0.5]{rbeta_plot_001}
+\end{subfigure}
+\begin{subfigure}
+\centering
+\caption{F-value of $0.1$}
+\includegraphics[scale=0.5]{rbeta_plot_01}
+\end{subfigure}
+\begin{subfigure}
+\centering
+\caption{F-value of $0.5$}
+\includegraphics[scale=0.5]{rbeta_plot_05}
+\end{subfigure}
+\end{figure}
 
 \subsection{Further Analysis of the Model}
-The population centroids given by the population allele frequencies (they are the probabilities used for the Bernoulli sampling and thus the mean) construct the vertices of a simplex in which the individuals approximately lie. Outliers are solely due to the natural variance created by sampling at the end from a Bernoulli distribution. The probabilities the genetic information from each individual is sampled from, nonetheless always combine to a vector that lies within the simplex, for the probabilities are through the admixture coefficients a linear combination of the population allele frequencies or, in other words, of the simplex vertices. From another perspective, the matrix $\mathbf{F}$ that holds the centroids of the populations as rows, then the matrix maps every vector $s$ from the support of an $L$ dimensional Dirichlet distribution accordingly on to the simplex spanned by the centroids (so $\mathbf{F}s$). The matrix $\mathbf{F}$ linearly transforms the $L$-simplex to the desired population simplex.
+The allele probabilities of each individual from which its genotype is sampled lie with in the $K-1$ probability simplex. As presented the allele frequencies, from which the genotype of an individual is sampled, are constructed by a linear combination of proportions of the population allele frequencies. This means that the allele probabilites of each individual is confined by an even smaller simplex within the $K-1$ simplex determined by the population allele frequencies which consititute the vertices. So the sampling space from which the allele frequencies for a locus $l$ are determined corresponds to a simplex that moved the $K-1$ simplex vertices to the allele frequencies of the populations. From another perspective one can interpret the allele frequencies as constructing a change of basis transformation through the diagonal matrix $\mathbf{D} = diag(p_{1l}, \ldots, p_{Kl})$ that squishes the unit vectors to the allele frequencies. Therefore, the allele frequencies from which the genotype is sampled could be determined by sampling a vector $v$ from the $K-1$ simplex and transforming it into the allele frequency simplex through $\mathbf{D}v$.  The transformation $\mathbf{F}\mathbf{Q}$ given above generalises this idea for all $L$ loci.\\
+By sampling twice (Bernoulli($2$)) the simplex gets stretched by a factor of two, in which the genotypes of every individual lie. However, this act of discretization moves the genotypes out of the simplex of allele frequencies even if they also are scaled by a factor of two (special case: all alleles fixed). Nonetheless, the nature of distributed genotypes can be specified further by observing that the allele frequencies of each population scaled by two construct the cluster centroids $[2p^k_1, \ldots, 2p^k_L]$ around which the individuals of a population $k$ vary (definition Bernoulli mean).\\
+%The population centroids are given by the vector of allele frequencies for a given population times $2$ (they are the probabilities used for the twice Bernoulli sampling and thus the mean) construct the vertices of a simplex in which the individuals approximately lie. Individuals that belong to a single population vary around the centroid due to the sampling from the Bernoulli distribution. The allele probabilities of each individual from which its genetic information is sampled, nonetheless always combine to a vector that lies within the simplex, for the probabilities are through the admixture coefficients a linear combination of the population allele frequencies or, in other words, of the simplex vertices. From another perspective, the matrix $\mathbf{F}$ that holds the centroids of the populations as rows, then the matrix maps every vector $s$ from the support of an $L$ dimensional Dirichlet distribution accordingly on to the simplex spanned by the centroids (so $\mathbf{F}s$). The matrix $\mathbf{F}$ linearly transforms the $L$-simplex to the desired population simplex.
 
-
-As presented the allele frequencies, from which the genotype of an individual is sampled, are constructed by a linear combination of the population allele frequencies, whereby the coefficients in the $K-1$ simplex lie. The $K-1$ simplex is defined by its vertices given by the $K$ unit vectors. The sampling space from which the allele frequencies for a locus $l$ are determined corresponds to a simplex that moved the $K-1$ simplex vertices to the allele frequencies of the populations. From another perspective one can interpret the allele frequencies as constructing a change of basis transformation through the diagonal matrix $\mathbf{D} = diag(p_{1l}, \ldots, p_{Kl})$ that squishes the unit vectors to the allele frequencies. Therefore, the allele frequencies from which the genotype is sampled could be determined by sampling a vector $v$ from the $K-1$ simplex and transforming it into the allele frequency simplex through $\mathbf{D}v$.  The transformation $\mathbf{F}\mathbf{Q}$ given above generalises this idea for all $L$ loci.
-\\
-
-For further assessment a mean of quantifying the genetic dissimilarity between two individuals is necessary. As a measure of genetic distance between two individuals $i$ and $j$ a natural choice is to use a normalised Manhattan distance because the possible genotype values ${0, 1, 2}$ are discrete and already reflect dissimilarity appropriately. More concretely, let $N$ be the number of loci used as genetic markers, then $\{0,1,2\}^N \subseteq \mathbb{R}^N$  is the set containing all possible values for the genetic information of an individual. The measure of genetic distance is 
+For further assessment a mean of quantifying the genetic dissimilarity between two individuals is necessary. As a measure of genetic distance between two individuals $i$ and $j$ a natural choice is to use a normalised Manhattan distance because the possible genotype values ${0, 1, 2}$ are discrete and already reflect dissimilarity appropriately. More concretely, let $N$ be the number of loci used as genetic markers, then $\{0,1,2\}^N \subseteq \mathbb{R}^N$  is the set containing all possible values of genetic information. The measure of genetic distance is 
 
 \begin{align*}
 D = \frac{1}{2N}\sum^{N}_{n = 1} |l^i_n - l^j_n|
 \end{align*}
 
-where $l^i_n$ and $l^j_n$ are the values of individual $i$ and $j$ respectively at locus $l_n$. The normalisation keeps the measure invariant to the number of loci used, as recovering more genetic information should not increase the genetic distance per se, as well es calculating out the diploidity. The measure ranges from $0$, as two individuals are genetically similar, to $1$, meaning genetic dissimilarity.
+where $l^i_n$ and $l^j_n$ are the values of individual $i$ and $j$ respectively at locus $l_n$. The normalisation keeps the measure invariant to the number of loci used, as recovering more genetic information should not increase the genetic distance per se, as well es normalising out the diploidity. The measure ranges from $0$, as two individuals are genetically similar, to $1$, meaning genetic dissimilarity.
 \\
 Suppose two individuals $i$ and $j$ are generated by the described model, so sampling from a Bernoulli distribution for each loci $l$ with the respective allele frequencies $p_i(l)$ and $p_j(l)$. The expected genetic difference of both individuals then is:
  
@@ -348,7 +380,7 @@ This lends further justification to the choice of the distance measure for diplo
 \begin{figure}
 \includegraphics[scale=0.5]{plot_distance}
 \end{figure}
-Let the expected distance of two individuals with arbitrary allele frequencies at a locus $l$ be given by the function $g(p_i, p_j)$ and for two individuals sampled from the same allele frequencies $f(p_i)$. Figure \textbf{insert tag} illustrates that it is expected that the genetic distance for individuals sampled from different allele frequencies possess a greater genetic dissimilarity, therefore it is expected for individuals from the same population to cluster together and the generative model. Furthermore, it should be expected that populations that have not diverged much from the ancestral population are more difficult to distinguish.\\
+Let the expected distance of two individuals with arbitrary allele frequencies at a locus $l$ be given by the function $g(p_i, p_j)$ and for two individuals sampled from the same allele frequencies $f(p_i)$. It is expected, as Figure \textbf{insert tag} illustrates, that the genetic distance for individuals sampled from different allele frequencies possess a greater genetic dissimilarity, therefore it is moreover expected for individuals from the same population to cluster together. Furthermore, it should be expected that populations that have not diverged much from the ancestral population to be distinguished more difficulty.\\
 
 Apart from establishing that individuals from different clusters are distinguishable, another clustering quality that would be advantageous to assess is the clustering density. As presented, individuals are sampled from probabilities located in the allele frequency simplex, however the resulting genotype could very much lie outside of the simplex due to the necessary discretization and thus the consequently induced variance of the binomial sampling. 
 By determining the variance of two individuals from the same population and therefore sampled from the same allele frequencies a better impression of the cluster (population) density can be obtained. Also the expected severity of individuals lying outside the simplex can be assessed.\\
@@ -372,11 +404,7 @@ Var(D) &= \mathbb{E}[D^2] - \mathbb{E}[D]^2\\
 \end{align*}
 This reveals that the variance decreases significantly of the order $\mathcal{O}(N^{-2})$ with the number of loci. Therefore, less severe outliers and better observable clusters are to be expected the more loci are simulated. Furthermore, the terms in the summation possess a single maximum at $0.5$, so a higher variance exists the further alles are from fixation.
 
-\begin{figure}
-\includegraphics[scale=0.5]{rbeta_plot_001}
-\includegraphics[scale=0.5]{rbeta_plot_01}
-\includegraphics[scale=0.5]{rbeta_plot_05}
-\end{figure}
+
 
 \textbf{mention maximum entropy?}
 
@@ -419,7 +447,7 @@ The rejection algorithm is naturally derived from a certain perspective on condi
 \Repeat
 \State $x_i \gets$ event sampled from $A$
 \State $i \gets i + 1$
-\Until {sample $y$ from $B$}
+\Until {sample from $B$ is $y$}
 \State output $x_i$
 \EndFor
 \end{algorithmic}
@@ -433,19 +461,19 @@ P(x \subseteq A|y \subseteq B) &= \sum^{\infty}_{i=1} P((x = x_i) \cap y)(1-P(y)
 \end{align*}
 
 The rejection algorithm employs a basic approach for finding the posterior distribution of the desired parameter $\theta$ for specific data $D$. Given a known prior distribution of $\theta$, the algorithm samples values $\hat{\theta}$ from the prior and then inputs $\hat{\theta}$ into an appropriate model to simulate some data $\hat{D}$. If the simulated data lies with in a margin of error $\epsilon \geq 0$ from data $D$ for a chosen metric $\rho$ , so $\rho(D, \hat{D}) \leq \epsilon$, then the sampled prior value $\hat{\theta}$ is accepted by adding it to the final sample of parameter values for $\theta$. The final sample should approximate the desired posterior. For further information and possible refinements such as using linear or non linear regression to counter a low acceptance rate or using Sequential Monte Carlo - ABC to sample from areas with higher posterior density the reader is referred to \cite{csillery2010approximate}. \\
-If the task is for example to compare different models concerning a specific data set,  For tasks that only require a good point estimate of $\theta$ that fits well to the data $D$, like the maximum a posteriori (MAP), the rejection algorithm might be too elaborate. Also, the algorithm demands to be run multiple times which could be computationally costly.\\
+If the task is for example to compare different models concerning a specific data set conventional ABC algorithms suffice. For tasks that only require a good point estimate of $\theta$ that fits well to the data $D$, like the maximum a posteriori (MAP), rejection algorithms might be too elaborate. Also, the algorithm demands to be run multiple times which is computationally costly.\\
 %Furthermore, the explicit construction of a model that simulates data introduces assumptions into the computation, as this is a further approximation it is potentially problematic for the decency of the approximation. \textbf{use instead implicit models like GAN???} \\
 
 \subsubsection{In Context of Supervised Learning}
 
-A supervised learning method attempts to find a general connection between any given input data $D$ and its desired output $\theta$ by training a malleable model. The model is instructed to infer the general connection by adapting itself in such a way that it minimises the empirical risk (for some chosen loss function) when solving a finite training set of size $N$, which is a data set with "presolved" values $((D_1,\theta_1),\ldots (D_N,\theta_N))$. From another perspective, a supervised learning algorithm attempts to forge a model in such a way that it perfects the approximation of the desired mapping from the input space described by $D$ into the output space, which is desirably the correct value for $\theta$. With a uniformly distributed training dataset a supervised learning model will approximate the maximum likelihood (maximise $P(D|\theta)$ w.r.t. $\theta$). By changing the proportions of $\theta$ in the training data, a prior $P(\theta)$ can be implicitly set and the trained model will consequently attempt to approximate the maximum a posteriori value (MAP) (maximise $P(D|\theta)P(\theta)$ w.r.t. $\theta$).\\
+A supervised learning method attempts to find a general connection between any given input data $D$ and its desired output $\theta$ by training a malleable model. The model is instructed to infer the general connection by adapting itself in such a way that it minimises the empirical risk (for some chosen loss function) when solving a finite training set of size $N$, which is a data set with known optimal values $((D_1,\theta_1),\ldots (D_N,\theta_N))$. From another perspective, a supervised learning algorithm attempts to forge a model in such a way that it perfects the approximation of the desired mapping from the input space described by $D$ into the output space, which is desirably the correct value for $\theta$. With a uniformly distributed training dataset a supervised learning model will approximate the maximum likelihood (maximise $P(D|\theta)$ w.r.t. $\theta$). By changing the proportions of $\theta$ in the training data, a prior $P(\theta)$ can be implicitly set and the trained model will consequently attempt to approximate the maximum a posteriori value (MAP) (maximise $P(D|\theta)P(\theta)$ w.r.t. $\theta$).\\
 
-The task of choosing $K$ can be viewed as a model selection problem. A rejection algorithm variant usually constitutes a reasonable choice for choosing a model for a particular data set, by for example using posterior ratios. Since the rejection algorithm produces an approximate posterior distribution a broader choice for the selection criterion exists. However, the parameter space is, even with taking summary statistics into account, because of the large dimensionality of snp genotype data seems rather daunting to tame computationally. Out of this reason one settles with the MAP value as sufficient selection criterium for the exchange of the posterior density calculation being waived. The supervised learning technique is subject to the same assumptions through the generative model and uses the same summary statistics just like a rejection algorithm.\\
+The task of choosing $K$ can be viewed as a model selection problem. A rejection algorithm variant usually constitutes a reasonable choice for choosing a model for a particular data set, by for example using posterior ratios. Since the rejection algorithm produces an approximate posterior distribution a broader choice for the selection criterion exists. However, the parameter space is, even with taking summary statistics into account, because of the large dimensionality of snp genotype data, rather daunting to tame computationally. Out of this reason one settles with the MAP value as sufficient selection criterium for the exchange of the posterior density calculation being waived. The supervised learning technique is subject to the same assumptions through the generative model and uses the same summary statistics just like a rejection algorithm.\\
 
 \subsubsection{Summary Statistics}
-Large dimensionality of a data set can undermine the practicability of an ABC-method. By summarising the data one attempts to reduce dimensionality, while still sustaining a good approximation of the posterior. So if $S(D)$ is a summary statistics of some data $D$ then the acceptance criterion for the rejection algorithm converts to $\rho(S(D), S(\hat{D})) \le \epsilon$, whereby $P(\theta|D) \approx P(\theta|S(D))$ holds sufficiently. The use of summary statistics is not confined to the rejection algorithm, rather it is a general tool that allows for a trade off between reduction of dimensionality and the goodness of the approximation, since each summarisation usually forfeits some of the principal information. If no information is lost, so $P(\theta | D) = P(\theta| S(D))$ applies, then the summary statistics is called sufficient. \text bf{However, only exponential families have finite sufficient summary statistics, for they are maximum entropy distributions???}. A good informative choice of summary statistics is highly task and data set dependent \cite{nunes2010optimal}. An overview of common heuristics and algorithms for choosing summary statistics can be found in \cite{blum2013comparative}.
+Large dimensionality of a data set can undermine the practicability of an ABC-method. By summarising the data one attempts to reduce dimensionality, while still sustaining a good approximation of the posterior. So if $S(D)$ is a summary statistics of some data $D$ then the acceptance criterion for the rejection algorithm converts to $\rho(S(D), S(\hat{D})) \le \epsilon$, whereby $P(\theta|D) \approx P(\theta|S(D))$ holds sufficiently. The use of summary statistics is not confined to the rejection algorithm, rather it is a general tool that allows for a trade off between reduction of dimensionality and the goodness of the approximation, as each summarisation usually forfeits some of the principal information. If no information is lost, so $P(\theta | D) = P(\theta| S(D))$ applies, then the summary statistics is called sufficient. A good informative choice of summary statistics is highly task and data set dependent \cite{nunes2010optimal}. An overview of common heuristics and algorithms for choosing summary statistics can be found in \cite{blum2013comparative}.
 
-To infer the number of populations $K$ expressed in a given dataset $X$ the conditional probability $P(K | X)$ with respect to $K$ is maximised. Since the large dimensionality of the used datasets pose substantial computational difficulties, the datasets are summarised  in an effective manner, such that the approximation $P(K|X) \approx P(K | sum(X))$ is sufficient for the intended inference. Bayes' theorem then yields
+To infer the number of populations $K$ expressed in a given dataset $X$ the conditional probability $P(K | X)$ with respect to $K$ is maximised. Since the large dimensionality $X$ poses substantial computational difficulties, the datasets are summarised  in an effective manner, such that the approximation $P(K|X) \approx P(K | sum(X))$ is suitable for the intended inference. Bayes' theorem then yields
 
 \begin{align*}
 P(K | sum(X)) = \frac{P(sum(X) | K) P(K)}{P(sum(X))}
@@ -453,13 +481,13 @@ P(K | sum(X)) = \frac{P(sum(X) | K) P(K)}{P(sum(X))}
 
 \subsection{Choosing the Summary Statistics}
 
-The choice of adequate summary statistics is essential to obtain significant results. Large dimensional data often times demands it to be summarised, so the intended methods a reasonably applicable. In doing so, the manner summary is of great importance because each summarisation usually forfeits some of the principal information. So one is confronted with the problem of how to effectively manage the trade off between the practicability the method and the loss of information that could endanger desired results.\\
+The choice of adequate summary statistics is essential to obtain viable results. Large dimensional data often times demands it to be summarised, so the intended methods a reasonably applicable. In doing so, the manner summary is of great importance because each summarisation usually forfeits some of the principal information. So one is confronted with the problem of how to effectively manage the trade off between the practicability the method and the loss of information that could endanger desired results.\\
 The entropy of a distribution measures the existing uncertainty about which event appears if one samples from the distribution. It is defined mathematically for a given continuous probability mass function $P(X)$ as
 
 \begin{align*}
 h(x) = - \int_{supp(P)}P(x)\log(P(x))dx
 \end{align*}
-The principal of maximum entropy states that given some prior information about the underlying probability distribution, such as already drawn samples or a constraining property, the maximum entropy distribution that incorporates the prior information is the best distribution to respect the remaining uncertainty \cite{jaynes1957information}. In other words, the maximum entropy distribution is the best distribution to fit the already obtained information if no further assumptions are to be added. \\
+The principal of maximum entropy states that given some prior information about the underlying probability distribution, such as already drawn samples or a constraining property, the maximum entropy distribution that incorporates the prior information is the best distribution to respect the remaining uncertainty \parencite{jaynes1957information}. In other words, the maximum entropy distribution is the best distribution to fit the already obtained information if no further assumptions are to be added. \\
 For a given mean $\mu$ and covariance $\Sigma$ the multivariate continuous distribution that maximises the entropy is the multivariate Gaussian, for a proof the reader is referred to \cite{cover2012elements}.
 The entropy of the multivariate Gaussian is derived as following:
 
@@ -474,12 +502,13 @@ h(x) & = - \int_{-\infty}^{\infty} N(x|\mu, \Sigma)\ln(N(x|\mu, \Sigma))dx \\
 \end{align*}
 
 The only non-constant factor influencing the entropy of a multivariate Gaussian is the determinant of the respective covariance matrix.
-Since any real symmetric matrix is diagonalisable, $det(\Sigma)$ breaks down to $det(\Sigma) = det(\mathbf{Q}^{-1}) \cdot det(\mathbf{\Lambda})\cdot det(\mathbf{Q}) = \prod_{i = 1} \lambda_{i}$, thus revealing that actually the eigenvalues of the covariance matrix are responsible for the magnitude of the entropy. In conclusion, by summarising the data by its covariance matrix, one implicitly approximates the data as being Gaussian and secondly it suffices for the summary to only take the eigenvalues into consideration.
+Since any real symmetric matrix is diagonalisable, $det(\Sigma)$ breaks down to $det(\Sigma) = det(\mathbf{Q}^{-1}) \cdot det(\Lambda)\cdot det(\mathbf{Q}) = \prod_{i = 1} \lambda_{i}$, thus revealing that actually the eigenvalues of the covariance matrix are responsible for the magnitude of the entropy. In conclusion, by summarising the data by its covariance matrix, one implicitly approximates the data as being Gaussian and secondly it suffices for the summary to only take the eigenvalues into consideration.
 
 \subsubsection{Principal Component Analysis}
 
-Principle component analysis (PCA) is a statistical method that performs a basis transformation on a given data set, such that no linear correlations are any more present in the data. Since the direction of a linear correlation corresponds to the direction of the highest variance in a concerning subspace, a new axis must be aligned according that particular direction. This construction of the axes is done by requiring in an iterative manner each new axis to align with the direction that captures the most variance in the data, which however has not been captured by previous axes. \\
-The variance and the magnitude of variety found in a data set form a duality. Decreasing the variance in a data set by projecting it into a subspace decreases the variety, thus it endangers distinguishability between data points, which is the information. The amount of sustained variance after projecting the data into a subspace can therefore act as an indicator for how much information was retained. So by always maximizing the captured variance of a newly added axis to the transformation, which is a subspace of the principal data set, the highest possible amount of information is retained for a projection into a subspace with a particular rank $K$ (under the assumption that variance corresponds to information). The subspace is spanned by the $K$ largest eigenvectors of the empirical covariance matrix, as is subsequently shown. 
+Principle component analysis (PCA) is a statistical method that performs a basis transformation on a given data set, such that no linear correlations are present in the data along the novel axes. It can also be used to regress the data into a subspace that minimises the squared error. However, for the task at hand, another property, the preservation of variance, is of interest.\\
+Since the direction of a linear correlation (if present) corresponds to the direction of the highest variance in a concerning subspace, a new axis must be aligned along that particular direction. This construction of the axes is done by requiring in an iterative manner each new axis to align with the direction that captures the most variance in the data, which has not been captured by previous axes.\\
+The variance and the information found in a data set form a duality. Decreasing the variance in a data set by projecting it into a subspace decreases the variety in the data, thus it endangers distinguishability between data points. The amount of sustained variance after projecting the data into a subspace can therefore act as an indicator for how much information was retained. So by always maximizing the captured variance of a newly added orthogonal axis to the transformation the highest possible amount of information is retained  (under the assumption that variance corresponds to information). Selecting $K$ of these axes corresponds to a projection into a subspace of the rank $K$. The axes are the $K$ largest eigenvectors of the empirical covariance matrix, as is subsequently shown. 
 \\
 Let $S = \frac{1}{N}XX^T - \overline{X} \overline{X}^T$ denote the empirical covariance matrix of the data matrix $X$. Then the expression $u^TSu$ is the empirical variance of $u^TX$, which is the data $X$ projected on to the vector $u$.
 
@@ -489,7 +518,7 @@ u^T S u & = \frac{1}{N} u^T X X^T u - u^T \overline{X} \overline{X}^T u \\
 & = \frac{1}{N} (u^T X)^2 - (\overline{u^TX})^2
 \end{align*}
 
-The empirical variance is maximised with the restriction $\parallel u \parallel = 1$ because $u$ is supposed to be part of a new standard basis. By using a Lagrange multiplier to add this restriction, the equation $\max\limits_{u} u^T \Sigma u - \lambda(u^T u - 1)$ is obtained.
+The empirical variance is maximised with the restriction $\parallel u \parallel = 1$ because $u$ is supposed to form a new standard basis. By using a Lagrange multiplier to add this restriction, the equation $\max\limits_{u} u^T \Sigma u - \lambda(u^T u - 1)$ is obtained.
 
 \begin{align*}
  \frac{d}{du} (u^T \Sigma u - \lambda(u^T u - 1)) & = 0 \\
@@ -504,11 +533,13 @@ Solving the eigenproblem on a semi-definite matrix such as the covariance matrix
 \end{align*}
 Where $Q$ is an orthogonal matrix that has the eigenvectors of $\Sigma$ as its columns, and $\lambda$ a diagonal matrix with the corresponding eigenvalues on its diagonal.
 
-\subsubsection{In context to clustering}
-The reason for the clustering structure in data being also expressed in the eigenvalues of the covariance matrix is quite intuitive. Subsequently the term "within variance" will describe the highest possible variance received when a single cluster is projected on to a vector and the term "in-between variance" the highest possible variance received when multiple clusters are projected onto a vector.\\
-The within variance of a set of clusters will usually be greater than in-between variance of any of the considered clusters, because more . Of course several clustering assumptions, such as about the spread and the density of individual clusters, are implied in this statement. The assumption made in the previously described generative model that a population $k$ can be summarised by its allele frequencies which determines the centroid in the generative model around the individuals of a population cluster. The centroid $c_k$ for diploid organisms would be given by a vector where each entry corresponding to a locus $l$ would be the Bernoulli mean $2p_{kl}$ (or close to it for a finite amount of population members). Also the Bernoulli distribution exhibits a single mode around its mean (usually not exactly because of the discretization). With sufficient distance between the population clusters and sufficient amount of members it is assumable that the in-between variance of a set of population clusters generated by the proposed generative model is significantly greater than the within variance of each population cluster. Furthermore, the Bernoulli sampling can be regarded as noise that adds no further structure.\\
-Since the eigenvectors align themselves along the biggest possible variance, it is to be expected that their orientation is greatly dominated by the with-in variance and thus their eigenvalues are significantly larger. The allele frequencies are from which genotypes are sampled stem from a simplex where the population allele frequencies compose the vertices. As discussed the simplex can be seen as the squishing of the $(K-1)$-simplex, that implements the constraint of all vectors having their values sum to $1$. The constraint inhibits a degree of freedom, such that the simplex can be fully spanned by $K-1$ vectors. So it is to be expected that exactly $K-1$ eigenvectors will be needed to fully capture all the in-between variances of $K$ population clusters. Therefore, the according eigenvalues of the first $K-1$ eigenvectors should be significantly greater than the remaining.\\ Admixed individuals have minimal impact on the magnitude \\
-Another more intuitive argumentation could look like following. Consider the allele frequencies of a population as the origin. Then $K-1$ linearly independent vectors are needed to be able to reach the allele frequencies of every other population. If less would be needed, then the allele frequencies would not be independent and some population would not be considered a population, but a group of admixed individuals that are sampled from a linear combination from other population frequencies. The $K-1$ linearly independent vectors could consequently be composed of direction vectors pointing to the population allele frequencies from origin. This implies that the space between the allele frequencies is spanned by the direction vectors and thus they capture all the in between variance. The first $K-1$ eigenvectors orient themselves along the greatest variance and are linearly independent, therefore it is to be expected that they approximately span the space spanned by the direction vectors. What remains is the smaller within variance found in the clusters, concluding that the first $K-1$ eigenvalues should be significantly greater than the remaining.
+\subsubsection{In the context of Cluster Analysis - An Intuitive Understanding}
+Followingly an argument will be explained that supports the connction between PCA and clustering. \\
+Before hand several clustering assumptions will be made: Clusters or rather cluster centroids are seperated by a sufficient amount of distance. Clusters themselves are shaped of homogenous sizes and shapes (shapes are considered gaussian like). Clusters are constituted by a reasonable amount of data points. As discussed, the previously described generative model generates clusters that fit the stated assumptions. The clusters shape is determined by the bernoulli sampling around the given centroid specified by the allele frequencies of the population and the distance between clusters can be controlled by the F-values. Cluster density can also be controlled by specifying the number of individuals assigned to a population.\\
+The term "within variance" will describe the highest possible variance received when a single cluster is projected on to a vector and the term "in-between variance" the highest possible variance received when multiple clusters are projected onto a vector.\\
+Under the stated assumptions the in-between variance of a set of clusters will be greater than the with-in variance of any of the considered clusters. The reasoning being, that the magnitude of the variance is dictated by the distance of the datapoints from the mean. In contrast to the with-in variance, the in-between variance is spread in general spread over distance that is constituted by the width of the clusters and some captured distance in-between them.\\
+Since the eigenvectors align themselves along the biggest possible variance, it is to be expected that their orientation is greatly dominated by the in-between variance and thus their eigenvalues are significantly larger. The allele frequencies are from which genotypes are sampled stem from a simplex where the population allele frequencies compose the vertices. As discussed the simplex can be seen as the squishing of the $(K-1)$-simplex, that implements the constraint of all vectors having their values sum to $1$. The constraint inhibits a degree of freedom, such that the simplex can be fully spanned by $K-1$ vectors. So it is to be expected that exactly $K-1$ eigenvectors will be needed to fully capture all the in-between variances of $K$ population clusters. Therefore, the according eigenvalues of the first $K-1$ eigenvectors should be significantly greater than the remaining.\\
+Another more intuitive argumentation could look like following. Consider the allele frequencies of a population as the origin. Then $K-1$ linearly independent vectors are needed to be able to reach the allele frequencies of every other population. If less would be needed, then the allele frequencies would not be linearly independent and some population would not be considered a population, but a group of admixed individuals that are sampled from a linear combination from other population frequencies. The $K-1$ linearly independent vectors could consequently be composed of direction vectors pointing to the population allele frequencies from origin. This implies that the space between the allele frequencies is spanned by the direction vectors and thus they capture all the in between variance. The first $K-1$ eigenvectors orient themselves along the greatest variance and are linearly independent, therefore it is to be expected that they approximately span the space spanned by the direction vectors. What remains is the smaller within variance found in the clusters, concluding that the first $K-1$ eigenvalues should be significantly greater than the remaining.\\
 
 %Data that exhibits reasonable clustering possess a considerably unique structure. This structure also reveals itself to some degree in the orientation of the eigenvectors and the magnitude of the corresponding eigenvalues, such that they can be utilised to infer certain properties of the data, like the number of clusters as is the current intention. \\
 %Intuitively, for inferring the number of clusters, it is assumable \textbf{cluster assumptions} in a reasonable setting, including for example that each cluster has a at least a minimal amount of members, that the in-between variance between two distinct clusters is significantly greater than the variance whith-in a particular cluster. The in-between variance constitutes itself through the variance of the with-in variance of both concerning clusters and the distance between the clusters (under the assumption that outliers are possible, so cluster membership is not compulsive). While the with-in variance of a cluster is solely confined to the space assigned to that cluster, which concludes to a significantly smaller variance, espacially considering that the distance of each data point to the mean has a squared impact on the variance (definition of variance). For these reasons a new principal component will orient itself in such a way, that it effectively captures the remaining in-between variance of the clusters. \\
@@ -517,8 +548,8 @@ Another more intuitive argumentation could look like following. Consider the all
 %The past mentions of population clusters solely referred to clusters that are not admixed. The introduction of admixed population clusters, however does not alter the previously established theory under certain assumptions. Admixed clusters are several individuals with similar admixed genotypes and are sampled from allele probability values that are subject to a mixture weighting of the allele probability values of the non-admixed populations according to their involvement in the admixture as done in the modell (2). This is simply a linear combination, restricted to the coefficients being proportions (summing to one), of the centroids of the other populations, meaning an admixed individual and therefore the centroid of an admixed cluster lie also in the span of the $K-1$ first PCs spanning the non-admixed populations. In general, the centroids of the non-admixed populations constitute the corners of a simplex, that determines if a population cluster is admixed, thus the influence of admixed individuals concerning the maximisation of the variance is neglegible. \textbf{further explanation needed???}.
 
 \subsection{Examples}
-A synthetic problem instance generated by the model, could look like shown in Figure 1, where three populations that span the simplex are observable. The populations have fairly distinct F-values (meaning they drifted away from the ancestral population at quite different magnitudes), therefore the clusters are well separable from one another. Within the simplex is a cluster of several admixed individuals located. They were all sampled from the same Dirichlet distribution $Dir(8, 8, 8)$, with uniform hyperparameters, so they are concentrated around a central mode and all populations participate on average the same amount to the admixture. \\
-Just by looking at the corresponding biggest eigenvalues, it is fairly easy, with the use of the previously insights, to infer the number of populations. The first two eigenvalues are significantly larger than the rest, thus the number of populations should be three. 
+A synthetic problem instance generated by the model, could look like shown in figure 7, where three populations that span the simplex are observable. The populations have fairly distinct and large F-values, therefore the clusters are well separable from one another. Within the simplex is a cluster of several admixed individuals located. They were all sampled from the same Dirichlet distribution $Dir(8, 8, 8)$, with uniform hyperparameters, so they are concentrated around a central mode and all populations participate on average the same amount to the admixture. \\
+Just by looking at the corresponding biggest eigenvalues, it is fairly easy, with the use of the previously established insights, to infer the number of populations. The first two eigenvalues are significantly larger than the rest, thus the number of populations should be three. 
 
 \begin{figure}[h!]
 \caption{Projection of three populations and one admixed on to the firs two PCs and corresponding eigenvalues}
@@ -542,9 +573,9 @@ Three populations with F-values  of $0.1, 0.5, 0.9$ and with $100$ individuals e
 
 
 \subsubsection{Difficulties}
-The past examples only demonstrate fairly simple problem instances, for which even a human recognition capabilities suffice. It is also possible to construct more difficult problem instances. Figure 3 is an example of such. The ploy is to simulate a setting where most of the variance is already captured by less than $k-1$, hence making it  more difficult to recognise the cut-off for significant and insignificant eigenvalues. In figure 3 there are two populations that have similar allele frequencies (F-values 0.05 and 0.1) and one population that has been subject to strong genetic drift and therefore is genetically completely distinct (F-value 0.99). Furthermore, most individuals are distributed over one of the two close populations and the one very far apart. This introduces high a high incentive for the eigenvalues to try to capture the variance of the individuals of the two populations, since a bigger distance accounts for higher variance. Inversely, because the population that holds a fewer amount of individuals is not very far away from the positioning of the first eigenvector, such that the second eigenvector, which has to orient itself perpendicular to the first, does not capture very much variance. Also the low amount of individuals in the smaller population makes the orientation of the second eigenvector susceptible to the variance of the other populations or to any outliers. An admixed population also resides between the two greater populations, giving the first eigenvalue even more weight. \\
+The past examples only demonstrate fairly simple problem instances, for which even a human recognition capabilities suffice. It is also possible to construct more difficult problem instances. Figure 3 is an example of such. The ploy is to simulate a setting where most of the variance is already captured by less than $k-1$ eigenvectors, hence making it more difficult to recognise the cut-off for significant and insignificant eigenvalues. In figure 3 there are two populations that have similar allele frequencies (F-values 0.05 and 0.1) and one population that has been subject to strong genetic drift and therefore is genetically completely distinct (F-value 0.99). Furthermore, most individuals are distributed over two of the populations that are far apart (have very distinct F-values). This urges the eigenvalues to capture the variance of the individuals of the two populations, since a bigger distance accounts for higher variance. Inversely, because the other population that holds a fewer amount of individuals is not very far away from the positioning of the first eigenvector, such that the second eigenvector, which has to orient itself perpendicular to the first, does not capture very much variance. Also the low amount of individuals in the smaller population gives it a lower impact, it makes the orientation of the second eigenvector susceptible to the variance of the other populations or to any outliers and yields a lower variance. \\
 
-The graph with the biggest eigenvalues reveals the described dilemma. The first eigenvector accounts for almost all of the variance between the populations, rendering the other significant eigenvalue almost insubstantial and indiscernible from the other insignificant eigenvalues. In different scenarios the distance between the populations and the distribution of the individuals over the populations could be even more disadvantageous (although the question could more be of the nature to decide what is considerable to be a population, \textbf{this is part of the discussion???}). In addition, the situation becomes even more difficult if even more populations are simulated with "extreme" F-values.
+The according graph with the biggest eigenvalues reveals the described dilemma. The first eigenvector accounts for almost all of the variance between the populations, rendering the other significant eigenvalue almost insubstantial and indiscernible from the other insignificant eigenvalues. In different scenarios the distance between the populations and the distribution of the individuals over the populations could be even more disadvantageous, further investigations of the F-value will be shown in the Results section.
 
 \begin{figure}[h!]
 \caption{Example of a difficult case}
@@ -585,9 +616,10 @@ The graph with the biggest eigenvalues reveals the described dilemma. The first 
 %\newpage
 
 \section{Boosting Decision Trees}
-Subsequently a concise overview of gradient boosting and decision trees is presented. For further details and idiosyncrasies of the methods the reader should consult more elaborate literature, like \cite{trevor2009elements}.
+Subsequently a concise overview of gradient boosting and decision trees is presented. For further details and idiosyncrasies of theaw methods the reader should consult more elaborate literature, like \cite{trevor2009elements}.
+
 \subsection{Gradient Boosting}
-Gradient boosting is a supervised learning method for classification and regression, that iteratively adds basis learners to a linear combination to reduce an arbitrary differentiable loss function.\\
+Gradient boosting is a supervised learning method for classification and regression, that iteratively builds up a linear combination of base learners to reduce an arbitrary differentiable loss function.\\
 
 Let $\chi$ denote the input space. The task then is to approximate the function $f^*(x)$ that maps an arbitrary input $x \in \chi$ to the desired output $y \in \mathbb{R}$. An ensemble of $M$ different basis learners $g_1,g_2,\ldots,g_M: \chi \rightarrow \mathbb{R}$ can be used to generalise over a training set $((x_1, y_1),(x_2,y_2),\ldots,(x_N, y_N))$ of $N$ training pairs in a linear fashion as following:
 \begin{align*}
@@ -595,7 +627,7 @@ f(x) = \sum_{m=1}^{M}\phi_m g_m(x)
 \end{align*}
 where $\phi_i \in \mathbb{R}$ are the weights for each basis learner. Linear models for a set of given basis learners can be fitted via conventional methods such as least squares, lasso, ridge \cite{bishop2006pattern}. $f(x)$ can be used as an approximation for various tasks like regression, classification (by for example using a threshold).\\
 
-The model is limited by the explicit choice of the basis learners. Instead an algorithm that finds the best base learners from a hypothesis space $\mathcal{H}$ would increase the adaptive potential of the model. Thus, for a given differentiable loss function $l(x, f(x))$, an algorithm should find the best $M$ base learners $h_1, h_2, \ldots, h_m \in \mathcal{H}: \chi \rightarrow \mathbb{R}$ and corresponding weights such that the empirical risk is minimised:
+The model is limited by the explicit choice of the base learners. Instead an algorithm that finds the best base learners from a hypothesis space $\mathcal{H}$ would increase the adaptive potential of the model. Thus, for a given differentiable loss function $l(x, f(x))$, an algorithm should find the best $M$ base learners $h_1, h_2, \ldots, h_m \in \mathcal{H}: \chi \rightarrow \mathbb{R}$ and corresponding weights such that the empirical risk is minimised:
 
 \begin{align}
 \argmin_{\phi_i, h_i}\frac{1}{N}\sum_{i = 1}^{N} l(y_i, \sum_{m=1}^{M}\phi_m h_m(x_i))
@@ -612,7 +644,7 @@ Solving this task is an optimisation problem usually beyond practicability. A co
 
 \end{itemize}
 
-Gradient boosting algorithms, firstly developed and described by \cite{freund1997decision, friedman2001greedy, friedman2002stochastic}, circumvent the necessity of differentiability by growing the ensemble of base learners iteratively that minimises the empirical risk with respect to so called pseudo residuals.\\
+Gradient boosting algorithms, firstly developed and described by \cite{freund1997decision, friedman2001greedy, friedman2002stochastic}, circumvent the necessity of differentiability by growing the ensemble of base learners iteratively to minimises the empirical risk.\\
 The backbone of an gradient boosting algorithm is constituted by forward stagewise additive modelling, which works as following:
 Let $H \subset \mathcal{H}$ be the chosen set of possible base learners.
 
@@ -627,7 +659,7 @@ Let $H \subset \mathcal{H}$ be the chosen set of possible base learners.
 \end{enumerate}
 \end{enumerate}
 
-The optimisation step, although the amount of parameters is reduced compared to (3), only possess closed viable solving techniques for a limited amount of loss functions, like L2-loss or exponential loss. More information is provided in \cite{friedman2000additive}. To expand the optimisation step to any arbitrary differentiable loss function, the numerical optimisation via gradient boosting is used. \\
+The optimisation step only possess closed viable solving techniques for a limited amount of loss functions, like L2-loss or exponential loss. More information is provided in \cite{friedman2000additive}. To expand the optimisation step to any arbitrary differentiable loss function, the numerical optimisation via gradient boosting is used. \\
 
 The optimisation procedure fixates at stage $m$ the current estimates made by $f_{m-1}(x)$ of the training data in a vector $\mathbf{f}_m = [f_{m-1}(x_1), f_{m-1}(x_2), \ldots f_{m-1}(x_N)]^T$. \\
 
@@ -643,8 +675,8 @@ Then the gradient of the loss function is calculated w.r.t $\mathbf{f}$.
 &=[\partial_{\mathbf{f}_1} l(y_1, \mathbf{f}_1),\ldots, \partial_{\mathbf{f}_N} l(y_N, \mathbf{f}_N)]^T
 \end{align*}
 
-Like in conventional gradient descent algorithms the model is adjusted in a manner that the empirical risk is minimised along the direction of steepest descent. The direction of steepest descent corresponds to the negative of the gradient, which is $- \hat{h}_m$. Base learners that output differentiable function approximations can express the gradient via chain rule through the adjustable parameters of the model itself (like the weights in a neural network) and hence these are reciprocally changed to minimise the loss. Other base learners on the other hand have to resort to a different strategy.\\
-The embedding in the forward additive model allows for the negative gradient $-\hat{h}_m$ to be approximated directly by a base learner. The objective of the new base learner $h_m(x)$ consequently concludes therein to approximate
+Like in conventional gradient descent algorithms the model is adjusted in a manner that the empirical risk is minimised along the direction of steepest descent. The direction of steepest descent corresponds to the negative of the gradient, which is $- \hat{h}_m$. Unlike differentiable base learners, that can adjust their parameters by gradient descent with the chainrule, non-differentiable have to resort to a different strategy.\\
+The embedding in the forward additive model allows for the negative gradient $-\hat{h}_m$ to be approximated directly by a new base learner. The objective of the new base learner $h_m(x)$ consequently concludes therein to approximate
 
 \begin{align*}
 h_m(x) \approx -\hat{h}_m
@@ -654,7 +686,7 @@ Intuitively, a base learner $h_m(x)$ should be considered as an approximate step
 \begin{align*}
 f(x) = \sum_{m=1}^{M}f_{m-1}(x) + \phi_m h_m(x)
 \end{align*}
-is a sequence of gradient descent steps towards a minimum of the empirical risk. 
+is a sequence of approximated gradient descent steps towards a minimum of the empirical risk. 
 
 \subsection{Decision Trees}
 
@@ -676,7 +708,7 @@ A far more challenging optimisation task is finding the optimal tree that partit
 
 The possibilities of partitioning feature space grows exponentially with the number of features, rendering the encounter of an optimal tree in most cases computationally infeasible.\\
 
-As an alternative, a greedy approximation approach can be used (CART add citation). The greedy algorithm chooses the best dimension $X_d$ and splitting point $s$ that minimises the loss for the two new regions that arise (w.l.o.g. only binary trees will be considered). The two new regions are defined as:
+As an alternative, a greedy approximation approach can be used. The greedy algorithm chooses the best dimension $X_d$ and splitting point $s$ that minimises the loss for the two new regions that arise (w.l.o.g. only binary trees will be considered). The two new regions are defined as:
 \begin{align*}
 R_1(d, s) = \{X | X_d \leq s\} \qquad R_2(d, s) = \{X | X_d > s \}
 \end{align*}
@@ -687,7 +719,7 @@ The optimisation objective thus reduces to the choice of positioning  the best p
 \argmin_{s, d}[\argmin_{c_1} \sum_{x_i \in R_1(d,s)} l(y_i, x_i) + \argmin_{c_2} \sum_{x_j \in R_2(d,s)} l(y_j, x_j)]
 \end{align*}
 
-The optimisation step yields, for a naive implementation that checks for every dimension the splitting value of a plane between every two neighbouring data points, a worst case running time of $\mathcal{O}(D \cdot N log(N))$ ($Nlog(N)$ for sorting feature values), which is computationally much more feasible. However between two neighbouring data points $x_1$ and $x_2$ there are infinitely many positions to place the splitting plane that evaluate to the same empirical risk. As a convention the splitting value $s$ that lies in the middle of $x_1$ and $x_2$, when they are projected on the axis $X_d$, is chosen by convention. The reasoning is that no further assumptions are to be added through the positioning of the plane and since the splitting of the feature space can be viewed as a Bernoulli experiment (data point either lies left or right of plane) the Bernoulli distribution with expected value of $0.5$ is the maximum entropy Bernoulli.\\
+The optimisation step yields, for a naive implementation that checks for every dimension the splitting value of a plane between every two neighbouring data points, a worst case running time of $\mathcal{O}(D \cdot N log(N))$ ($Nlog(N)$ for sorting feature values), which is computationally much more feasible. However, between two neighbouring data points $x_1$ and $x_2$ there are infinitely many positions (assuming a continuous variable) to place the splitting plane that evaluate to the same empirical risk. As a convention, the splitting value $s$ is place in the middle of $x_1$ and $x_2$, when they are projected on the axis $X_d$. The reasoning is that no further assumptions are to be added through the positioning of the plane and since the splitting of the feature space can be viewed as a Bernoulli experiment (data point either lies left or right of plane) the Bernoulli distribution with expected value of $0.5$ is the maximum entropy Bernoulli.\\
 
 After finding the best split, the procedure is repeated on the newly constructed regions until the desired depth of the tree is reached. Regression and classification trees differ from one another only through the selection of a different loss function. For regression standard loss functions like square loss would be reasonable choices. Classification trees have revealed better results for loss function that reward node purity, so to which degree does a node hold data points of a single class. Such loss functions are for example the Gini index or cross entropy loss for classification. From an information theory perspective, node purity leads to a greater reduction in entropy.\\
 
@@ -711,7 +743,7 @@ The training data set is composed of $30.000$ synthetically generated instances,
 The number of loci was uniformly randomly varied ranging from $2000$ to $40000$ as well as the sample size, which could include from $100$ to $5000$ individuals. The $F-values$ are sampled from a beta ....
 The eigenvalues $\lambda_1 \ldots \lambda_K$ are determined by first calculating the singular value decomposition of the simulated genotype matrix and then setting $\lambda_i = s_i^2 / (n-1)$ where $s_1, \ldots, s_K$ are the singular values.\\
 Since it is only necessary to calculate a certain number of eingenvalues and the the genotype matrix is typically sparse, an SVD-solver based on Lanczos Bidiagonaliziation provides a computationally efficient choice \parencite{golub1965calculating}.\\
-As expected table 1 reveals that the lower the F-value, which accounts for the distance from the ancestral allele frequencies, the closer the population clusters will end up, making them harder or even impossible to distinguish from one another. The trained model is able to detect structure in the eigenvalues from F-values larger than $0.005$. 
+As expected table 1 reveals that the lower the F-value, which accounts for the distance from the ancestral allele frequencies, the closer the population clusters will end up, making them harder or even impossible to distinguish from one another. The trained model is able to detect structure in the eigenvalues from F-values starting around $0.005$. 
 
 \begin{table}[h!]
   \begin{center}
@@ -720,22 +752,121 @@ As expected table 1 reveals that the lower the F-value, which accounts for the d
       %\textbf{Value 1} & \textbf{Value 2} & \textbf{Value 3}\\
       \textbf{F-values} & $\mathbf{0.003}$ & $\mathbf{0.005}$ & $\mathbf{0.01}$ & $\mathbf{0.02}$ & $\mathbf{0.05}$ & $\mathbf{0.1}$ & $\mathbf{0.2}$ & $\mathbf{0.5}$\\
       \hline
-      MSE & $135.80$ & $135.80$ & $134.42$ & $118.16$ & $62.62$  $20.98$ & $4.02$ & $0.02$\\
+      MSE & $135.80$ & $135.80$ & $134.42$ & $118.16$ & $62.62$  & $20.98$ & $4.02$ & $0.02$\\
+    \end{tabular}
+    \caption{Your first table.}
+  \end{center}
+\end{table}
+
+Two problems instances, figure 10 and 11, exemplify these empirical results. Both are synthetically generated with each instance having the three populations with same population sizes and originating from the same ancestral allele frequencies (all frequencies $0.5$). The data is projected on to the first two principal components which should, according to the discussed theory, suffice to make out the clusters. As one can see, the clusters of the data with an F-value of $0.005$ are less discernable than for the data with $0.01$. Of course other factors, such as sample size and dimension of the data set influenc the results.\\
+
+
+\begin{figure}
+\centering
+\begin{subfigure}
+\centering
+\includegraphics[scale=0.6]{f_005}
+\caption{F-value of $0.005$}
+\end{subfigure}
+\begin{subfigure}
+\centering
+\includegraphics[scale=0.6]{f_01}
+\caption{F-value of $0.01$}
+\end{subfigure}
+\end{figure}
+
+Since a minimum F-value is necessary to generate detectable population structure, new synthetic data sets are generated that only allow an F-value higher than $0.003$. One data set sets a $\beta(1, 3)$ prior and the other a $\beta(0.1, 2)$ over the F-values. The priors will sample lower F-values, where by $\beta(0.1, 2)$ does so the most extreme. Both have $30.000$ synthetic training samples. The intention is to emphasize more tricky problem instances while training the model, whith the hope that the models make more refined choices when confronted by more intricate problem instances.
+\\
+\subsection{Model Comparison}
+Subsequently three gradient boosting models with uniform, $\beta(1,3)$, $\beta(0.1,2)$ F-value priors, the Tracy-Widom p-value method, and the sNMF method are compared. The gradient boosting models were all trained with the same model parameter values and reached all about an average $96\%$ error rate for a five fold cross validation with their respective training sets. The Tracy Widom p-value is set to $0.05$. The sparse NMF algorithm is run five times for possible values of $K$ and the $K$ value with the lowest average cross entropy is chosen. For more information on the methods the reader is referred to section 1.2.\\
+For a first comparison is done over synthetic data generated by the prior described model. The F-value for the test data is chosen from a uniform distribution.
+\begin{table}[h!]
+  \begin{center}
+    \label{tab:table4}
+    \begin{tabular}{l|c|c|c|c|c|c|r} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      %\textbf{Value 1} & \textbf{Value 2} & \textbf{Value 3}\\
+      \textbf{K} & $\mathbf{2}$ & $\mathbf{3}$ & $\mathbf{4}$ & $\mathbf{5}$ & $\mathbf{6}$ & $\mathbf{7}$ & $\mathbf{8}$\\
+      \hline
+      Uniform & $0$ & $0.1$ & $0$\\
+      \hline
+      $\beta(1,3)$ & $0$ & $0$ & $0$\\
+      \hline
+      $\beta(0.1,2)$& $0$ & $0.1$ & $0.4$\\
+      \hline
+      TW & $57.6$ & $10$ & $14.4$\\
+      \hline
+      sNMF & $0.1$ & $1.6$ & $0.9$\\
     \end{tabular}
     \caption{Your first table.}
   \end{center}
 \end{table}
 
 
-For training the mlogloss function ...?
+\subsubsection{Real World Instances}
 
-\subsection{Real World Instances}
+The data set originates from the Harvard Human Genome Diversity Project (\url{ftp://ftp.cephb.fr/hgdp_v3/}), it contains the information of $10,664$ SNPs from $418$ human samples from Central- and East-Asia \parencite{frichot2012correcting}. Figure 12 visualises a possible admixture attribution for $K = 4$.\\
+
 \begin{figure}
-\includegraphics[scale=0.4]{pc_asia}
+\centering
+\begin{subfigure}
+\centering
+\includegraphics[scale=0.35]{asia_pop}
+\caption{K = 4}
+\end{subfigure}
+\begin{subfigure}
+\centering
+\includegraphics[scale=0.5]{pc_asia}
+\caption{pcs asia}
+\end{subfigure}
 \end{figure}
+
+From the display of the Eigenvalues one can observe that detectable population structure should be present. The question however remains how many populations are too be found on the highest clustering level. Inspecting the eigenvalues, $2$ would be a reasonable guess, but also $3, 4, 5$.
+
+\begin{table}[h!]
+  \begin{center}
+    \label{tab:table2}
+    \begin{tabular}{l|c|c|c|r} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      %\textbf{Value 1} & \textbf{Value 2} & \textbf{Value 3}\\
+      \textbf{uniform} & $\mathbf{\beta(1, 3)}$ & $\mathbf{\beta(0.1,2)}$ & \textbf{TW} & \textbf{sNMF}\\
+      \hline
+      15 & 9 & 6 & $134.42$ & $118.16$\\
+    \end{tabular}
+    \caption{Your first table.}
+  \end{center}
+\end{table}
+
+
+world data \parencite{li2008worldwide}
+
+The other real world data contains samples of the plant species \textit{Arabidopsis thaliana}. $52,001$ SNP of the first chromosome were extracted from a larger data set, whereby $1,096$ across Europe where taken.\parencite{franccois2016running}.
+Figure 14 illustrates a possible admixture interpolation with the results of the sNMF method for $K = 5$. Population structure for \textit{Arabidopsis thaliana}, as indicated in the Eigenvalues (figure 15), possess a more complex population structure. The species reproduces via seeds that gradually disperse over generations gradually. Thus, the genetic differences changes are more of a continuous nature than clear cut clusters. The Eigenvalues decay accordingly also in a continuous fashion, making a prediction about the number of populations in the highest hierarchical level appears quite intricate.
+
 \begin{figure}
-\includegraphics[scale=0.25]{asia_pop}
+\centering
+\begin{subfigure}
+\centering
+\includegraphics[scale=0.4]{a_thaliana}
+\caption{real world 2}
+\end{subfigure}
+\begin{subfigure}
+\centering
+\includegraphics[scale=0.5]{pc_a_thaliana}
+\caption{pcs}
+\end{subfigure}
 \end{figure}
+
+\begin{table}[h!]
+  \begin{center}
+    \label{tab:table3}
+    \begin{tabular}{l|c|c|c|r} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+      %\textbf{Value 1} & \textbf{Value 2} & \textbf{Value 3}\\
+      \textbf{uniform} & $\mathbf{\beta(1, 3)}$ & $\mathbf{\beta(0.1,2)}$ & \textbf{TW} & \textbf{sNMF}\\
+      \hline
+      7 & 4 & 2 & $134.42$ & $118.16$\\
+    \end{tabular}
+    \caption{Your first table.}
+  \end{center}
+\end{table}
 
 \section{Discussion}
 biased estimator

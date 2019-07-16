@@ -14,7 +14,7 @@ library(LEA)
 
 
 
-get_snmf_estimate <- function(data, rep = 5, max_K = 15){
+get_snmf_estimate <- function(data, rep = 5, max_K = 10){
   
   
   write.geno(data, "geno_output.geno")
@@ -23,7 +23,7 @@ get_snmf_estimate <- function(data, rep = 5, max_K = 15){
                       K = 1:max_K,
                       entropy = TRUE,
                       repetitions = rep,
-                      #alpha = 1000,
+                      alpha = 1000,
                       project = "new")
   
   # plot cross-entropy criterion of all runs of the project

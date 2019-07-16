@@ -6,7 +6,7 @@ library(parallel)
 library(LaplacesDemon)
 library(Rcpp)
 library(RSpectra)
-library(kernlab)
+#library(kernlab)
 
 
 F_layer <- function(K, F_values, number_locus = sample(40000 - 8000, 1) + 8000){

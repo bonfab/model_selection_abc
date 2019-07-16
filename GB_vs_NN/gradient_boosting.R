@@ -1,6 +1,6 @@
 library(xgboost)
 
-trainXGBoost <- function(train_data, train_label, iterations = 100){
+trainXGBoost <- function(train_data, train_label, iterations = 50){
  
   dtrain <- xgb.DMatrix(data = as.matrix(train_data), label = as.matrix(train_label))
   
@@ -8,18 +8,18 @@ trainXGBoost <- function(train_data, train_label, iterations = 100){
   params <- list(
     objective = "multi:softmax",
     eval_metric = "mlogloss",
-    nthread = 8,
+    nthread = 4,
     num_class = length(unique(train_label)),
-    eta_decay = .999,
+    eta_decay = .99,
     eta = 0.06,
     gamma = .63,
-    max_depth = 7,
+    max_depth = 6,
     min_child_weight = 2,
     #subsample = .9,
     colsample_bytree = .75,
     lambda = 1.5,
-    max_delta_step = 6,
-    nrounds = 500
+    max_delta_step = 5,
+    nrounds = 100
   )
   
   bstDMatrix <- xgboost(param = params, data = dtrain, nrounds = iterations)
@@ -70,13 +70,13 @@ parameterSearch <- function(){
   
 }
 
-save_model <- function(model, file = "./xgb_trained3.model"){
+save_model <- function(model, file = "./xgb_trained_simple.model"){
 
   xgb.save(model, file)
 
 }
 
-load_model <- function(file = "./xgb_trained3.model"){
+load_model <- function(file = "./xgb_trained_simple.model"){
   return(xgb.load(file))
 }
 

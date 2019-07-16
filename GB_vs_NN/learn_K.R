@@ -143,15 +143,19 @@ train_save <- function(train, file = NULL){
   } else{
     save_model(model, file)
   }
-
-
 }
 
-#m <- load_multiple()
+
+#plain <- c("data_K/train_plain_1.rds", "data_K/train_plain_2.rds")
+
+lower <- c("./data_K/lower_F_1.rds", "./data_K/lower_F_2.rds")
+
+
+m <- load_multiple(lower)
 
 #train_test(m)
 
-#train_save(m)
+train_save(m, "./lower.model")
 
 #m_noise <- load_multiple(c("data_K/F_noise1_data_pop_2-16.rds", "data_K/F_noise2_data_pop_2-16.rds", "data_K/F_noise3_data_pop_2-16.rds", "data_K/F_noise4_data_pop_2-16.rds"))
 
