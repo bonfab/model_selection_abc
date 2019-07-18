@@ -32,6 +32,7 @@
 
 \cfoot{\thepage  \ / \pageref{LastPage}}
 
+
 \usepackage[
 backend=biber,
 style=authoryear,
@@ -273,9 +274,9 @@ The model will employ an analogous adoption of the F-statistic. The ancestral al
 
 The allele frequencies for a population $k$ are sampled from a beta distribution, with following parametrisation:
 
-\begin{align}
-p_{kl} = \beta(p_{Al} \frac{1 - F_k}{F_k}, (1-p_{Al}) \frac{1 - F_k}{F_k})
-\end{align}
+\begin{align*}
+p_{kl}\, =\, \beta\bigg(p_{Al} \frac{1 - F_k}{F_k}, \quad (1-p_{Al}) \frac{1 - F_k}{F_k} \bigg)
+\end{align*}
 
 The parametrisation arises when the mean of a the beta distribution is set equal to $p_{Al}$ and the variance equal to $F_{ST}p_{Al}(1-p_{Al})$.
 The choice of using a beta distribution is motivated by the fact that it is the stationary distribution that is received for the stochastic process if a counter force working against allele fixation is added, such as accounting for a steady stream of migrants from the ancestral population or further mutations that sustain an allele \parencite{balding2003likelihood}.
@@ -347,7 +348,7 @@ In summary the generation of a new SNP data set for which the number of populati
 \item Determine the F-values $F_k$
 \item  For each of the K populations:
 \begin{enumerate}
-\item Sample $p_{kl} \sim beta(p_{Al} \frac{1 - F_k}{F_k}, (1-p_{Al}) \frac{1 - F_k}{F_k})$
+\item Sample $p_{kl}\, \sim\, \beta\big(p_{Al} \frac{1 - F_k}{F_k},\; (1-p_{Al}) \frac{1 - F_k}{F_k}\big)$
 \item Combine allele probabilities into matrix $\mathbf{F}$
 \end{enumerate} 
 \item For each individual $i$:
@@ -356,23 +357,23 @@ In summary the generation of a new SNP data set for which the number of populati
 \item Combine admixture coefficients into matrix $\mathbf{Q}$
 \end{enumerate}
 \item Calculate admixture $\mathbf{P} = \mathbf{Q}\mathbf{F}$
-\item Convert each value $p$ of $\mathbf{P}$ by sampling $bernoulli(2, p)$
+\item Convert each value $p$ of $\mathbf{P}$ by sampling $Bernoulli(2, p)$
 \end{enumerate}
 
 \subsection{Looking at Admixture}
 The admixture of an individual is determined by the Dirichlet distribution. The Dirichlet distribution is parametrised by $K$ hyperparameters $\alpha_1,\alpha_2, \ldots, \alpha_k$. $K$ corresponds to the desired dimension of the output. The probability density function is defined as following
 
 \begin{align*}
-f(x_1, \ldots, x_K, \alpha_1, \ldots, \alpha_K) = \frac{1}{B(\alpha)} \prod^{K}_{i=1}x_i^{\alpha_i-1}
+f(x_1, \ldots, x_K, \alpha_1, \ldots, \alpha_K)\, =\, \frac{1}{B(\alpha)}\; \prod^{K}_{i=1}\,x_i^{\alpha_i-1}
 \end{align*}
 where $\sum^{K}_{i =1} x_i = 1$ and all $x_i \geq 0$. So the Dirichlet distribution defines a probability density on the $K-1$-simplex and is therefore a natural choice for sampling admixture coefficients. \\
 Of particular interest for the described model are the hyperparameters, also called concentration parameters, as they control the mode and the variance around it. For values $a_i \geq 1$ the distribution has a single mode, whose coordinates at the maximum $x$ is given by \cite{bishop2006pattern}: 
 \begin{align*}
-x_i = \frac{\alpha_i - 1}{\sum^K_{k=1} a_k -K} \\
+x_i\, =\, \frac{\alpha_i - 1}{\sum^K_{k=1}\, a_k -K} \\
 \end{align*}
 The mode moves therefore more towards those simplex vertices/populations that possess a relatively higher valued hyperparameter compared to the others. In addition, the variance $\sigma$, given by 
 \begin{align*}
-\sigma_i = \frac{\alpha_i(\alpha_0 - \alpha_i)}{\alpha_0^2(\alpha_0 + 1)}
+\sigma_i\, =\, \frac{\alpha_i\,(\alpha_0 - \alpha_i)}{\alpha_0^2\,(\alpha_0 + 1)}
 \end{align*} 
 where $\alpha_0 = \sum^{K}_{i = 1} \alpha_i$, reveals that higher values of hyperparameters lead to a decrease of the variance, meaning a higher concentration around the mode. \\
 These two properties can be exploited to control the probability of sampling certain admixture coefficients. Furthermore, by sampling from the same Dirichlet distribution one is able to simulate various population scenarios, such as a detached admixed cluster, which would correspond to a mode with high concentration parameters, or a population that experienced migration originating from another population, which would coincide with a degenerated Dirichlet distribution that only has two non-zero concentration values for the two involved population (in the end a beta distribution).
@@ -384,7 +385,7 @@ The effect of the F-value can be best evaluated through the visualization of som
 \centering
 \begin{subfigure}
 \centering
-\caption{F-value of $0.01$}
+\caption{Beta plots for an F-value of $0.01$ and different ancestral allele frequencies}
 \includegraphics[scale=0.5]{rbeta_plot_001}
 \end{subfigure}
 \begin{subfigure}
@@ -407,7 +408,7 @@ By sampling twice (Bernoulli($2$)) the simplex gets stretched by a factor of two
 For further assessment a mean of quantifying the genetic dissimilarity between two individuals is necessary. As a measure of genetic distance between two individuals $i$ and $j$ a natural choice is to use a normalised Manhattan distance because the possible genotype values ${0, 1, 2}$ are discrete and already reflect dissimilarity appropriately. More concretely, let $N$ be the number of loci used as genetic markers, then $\{0,1,2\}^N \subseteq \mathbb{R}^N$  is the set containing all possible values of genetic information. The measure of genetic distance is 
 
 \begin{align*}
-D = \frac{1}{2N}\sum^{N}_{n = 1} |l^i_n - l^j_n|
+D\, =\, \frac{1}{2N}\,\sum^{N}_{n = 1} |l^i_n - l^j_n|
 \end{align*}
 
 where $l^i_n$ and $l^j_n$ are the values of individual $i$ and $j$ respectively at locus $l_n$. The normalisation keeps the measure invariant to the number of loci used, as recovering more genetic information should not increase the genetic distance per se, as well es normalising out the diploidity. The measure ranges from $0$, as two individuals are genetically similar, to $1$, meaning genetic dissimilarity.
@@ -415,21 +416,21 @@ where $l^i_n$ and $l^j_n$ are the values of individual $i$ and $j$ respectively 
 Suppose two individuals $i$ and $j$ are generated by the described model, so sampling from a Bernoulli distribution for each loci $l$ with the respective allele frequencies $p_i(l)$ and $p_j(l)$. The expected genetic difference of both individuals then is:
  
 \begin{align*}
-\mathbb{E}[D] &= \frac{1}{2N}\sum^{N}_{n = 1} \mathbb{E}[|l^i_n - l^j_n|] \\
-&= \frac{1}{2N} \sum^{N}_{n = 1} \sum_{(x, y) \in \{(j, i), (i, j)\}} p_x(l)(1-p_x)(1-p_y(l))^2 \\
-+ p_x(l)^2p_y(l)(1-p_x(l)) \\
-+ 2p_x(l)^2(1-p_y(l))^2
+\mathbb{E}\big[D\big]\, &=\, \frac{1}{2N}\,\sum^{N}_{n = 1}\, \mathbb{E}\big[\,|l^i_n - l^j_n|\,\big] \\
+\,&=\, \frac{1}{2N}\, \sum^{N}_{n = 1}\, \sum_{(x, y) \in \{(j, i), (i, j)\}} p_x(l)\,\big(1-p_x\big)\,\big(1-p_y(l)\big)^2 \\
+&+\, p_x(l)^2\,p_y(l)\,\big(1-p_x(l)\big) \\
+&+\, 2p_x(l)^2\,(1-p_y(l))^2
 \end{align*} \\
 For individuals sampled from the same allele frequencies the expectation equates to:
 \begin{align*}
-& \frac{1}{N} \sum^{N}_{n = 1} p(l)(1-p(l))(p(l)+(1-p(l))^2 \\
-&= \frac{1}{N} \sum^{N}_{n = 1} p(l)(1-p(l))
+& \frac{1}{N}\, \sum^{N}_{n = 1}\, p(l)\,\big(1-p(l)\big)\,\big(p(l)\,+\,(1-p(l)\big)^2\big) \\
+&= \frac{1}{N}\, \sum^{N}_{n = 1}\, p(l)\,\big(1-p(l)\big)
 \end{align*}
 This lends further justification to the choice of the distance measure for diploid individuals. It corresponds to the expected empirical genetic variance found in a population without any further underlying substructure. A result also received calculating the $F_{ST}$ value when no further populations are present.\\
 \begin{figure}
 \centering
-\includegraphics[scale=0.5]{plot_distance}
-\caption{function}
+\includegraphics[scale=0.55]{plot_distance}
+\caption{Depiction of the expected distance residual between the expected distance of two alleles sampled from the same frequency and sampled from different ones.}
 \end{figure}
 Let the expected distance of two individuals with arbitrary allele frequencies at a locus $l$ be given by the function $g(p_i, p_j)$ and for two individuals sampled from the same allele frequencies $f(p_i)$. It is expected, as figure 7 illustrates, that the genetic distance for individuals sampled from different allele frequencies possess a greater genetic dissimilarity, therefore it is moreover expected for individuals from the same population to cluster together. Furthermore, it should be expected that populations that have not diverged much from the ancestral population to be distinguished more difficulty.\\
 
@@ -438,20 +439,20 @@ By determining the variance of two individuals from the same population and ther
 But before calculating the variance, for simplicity reasons the expectation of the genetic difference squared is calculated:
 
 \begin{align*}
-\mathbb{E}[D^2|i,j \in k] &= \frac{1}{4N^2} \mathbb{E}[(\sum^{N}_{n = 1} |l^i_n - l^j_n|)^2] \\
-&= \frac{1}{4N^2} \sum^{N}_{n = 1}\sum^{N}_{m = 1}\mathbb{E}[ |l^i_n - l^j_n||l^i_m - l^j_m|] \\
-&= \frac{1}{4N^2}( \sum^{N}_{n = 1}\mathbb{E}[|l^i_n - l^j_n|^2] + \sum^{N}_{n = 1}\sum^{N}_{\overset{m = 1}{m \neq n}} \mathbb{E}[|l^i_n - l^j_n||l^i_m - l^j_m|]) \\
-&= \frac{1}{4N^2}( \sum^{N}_{n = 1}2p(l_n)^4-2p(l_n)^3+p(l_n)^2+p(l_n) + \sum^{N}_{n = 1}\sum^{N}_{\overset{m = 1}{m \neq n}} 4p(l_n)(1-p(l_n)p(l_m)(1-p(l_m))) \\
+\mathbb{E}\big[D^2\,|\,i,j \in k\big]\, &=\, \frac{1}{4N^2}\, \mathbb{E}\bigg[\,\big(\sum^{N}_{n = 1}\, |l^i_n - l^j_n|\,\big)^2\bigg] \\
+&=\, \frac{1}{4N^2}\, \sum^{N}_{n = 1}\,\sum^{N}_{m = 1}\,\mathbb{E}\big[\, |l^i_n - l^j_n|\,|l^i_m - l^j_m|\,\big] \\
+&=\, \frac{1}{4N^2}\,\bigg(\, \sum^{N}_{n = 1}\, \mathbb{E}\big[\,|l^i_n - l^j_n|^2\,\big]\, +\, \sum^{N}_{n = 1}\,\sum^{N}_{\overset{m = 1}{m \neq n}}\, \mathbb{E}\big[\,|l^i_n - l^j_n|\,|l^i_m - l^j_m|\,\big]\,\bigg) \\
+&=\, \frac{1}{4N^2}\,\bigg(\, \sum^{N}_{n = 1\,}2p(l_n)^4\, -\, 2p(l_n)^3\, +\, p(l_n)^2\, +\, p(l_n)\\ \, &+\, \sum^{N}_{n = 1}\, \sum^{N}_{\overset{m = 1}{m \neq n}}\,  4p(l_n)\big(1-p(l_n)\big) \, p(l_m)\,\big(1-p(l_m)\big)\bigg) \\
 \end{align*}
 
 and since
 \begin{align*}
-\mathbb{E}[D|i,j \in k]^2 &= \frac{4}{4N^2}( \sum^{N}_{n = 1}\sum^{N}_{m = 1} p(l_n)(1-p(l_n)p(l_m)(1-p(l_m)))\\
+\mathbb{E}\big[D\, |\,i,j \in k\big]^2\, &=\, \frac{4}{4N^2}\,\bigg( \sum^{N}_{n = 1}\, \sum^{N}_{m = 1}\, p(l_n)\, (1-p(l_n)\, p(l_m)\, \big(1-p(l_m)\big)\bigg)\\
 \end{align*}
 The variance simplifies to
 \begin{align*}
-Var(D) &= \mathbb{E}[D^2] - \mathbb{E}[D]^2\\
-&= \frac{1}{4N^2} (\sum^{N}_{n = 1} -p(l_n)^4+4p(l_n)^3-3p(l_n)^2+p(l_n))
+Var(D) &= \mathbb{E}\big[D^2\big]\, -\, \mathbb{E}\big[D\big]^2\\
+&=\, \frac{1}{4N^2}\, \bigg(\sum^{N}_{n = 1}\, -\,p(l_n)^4\,+\,4p(l_n)^3\,-\,3p(l_n)^2\,+\,p(l_n)\bigg)
 \end{align*}
 This reveals that the variance decreases significantly of the order $\mathcal{O}(N^{-2})$ with the number of loci. Therefore, less severe outliers and better observable clusters are to be expected the more loci are simulated. Furthermore, the terms in the summation possess a single maximum at $0.5$, so a higher variance exists the further alleles are from fixation.
 
@@ -502,9 +503,9 @@ The rejection algorithm is naturally derived from a certain perspective on condi
 
 And the computation amounts to:
 \begin{align*}
-P(x \subseteq A|y \subseteq B) &= \sum^{\infty}_{i=1} P((x = x_i) \cap y)(1-P(y))^{i-1} \\
-&= P(x \cap y)  \sum^{\infty}_{i=1} (1-P(y))^{i-1} \\
-&= \frac{P(x \cap y)}{P(y)}
+P\big(x \subseteq A\, |\, y \subseteq B \big)\, &=\, \sum^{\infty}_{i=1}\, P\big((x = x_i) \cap y\big)\, \big(1-P(y)\big)^{i-1} \\
+&=\, P\big(x \cap y\big)\,  \sum^{\infty}_{i=1}\, \big(1-P(y)\big)^{i-1} \\
+&= \frac{P\big(x \cap y\big)}{P(y)}
 \end{align*}
 
 The rejection algorithm employs a basic approach for finding the posterior distribution of the desired parameter $\theta$ for specific data $D$. Given a known prior distribution of $\theta$, the algorithm samples values $\hat{\theta}$ from the prior and then inputs $\hat{\theta}$ into an appropriate model to simulate some data $\hat{D}$. If the simulated data lies within a margin of error $\epsilon \geq 0$ from data $D$ for a chosen metric $\rho$ , so $\rho(D, \hat{D}) \leq \epsilon$, then the sampled prior value $\hat{\theta}$ is accepted by adding it to the final sample of parameter values for $\theta$. The final sample should approximate the desired posterior. For further information and possible refinements such as using linear or non linear regression to counter a low acceptance rate or using Sequential Monte Carlo - ABC to sample from areas with higher posterior density the reader is referred to \cite{csillery2010approximate}. \\
@@ -523,7 +524,7 @@ Large dimensionality of a data set can undermine the practicability of an ABC-me
 To infer the number of populations $K$ expressed in a given dataset $X$ the conditional probability $P(K | X)$ with respect to $K$ is maximised. Since the large dimensionality $X$ poses substantial computational difficulties, the datasets are summarised  in an effective manner, such that the approximation $P(K|X) \approx P(K | sum(X))$ is suitable for the intended inference. Bayes' theorem then yields
 
 \begin{align*}
-P(K | sum(X)) = \frac{P(sum(X) | K) P(K)}{P(sum(X))}
+P\big(K \,|\, sum(X)\big)\, =\, \frac{P\big(sum(X)\, |\, K\big)\, P(K)}{P\big(sum(X)\big)}
 \end{align*}
 
 \subsection{Choosing the Summary Statistics}
@@ -532,20 +533,20 @@ The choice of adequate summary statistics is essential to obtain viable results.
 The entropy of a distribution measures the existing uncertainty about which event appears if one samples from the distribution. It is defined mathematically for a given continuous probability mass function $P(X)$ as
 
 \begin{align*}
-h(x) = - \int_{-\infty}^{\infty}P(x)\log(P(x))dx
+h(x)\, =\, - \int_{-\infty}^{\infty}P(x)\log\big(P(x)\big)dx
 \end{align*}
 The principal of maximum entropy states that given some prior information about the underlying probability distribution, such as already drawn samples or a constraining property, the maximum entropy distribution that incorporates the prior information is the best distribution to respect the remaining uncertainty \parencite{jaynes1957information}. In other words, the maximum entropy distribution is the best distribution to fit the already obtained information if no further assumptions are to be added. \\
 For a given mean $\mu$ and covariance $\Sigma$ the multivariate continuous distribution that maximises the entropy is the multivariate Gaussian, for a proof the reader is referred to \cite{cover2012elements}.
 The entropy of the multivariate Gaussian is derived as following:
 
 \begin{align*}
-h(x) & = - \int_{-\infty}^{\infty} N(x|\mu, \Sigma)\ln(N(x|\mu, \Sigma))dx \\
-& = E[\ln(N(x|\mu, \Sigma)] \\
-& = E[\ln(det(2\pi\Sigma)^{-\frac{1}{2}}e^{-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)})] \\
-& = \frac{1}{2}\ln(det(2\pi\Sigma)) + \frac{1}{2} E[(x-\mu)^T \Sigma^{-1}(x-\mu)]\\
-& = \frac{1}{2} \ln(det(2\pi\Sigma)) + \frac{1}{2} E[trace(\Sigma^{-1}(x-\mu)^T (x-\mu))]\\
-& = \frac{1}{2} \ln(det(2\pi\Sigma)) + \frac{1}{2} E[trace(I)]\\
-& = \frac{1}{2} \ln(det(2\pi e \Sigma))
+h(x)\, &=\, - \int_{-\infty}^{\infty} \mathcal{N}\big(x\, |\, \mu, \Sigma\big)\, \ln\big(\mathcal{N}\big(x\, |\, \mu, \Sigma\big)\big)\, dx \\
+& =\, \mathbb{E}\big[\,\ln(\mathcal{N}\big(x\,|\, \mu, \Sigma\big)\,\big] \\
+& =\, \mathbb{E}\big [\, \ln\big(\det\big(2\pi\Sigma\big)^{-\frac{1}{2}}\, e^{-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)}\big)\, \big] \\
+& =\, \frac{1}{2}\, \ln\big(\det(2\pi\Sigma)\big)\, +\, \frac{1}{2}\, \mathbb{E}\big [(x-\mu)^T \Sigma^{-1}(x-\mu)\big]\\
+& =\, \frac{1}{2}\, \ln\big(\det(2\pi\Sigma)\big)\, +\, \frac{1}{2}\, \mathbb{E}\big[\, \mathrm{trace}\big(\Sigma^{-1}(x-\mu)^T (x-\mu)\big)\,\big]\\
+& =\, \frac{1}{2}\, \ln\big(\det(2\pi\Sigma)\big)\, +\, \frac{1}{2}\, \mathbb{E}\big[\mathrm{trace}(I)\big]\\
+& =\, \frac{1}{2}\, \ln\big(\det(2\pi e \Sigma)\big)
 \end{align*}
 
 The only non-constant factor influencing the entropy of a multivariate Gaussian is the determinant of the respective covariance matrix.
@@ -560,23 +561,23 @@ The variance and the information found in a data set form a duality. Decreasing 
 Let $S = \frac{1}{N}XX^T - \overline{X} \overline{X}^T$ denote the empirical covariance matrix of the data matrix $X$. Then the expression $u^TSu$ is the empirical variance of $u^TX$, which is the data $X$ projected on to the vector $u$.
 
 \begin{align*}
-u^T S u & = \frac{1}{N} u^T X X^T u - u^T \overline{X} \overline{X}^T u \\
-& = \frac{1}{N} u^T X (u^T X)^T  -  \overline{u^TX} (\overline{u^TX})^T  \\
-& = \frac{1}{N} (u^T X)^2 - (\overline{u^TX})^2
+u^T S u\, & =\, \frac{1}{N}\, u^T X X^T u\, -\, u^T \overline{X} \overline{X}^T u \\
+& =\, \frac{1}{N}\, u^T X \big(u^T X\big)^T\,  -\,  \overline{u^TX} \big(\overline{u^TX}\big)^T  \\
+& =\, \frac{1}{N} \big(u^T X\big)^2\, -\, \big(\overline{u^TX}\big)^2
 \end{align*}
 
 The empirical variance is maximised with the restriction $\parallel u \parallel = 1$ because $u$ is supposed to form a new standard basis. By using a Lagrange multiplier to add this restriction, the equation $\max\limits_{u} u^T \Sigma u - \lambda(u^T u - 1)$ is obtained.
 
 \begin{align*}
- \frac{d}{du} (u^T \Sigma u - \lambda(u^T u - 1)) & = 0 \\
- \Sigma u - \lambda u & = 0 \\
- \Sigma u & = \lambda u 
+ \frac{\partial}{\partial u}\, \big(u^T \Sigma u - \lambda(u^T u - 1)\big)\, & =\, 0 \\
+ \Sigma u - \lambda u\, & =\, 0 \\
+ \Sigma u\, & =\, \lambda u 
 \end{align*}
 
 The solution coincides with the definition of the Eigenvectors, where $\lambda$ is the eigenvalue of $u$. Since $u$ should be maximised, the overall solution is the eigenvector belonging to the largest eigenvalue.
 Solving the eigenproblem on a semi-definite matrix such as the covariance matrix $\Sigma$, yields the following factorisation:
 \begin{align*}
-\Sigma = Q \Lambda Q^T
+\Sigma\, =\, Q \Lambda Q^T
 \end{align*}
 Where $Q$ is an orthogonal matrix that has the eigenvectors of $\Sigma$ as its columns, and $\Lambda$ a diagonal matrix with the corresponding eigenvalues on its diagonal.
 
@@ -601,7 +602,7 @@ Just by looking at the corresponding biggest eigenvalues, it is fairly easy, wit
 \begin{figure}[h!]
 \centering
 \caption{Projection of three populations and one admixed on to the first two PCs and corresponding eigenvalues}
-\includegraphics[scale=0.41]{Rplot_projection}
+\includegraphics[scale=0.42]{Rplot_projection}
 \includegraphics[scale=0.41]{Rplot_eigenvalues}
 \\Three populations with F-values  of $0.1, 0.5, 0.9$ and $100$ individuals each were sampled. The admixed population derived the proportional weightings for its allele probabilities by sampling for each allele from a $Dir(8, 8, 8)$ distribution. $200$ individuals were sampled for the admixed. For this simulation $10000$ loci were simulated.
 \centering
@@ -614,7 +615,7 @@ Again the eigenvalues feature two significant large eigenvalues, making the infe
 \caption{Projection of three populations and one admixed on to the first two PCs}
 \includegraphics[scale=0.47]{Rplot_admixed_simplex}
 \includegraphics[scale=0.45]{Rplot_eigenvalues_simplex}
-Three populations with F-values  of $0.1, 0.5, 0.9$ and with $100$ individuals each were sampled. Between each pair of population clusters lies an admixed population sampled from a Dirichlet with $5$s and a $0$ for not involved populations, which corresponds to a $beta(5, 5)$. Each admixed cluster holds $200$ individuals. The simulation used again $10000$ loci.
+Three populations with F-values  of $0.1, 0.5, 0.9$ and with $100$ individuals each were sampled. Between each pair of population clusters lies an admixed population sampled from a Dirichlet with $5$s and a $0$ for not involved populations, which corresponds to a $\beta(5, 5)$. Each admixed cluster holds $200$ individuals. The simulation used again $10000$ loci.
 \end{figure}
 
 
@@ -670,15 +671,15 @@ Gradient boosting is a supervised learning method for classification and regress
 
 Let $\chi$ denote the input space. The task then is to approximate the function $f^*(x)$ that maps an arbitrary input $x \in \chi$ to the desired output $y \in \mathbb{R}$. An ensemble of $M$ different basis learners $g_1,g_2,\ldots,g_M: \chi \rightarrow \mathbb{R}$ can be used to generalise over a training set $((x_1, y_1),(x_2,y_2),\ldots,(x_N, y_N))$ of $N$ training pairs in a linear fashion as following:
 \begin{align*}
-f(x) = \sum_{m=1}^{M}\phi_m g_m(x)
+f(x)\, =\, \sum_{m=1}^{M}\, \phi_m g_m(x)
 \end{align*}
-where $\phi_i \in \mathbb{R}$ are the weights for each basis learner. Linear models for a set of given basis learners can be fitted via conventional methods such as least squares, lasso, ridge \cite{bishop2006pattern}. $f(x)$ can be used as an approximation for various tasks like regression, classification (by for example using a threshold).\\
+where $\phi_i \in \mathbb{R}$ are the weights for each basis learner. Linear models for a set of given basis learners can be fitted via conventional methods such as least squares, lasso, ridge \parencite{bishop2006pattern}. $f(x)$ can be used as an approximation for various tasks like regression, classification (by for example using a threshold).\\
 
 The model is limited by the explicit choice of the base learners. Instead an algorithm that finds the best base learners from a hypothesis space $\mathcal{H}$ would increase the adaptive potential of the model. Thus, for a given differentiable loss function $l(x, f(x))$, an algorithm should find the best $M$ base learners $h_1, h_2, \ldots, h_m \in \mathcal{H}: \chi \rightarrow \mathbb{R}$ and corresponding weights such that the empirical risk is minimised:
 
-\begin{align}
-\argmin_{\phi_i, h_i}\frac{1}{N}\sum_{i = 1}^{N} l(y_i, \sum_{m=1}^{M}\phi_m h_m(x_i))
-\end{align}
+\begin{align*}
+\argmin_{\phi_i, h_i}\, \frac{1}{N}\, \sum_{i = 1}^{N}\, l\big(\, y_i,\; \sum_{m=1}^{M}\, \phi_m h_m(x_i)\big)
+\end{align*}
 
 Solving this task is an optimisation problem usually beyond practicability. A common optimisation technique is too update the parameters through the use of gradient descent. Several problems arise in the case of differentiating over the hypothesis space:
 
@@ -700,38 +701,38 @@ Let $H \subset \mathcal{H}$ be the chosen set of possible base learners.
 \item For each stage $m \in 1,\ldots,M$:
 \begin{enumerate}
 \item solve \begin{align*}
-\argmin_{\phi_i, h_i}\frac{1}{N}\sum_{i = 1}^{N} l(y_i,f_{m-1}(x_i) + \phi_m h_m(x_i))
+\argmin_{\phi_i, h_i}\, \frac{1}{N}\, \sum_{i = 1}^{N}\,  l\big(\,y_i,\; f_{m-1}(x_i)\, +\, \phi_m h_m(x_i)\big)
 \end{align*}
-\item Set $f_m(x) = f_{m-1}(x) + \phi_m h_m(x)$
+\item Set $f_m(x)\, =\, f_{m-1}(x)\, +\, \phi_m h_m(x)$
 \end{enumerate}
 \end{enumerate}
 
-The optimisation step only possess closed viable solving techniques for a limited amount of loss functions, like L2-loss or exponential loss. More information is provided in \cite{friedman2000additive}. To expand the optimisation step to any arbitrary differentiable loss function, the numerical optimisation via gradient boosting is used. \\
+The optimisation step only possess closed form solution for a limited amount of loss functions, like L2-loss or exponential loss. More information is provided in \cite{friedman2000additive}. To expand the optimisation step to any arbitrary differentiable loss function, the numerical optimisation via gradient boosting is used. \\
 
 The optimisation procedure fixates at stage $m$ the current estimates made by $f_{m-1}(x)$ of the training data in a vector $\mathbf{f}_m = [f_{m-1}(x_1), f_{m-1}(x_2), \ldots f_{m-1}(x_N)]^T$. \\
 
 The loss function then can be reformulated as:
 \begin{align*}
-L(\mathbf{f}) = \sum_{i = 1}^{N}l(y_i, \mathbf{f}_i)
+L\big(\mathbf{f}\big)\, =\, \sum_{i = 1}^{N}\, l\big(y_i, \mathbf{f}_i\big)
 \end{align*}
 
 Then the gradient of the loss function is calculated w.r.t $\mathbf{f}$.
 
 \begin{align*}
-\hat{h}_m &= \nabla_{\mathbf{f}_m}L(\mathbf{f}_m) \\
-&=[\partial_{\mathbf{f}_1} l(y_1, \mathbf{f}_1),\ldots, \partial_{\mathbf{f}_N} l(y_N, \mathbf{f}_N)]^T
+\hat{h}_m\, &=\, \nabla_{\mathbf{f}_m}L\big(\mathbf{f}_m\big) \\
+&=\, \big[\partial_{\mathbf{f}_1} l(y_1, \mathbf{f}_1),\ldots, \partial_{\mathbf{f}_N} l(y_N, \mathbf{f}_N)\big]^T
 \end{align*}
 
-Like in conventional gradient descent algorithms the model is adjusted in a manner that the empirical risk is minimised along the direction of steepest descent. The direction of steepest descent corresponds to the negative of the gradient, which is $- \hat{h}_m$. Unlike differentiable base learners, that can adjust their parameters by gradient descent with the chainrule, non-differentiable have to resort to a different strategy.\\
+Like in conventional gradient descent algorithms the model is adjusted in a manner that the empirical risk is minimised along the direction of steepest descent. The direction of steepest descent corresponds to the negative of the gradient, which is $- \hat{h}_m$. Unlike differentiable base learners, that can adjust their parameters by gradient descent through the chain rule, non-differentiable have to resort to a different strategy.\\
 The embedding in the forward additive model allows for the negative gradient $-\hat{h}_m$ to be approximated directly by a new base learner. The objective of the new base learner $h_m(x)$ consequently concludes therein to approximate
 
 \begin{align*}
-h_m(x) \approx -\hat{h}_m
+h_m(x)\, \approx\, -\hat{h}_m
 \end{align*}
 as well as possible. A possible approach would be to train a base learner on the training data, but where the labels are exchanged by $-\hat{h}_m$.\\
 Intuitively, a base learner $h_m(x)$ should be considered as an approximate step in the direction of steepest descent of the empirical risk. Following this setup, the weight $\phi_m > 0$ can be considered as the corresponding step size to be adjusted to ones taste. As a conclusion the iterative construction of the final linear model with gradient boosting
 \begin{align*}
-f(x) = \sum_{m=1}^{M}f_{m-1}(x) + \phi_m h_m(x)
+f(x)\, =\, \sum_{m=1}^{M}\, f_{m-1}(x)\, +\, \phi_m h_m(x)
 \end{align*}
 is a sequence of approximated gradient descent steps towards a minimum of the empirical risk. 
 
@@ -743,53 +744,52 @@ Let ${(x_1,y_1),(x_2, y_2), \ldots, (x_N, y_N)}$ be the training data. The input
 
 Suppose a tree $T$ partitions the featurespace $X_1, X_2, \ldots, X_D$ into $M$ regions $R_1, R_2, \ldots, R_M$. The response function outputed by $T$ is given by:
 \begin{align*}
-f_T(x) = \sum_{m = 1}^{M} c_m I(x \in R_m)
+f_T(x)\, =\, \sum_{m = 1}^{M}\, c_m\, I\big(x \in R_m\big)
 \end{align*}
 where $I$ is an indicator function signalling if the input $x$ is part of a particular region. $c_m$ is the response for a region $R_m$. The optimal value of $c_m$ depends on a chosen loss function that should be minimised w.r.t $c_m$ over all the training points assigned to region $R_m$. As an example, for square loss in a regression setting this would accord to the empirical average of the label values from the training points lying in the region $R_m$.\\
 
 A far more challenging optimisation task is finding the optimal tree that partitions the feature space into $M$ regions, for a given loss function $l$.
 
 \begin{align*}
-\argmin_{R_m, c_m} \sum_{i =1}^{N} l(y_i, \sum_{m = 1}^{M} c_m I(x_i \in R_m))
+\argmin_{R_m, c_m}\, \sum_{i =1}^{N}\, l\big(y_i, \sum_{m = 1}^{M} c_m\, I\big (x_i \in R_m\big )\big )
 \end{align*}
 
 The possibilities of partitioning feature space grows exponentially with the number of features, rendering the encounter of an optimal tree in most cases computationally infeasible.\\
 
 As an alternative, a greedy approximation approach can be used. The greedy algorithm chooses the best dimension $X_d$ and splitting point $s$ that minimises the loss for the two new regions that arise (w.l.o.g. only binary trees will be considered). The two new regions are defined as:
 \begin{align*}
-R_1(d, s) = \{X | X_d \leq s\} \qquad R_2(d, s) = \{X | X_d > s \}
+R_1(d, s)\, =\, \big \{X\, |\, X_d \leq s\big \} \qquad R_2(d, s)\, =\, \big \{X\, |\, X_d > s \big \}
 \end{align*}
 
 The feature space is divided by a plane that is orthogonal to the axis corresponding to feature $X_j$. The plane cuts the value of $s$ on that axis.\\
 The optimisation objective thus reduces to the choice of positioning  the best partitioning plane orthogonal to an axis:
 \begin{align*}
-\argmin_{s, d}[\argmin_{c_1} \sum_{x_i \in R_1(d,s)} l(y_i, x_i) + \argmin_{c_2} \sum_{x_j \in R_2(d,s)} l(y_j, x_j)]
+\argmin_{s, d}\,\Big[\argmin_{c_1} \sum_{x_i \in R_1(d,s)} l\big(y_i, x_i\big)\, +\, \argmin_{c_2} \sum_{x_j \in R_2(d,s)} l\big(y_j, x_j\big)\Big]
 \end{align*}
 
-The optimisation step yields, for a naive implementation that checks for every dimension the splitting value of a plane between every two neighbouring data points, a worst case running time of $\mathcal{O}(D \cdot N log(N))$ ($Nlog(N)$ for sorting feature values), which is computationally much more feasible. However, between two neighbouring data points $x_1$ and $x_2$ there are infinitely many positions (assuming a continuous variable) to place the splitting plane that evaluate to the same empirical risk. As a convention, the splitting value $s$ is place in the middle of $x_1$ and $x_2$, when they are projected on the axis $X_d$. The reasoning is that no further assumptions are to be added through the positioning of the plane and since the splitting of the feature space can be viewed as a Bernoulli experiment (data point either lies left or right of plane) the Bernoulli distribution with expected value of $0.5$ is the maximum entropy Bernoulli.\\
+The optimisation step yields, for a naive implementation that checks for every dimension the splitting value of a plane between every two neighbouring data points, a worst case running time of $\mathcal{O}(D \cdot N log(N))$ ($Nlog(N)$ for sorting feature values), which is computationally much more feasible. However, between two neighbouring data points $x_1$ and $x_2$ there are infinitely many positions (assuming a continuous variable) to place the splitting plane that evaluate to the same empirical risk. As a convention, the splitting value $s$ is placed in the middle of $x_1$ and $x_2$, when they are projected on the axis $X_d$. The reasoning is that no further assumptions are to be added through the positioning of the plane and since the splitting of the feature space can be viewed as a Bernoulli experiment (data point either lies left or right of plane) the Bernoulli distribution with expected value of $0.5$ is the maximum entropy Bernoulli.\\
 
 After finding the best split, the procedure is repeated on the newly constructed regions until the desired depth of the tree is reached. Regression and classification trees differ from one another only through the selection of a different loss function. For regression standard loss functions like square loss would be reasonable choices. Classification trees have revealed better results for loss function that reward node purity, so to which degree does a node hold data points of a single class. Such loss functions are for example the Gini index or cross entropy loss for classification. From an information theory perspective, node purity leads to a greater reduction in entropy.\\
 
 Growing a too big tree $T_0$ is susceptible to overfitting. A regularisation technique that aids in the construction of a well generalising tree is cost-complexity pruning. The goal of pruning is to find a sub-tree $T \subseteq T_0$, by conflating all hierarchically lower nodes that lead off an internal node into that internal nodes, that minimises:
 \begin{align*}
-C_\alpha(T) = \sum_{i = 1}^{N} l(y_i, f_T(x_i)) + \alpha |T|
+C_\alpha\big(T\big)\, =\, \sum_{i = 1}^{N}\, l\big(y_i,\, f_T(x_i)\big)\, +\, \alpha |T|
 \end{align*}
 where $f_T(x)$ is the estimate of Tree $T$ for input $x$ and $|T|$ denotes the number of terminal nodes of $T$. The tuning parameter $\alpha \geq 0$ punishes larger more complex trees according to its value. It resembles the regularisation term of ridge regression. \\
-The optimal sub-tree corresponding to a particular tuning parameter $T_{\alpha}$ can be found using weakest link pruning. Weakest link pruning conflates those terminal nodes into an internal node to which the terminal nodes are all adjacent, such that the empirical risk increases minimally. Continuing with this procedure until only the root stub remains gives a sequence of subtrees $T_1, T_2, \ldots, T_n$ in which with a probability of $1$ the optimal subtree $T_{\alpha}$ can be found \cite{breiman1984classification}. Cross validation can be used to find the optimal value for $\alpha$.\\
+The optimal sub-tree corresponding to a particular tuning parameter $T_{\alpha}$ can be found using weakest link pruning. Weakest link pruning conflates those terminal nodes into an internal node to which the terminal nodes are all adjacent, such that the empirical risk increases minimally. Continuing with this procedure until only the root stub remains gives a sequence of subtrees $T_1, T_2, \ldots, T_n$ in which with a probability of $1$ the optimal subtree $T_{\alpha}$ can be found \parencite{breiman1984classification}. Cross validation can be used to find the optimal value for $\alpha$.\\
 
-Decision trees exhibit high variance, meaning that completely different splits occur and thus the output prediction rules change considerably when there are minor changes added to the training data. The reason resides inherently with how the splits are chosen in a greedy fashion. For example, two promising features could reduce the loss almost equally much, but just the best of both is considered for the next split. Adjusting the training data slightly by for example adding new data points could possibly change the value of the loss function enough to choose the other feature for a split the hierarchical nature consequently propagates the difference further down the tree. This behaviour reveals that the confinement to the greedy perspective when constructing a tree to some degree neglects the goal of generalisation in return for tractability.\\ 
+Decision trees exhibit high variance, meaning that completely different splits occur and thus the output prediction rules change considerably when minor changes are added to the training data. The reason resides inherently with how the splits are chosen in a greedy fashion. For example, two promising features could reduce the loss almost equally much, but just the best of both is considered for the next split. Adjusting the training data slightly by for example adding new data points could possibly change the value of the loss function enough to choose a different feature for a split, the hierarchical nature consequently propagates the difference further down the tree. This behaviour reveals that the confinement to the greedy perspective when constructing a tree to some degree neglects the goal of generalisation in return for tractability.\\ 
 %, even when regularisation is applied, decision trees inherently possess the manner to overfit. Instead of approximating a prediction function by iteratively adjusting all the model parameters together, like via gradient descent, the confinement to picking a single feature for splitting disregards 
 
 Remedies that address model stability involve the introduction of bias. The bias-variance trade off possess an eminent role in machine learning as its a principle that is prominent for many models. In summary, it describes the forfeit of expected accuracy in return for decreasing the variance of an estimated parameter when the training sample is being varied. Creating an ensemble of decision trees is a widely used and fruitful approach. Ensemble approaches for decision trees include bagging, random forests and as well gradient boosting. Several further refinements improve the quality of an ensemble tree models, including randomly masking different features and training data entries for each tree, as this generates differing trees that place their splits differently and therefore deliver more uncorrelated predictions.
 
 %Furthermore, the greedy algorithm is greatly affected by the horizon effect. Meaning it does not recognise if a split with a lower loss reduction would lead to a split that greatly reduces the loss later on. \\
 \section{Results}
-
-\subsection{Training}
-The training data set is composed of $30.000$ synthetically generated instances, with the population sizes evenly distributed ranging from $2-16$.
-The number of loci was uniformly randomly varied ranging from $2000$ to $40000$ as well as the sample size, which could include from $100$ to $5000$ individuals. The $F-values$ are sampled from a beta ....
-The eigenvalues $\lambda_1 \ldots \lambda_K$ are determined by first calculating the singular value decomposition of the simulated genotype matrix and then setting $\lambda_i = s_i^2 / (n-1)$ where $s_1, \ldots, s_K$ are the singular values.\\
+For a beginning, a training data set is generated composed of $30,000$ synthetical instances, with the population sizes evenly distributed ranging from $2-16$.
+The number of loci was uniformly randomly varied ranging from $2,000$ to $40,000$ as well as the sample size, which could include from $100$ to $5,000$ individuals. The $F-values$ of the populations are sampled from a uniform distribution.\\
+The eigenvalues $\lambda_1 \ldots \lambda_K$ for the summary statistics are determined by first calculating the singular value decomposition of the simulated genotype matrix and then setting $\lambda_i = s_i^2 / (n-1)$ where $s_1, \ldots, s_K$ are the singular values.\\
 Since it is only necessary to calculate a certain number of eingenvalues and the the genotype matrix is typically sparse, an SVD-solver based on Lanczos Bidiagonaliziation provides a computationally efficient choice \parencite{golub1965calculating}.\\
+The boosted model trained with the generated data set is used first to investigate some of the inference limits of the model, as well as the implicit clustering assumptions of the generative model. For this porpose the boosted model tries to solve different synthetic data, that are generated with different F-values.\\
 As expected table 1 reveals that the lower the F-value, which accounts for the distance from the ancestral allele frequencies, the closer the population clusters will end up, making them harder or even impossible to distinguish from one another. The trained model is able to detect structure in the eigenvalues from F-values starting around $0.005$. 
 
 \begin{table}[h!]
@@ -801,31 +801,31 @@ As expected table 1 reveals that the lower the F-value, which accounts for the d
       \hline
       MSE & $135.80$ & $135.80$ & $134.42$ & $118.16$ & $62.62$  & $20.98$ & $4.02$ & $0.02$\\
     \end{tabular}
-    \caption{Your first table.}
+    \caption{The mean squared error of the model with uniform F-value prior for generated data with different F-values. In each data set all populations had the according same F-value. 50 data set with different values of $K$ for each F-value were used.}
   \end{center}
 \end{table}
 
-Two problems instances, figure 10 and 11, exemplify these empirical results. Both are synthetically generated with each instance having the three populations with same population sizes and originating from the same ancestral allele frequencies (all frequencies $0.5$). The data is projected on to the first two principal components which should, according to the discussed theory, suffice to make out the clusters. As one can see, the clusters of the data with an F-value of $0.005$ are less discernable than for the data with $0.01$. Of course other factors, such as sample size and dimension of the data set influenc the results.\\
+Two problems instances, figure 11 and 12, exemplify these empirical results. Both are synthetically generated with each instance having the three populations with same population sizes and originating from the same ancestral allele frequencies (all frequencies $0.5$). The data is projected on to the first two principal components which should, according to the discussed theory, suffice to make out the clusters. As one can see, the clusters of the data with an F-value of $0.005$ are less discernable than for the data with $0.01$. Of course other factors, such as sample size and dimension of the data set influence the results.\\
 
 
 \begin{figure}
 \centering
 \begin{subfigure}
 \centering
-\includegraphics[scale=0.6]{f_005}
-\caption{F-value of $0.005$}
+\includegraphics[scale=0.7]{f_005}
+\caption{Possible generated population scenario for an F-value of $0.005$. Datapoints projected on the first two PCs. Number of populations is supposed to be 3.}
 \end{subfigure}
 \begin{subfigure}
 \centering
-\includegraphics[scale=0.6]{f_01}
-\caption{F-value of $0.01$}
+\includegraphics[scale=0.7]{f_01}
+\caption{Almost same scenario settings, just the data was generated with an F-value of $0.01$}
 \end{subfigure}
 \end{figure}
 
-Since a minimum F-value is necessary to generate detectable population structure, new synthetic data sets are generated that only allow an F-value higher than $0.003$. One data set sets a $\beta(1, 3)$ prior and the other a $\beta(0.1, 2)$ over the F-values. The priors will sample lower F-values, where by $\beta(0.1, 2)$ does so the most extreme. Both have $30.000$ synthetic training samples. The intention is to emphasize more tricky problem instances while training the model, whith the hope that the models make more refined choices when confronted by more intricate problem instances.
+Since a minimum F-value is necessary to generate detectable population structure, new synthetic data sets are generated that only allow an F-value higher than $0.003$. One data set places a $\beta(1, 3)$ prior and the other a $\beta(0.1, 2)$ over the F-values. The priors will sample lower F-values, where by $\beta(0.1, 2)$ does so the most extreme. Both have $30,000$ synthetic training samples. The intention is to emphasize more tricky problem instances while training the model, with the hope that the models make more refined choices when confronted by more intricate problem instances.
 \\
 \subsection{Model Comparison}
-Subsequently three gradient boosting models with uniform, $\beta(1,3)$, $\beta(0.1,2)$ F-value priors, the Tracy-Widom p-value method, and the sNMF method are compared. The gradient boosting models were all trained with the same model parameter values and reached all about an average $96\%$ error rate for a five fold cross validation with their respective training sets. The Tracy Widom p-value is set to $0.05$. The sparse NMF algorithm is run five times for possible values of $K$ and the $K$ value with the lowest average cross entropy is chosen. For more information on the methods the reader is referred to section 1.2.\\
+Subsequently three gradient boosting models with uniform, $\beta(1,3)$, $\beta(0.1,2)$ F-value priors, the Tracy-Widom p-value method, and the sNMF method are compared. The gradient boosting models were all trained with the same model parameter values and reached all about an average $96\%$ error rate for a five fold cross validation with their respective data sets. The Tracy Widom p-value is set to $0.05$. The sparse NMF algorithm is run five times (regularisation paramter $\alpha$ set to $1,000$) for a possible interval of $K$ values and the $K$ value with the lowest average cross entropy is chosen. For more information on the methods the reader is referred to section 1.2.\\
 A first comparison is done with synthetic data generated by the prior described model. The F-value for the test data is chosen from a uniform distribution.
 \begin{table}[h!]
   \begin{center}
@@ -844,32 +844,32 @@ A first comparison is done with synthetic data generated by the prior described 
       \hline
       sNMF & $0.1$ & $1.6$ & $0.9$ & $0.4$ & $0.9$ &$0.4$ & $0.4$\\
     \end{tabular}
-    \caption{Your first table.}
+    \caption{The mean squared of error for each method. For each $K$ 10 data sets were generated. F-values were sampled from a uniform distribution.}
   \end{center}
 \end{table}
 
-To no surprise, as seen in table 2, the boosted models fare very well. The TW-method, despite the mathematical elegance of its origin, remains uncompetetive and unflexible until at least a heuristic for choosing the p-value for each problem instance independently is developed. The sNMF approach yielded also very competitive results, which is only mildly suprising, since it performs similar on the estimation of $K$ as the likelihood method of Structure/Admixture that use a similar generative model as the one the data is generated from \cite{frichot2014fast}.\\
+To no surprise, as seen in table 2, the boosted models fare very well. The TW-method, despite the mathematical elegance of its origin, remains uncompetetive and unflexible until at least a heuristic for choosing the p-value for each problem instance independently is developed. The sNMF approach yielded also very competitive results, which is only mildly suprising, since it performs similar on the estimation of $K$ as the likelihood method of Structure/Admixture that use a similar generative model as the one the data is generated from \parencite{frichot2014fast}.\\
 
 \subsubsection{Real World Instances}
-To gain a better view of the inference decision made by the boosted models, they are tested and compared on two real world data sets.
+To gain a better view of the inference decisions made by the boosted models, they are tested and compared on two real world data sets.
 
-The data set originates from the Harvard Human Genome Diversity Project (\url{ftp://ftp.cephb.fr/hgdp_v3/}), it contains the information of $10,664$ SNPs from $418$ human samples from Central- and East-Asia \parencite{frichot2012correcting}. Figure 12 visualises a possible admixture attribution for $K = 4$.\\
+The data set originates from the Harvard Human Genome Diversity Project (\url{ftp://ftp.cephb.fr/hgdp_v3/}), it contains the information of $10,664$ SNPs from $418$ human samples from Central- and East-Asia \parencite{frichot2012correcting}. Figure 13 visualises a possible admixture attribution for $K = 4$.\\
 
 \begin{figure}
 \centering
 \begin{subfigure}
 \centering
-\includegraphics[scale=0.35]{asia_pop}
-\caption{K = 4}
+\includegraphics[scale=0.4]{asia_pop}
+\caption{Possible admixture illustration for $K=4$ for the real world Asia data set. Source: \cite{frichot2012correcting}}
 \end{subfigure}
 \begin{subfigure}
 \centering
-\includegraphics[scale=0.5]{pc_asia}
-\caption{pcs asia}
+\includegraphics[scale=0.6]{pc_asia}
+\caption{Eigenvalues of the real world Asia data set.}
 \end{subfigure}
 \end{figure}
 
-From the display of the Eigenvalues one can observe that detectable population structure should be present. The question however remains how many populations are too be found on the highest clustering level. Inspecting the eigenvalues, most of the signal is captured by the first eigenvector, thus $2$ would be a reasonable guess, but also $3, 4, 5$.
+From the display of the Eigenvalues (figure 14) one can observe that detectable population structure should be present. The question however remains how many populations are too be found on the highest clustering level. Inspecting the eigenvalues, most of the signal is captured by the first eigenvector, thus $2$ would be a reasonable guess, but also $3, 4, 5$.
 
 \begin{table}[h!]
   \begin{center}
@@ -880,26 +880,26 @@ From the display of the Eigenvalues one can observe that detectable population s
       \hline
       $14$ & $8$ & $5$  & $3$\\
     \end{tabular}
-    \caption{Your first table.}
+    \caption{The estimates of each method for the real world Asia data set.}
   \end{center}
 \end{table}
 
 Although the true number of populations remains vague and dependable of what assumptions are made, the estimates of the boosted models seem, with regard of the prior described theory, too sensitive. Most of the signal was capture by the first to first three eigenvectors. Only the model with the $\beta(0.1, 2)$ prior outputs the reasonable result of $5$. The estimate $3$ of the sNMF model, seems more suitable. The results are depicted by table 3.\\
 
-The other real world data contains samples of the plant species \textit{Arabidopsis thaliana}. $52,001$ SNP of the first chromosome were extracted from a larger data set, whereby $1,096$ across Europe where taken.\parencite{franccois2016running}.
-Figure 14 illustrates a possible admixture interpolation with the results of the sNMF method for $K = 5$. Population structure for \textit{Arabidopsis thaliana}, as indicated in the Eigenvalues (figure 15), possess a more complex population structure. The species reproduces via seeds that gradually disperse over generations. Thus, the genetic differences changes are more of a continuous nature than clear cut clusters. The Eigenvalues decay accordingly also in a more continuous fashion. Making a prediction about the number of populations appears therefore quite intricate.
+The other real world data contains samples of the plant species \textit{Arabidopsis Thaliana}. $52,001$ SNP of the first chromosome were extracted from a larger data set, whereby $1,096$ across Europe where taken \parencite{franccois2016running}.
+Figure 15 illustrates a possible admixture interpolation with the results of the sNMF method for $K = 5$. Population structure for \textit{Arabidopsis thaliana}, as indicated in the Eigenvalues (figure 16), possess a more complex population structure. The species reproduces via seeds that gradually disperse over generations. Thus, the genetic differences changes are more of a continuous nature than clear cut clusters. The Eigenvalues decay accordingly also in a more continuous fashion. Making a prediction about the number of populations appears therefore quite intricate.
 
 \begin{figure}
 \centering
 \begin{subfigure}
 \centering
-\includegraphics[scale=0.4]{a_thaliana}
-\caption{real world 2}
+\includegraphics[scale=0.5]{a_thaliana}
+\caption{Interpolation for a possible population admixture assignment for $K\,= 5$ of the \textit{A. Thaliana} data set. Source: \cite{franccois2016running}}
 \end{subfigure}
 \begin{subfigure}
 \centering
-\includegraphics[scale=0.5]{pc_a_thaliana}
-\caption{pcs}
+\includegraphics[scale=0.6]{pc_a_thaliana}
+\caption{Eigenvalues of the \textit{A. Thaliana}}
 \end{subfigure}
 \end{figure}
 
@@ -914,21 +914,22 @@ Figure 14 illustrates a possible admixture interpolation with the results of the
       \hline
       $7$ & $4$ & $3$ & $10$\\
     \end{tabular}
-    \caption{Your first table.}
+    \caption{Estimates of the methods for the \textit{A. Thaliana} data set.}
   \end{center}
 \end{table}
 
 The results are shown in table 4. From looking at the eigenvalues, various possibile values of $K$ seem reasonable. The value of $10$ from the sNMF estimate appears high, but nonetheless possible as a even the lower eigenvalues display that their corresponding eigenvectors still capture some of the signal. \\
-Considering the boosted models, it appears that the estimates with priors are more "conservative", where by the more "extreme" $\beta(0.1,2)$ prior the most conservative is. A reason might be, as already pointed out, the models are more observant towards difficult cases where significant eigenvalues are not much larger than insignificant ones. As a consquence the model will act more reserved when confronted with cases, where the decay of eigenvalues is of continuous nature.
+Considering the boosted models, it appears that the estimates with priors are more "conservative", where by the more "extreme" $\beta(0.1,2)$ prior the most conservative is. A reason might be, as already pointed out, the models are more observant towards difficult cases where significant eigenvalues are not much larger than insignificant ones. As a consquence, the model will act more reserved when confronted with cases, where the decay of eigenvalues is of continuous nature.
 
 \section{Discussion}
 To further evaluate the quality of predictions made by the boosted models more real world instances should be investigated. However, since the ground truth is not known and each real world problem instance needs to be investigated seperately to at least contain the range of reasonable $K$ values. This explains the difficulty of compiling a real world training set.\\
 %In regard instances like the real world asia instances, it was attempted to increase the rebustness and generalization of the model by constructing a training set with noise added to the allele frequencies of each individual, such as a truncated gaussian or beta. However, the noise addition did not improve the results. The reason could be that in cluster analysis adding noise does not add any further structure, but solely increases the dispersion of each cluster. Or from a more general view point: The problem is not a high variance but a big bias from begin with. Adding noise would not improve the bias. The insufficiency therefore probably lies in the synthetically generated training data set.\\
-The proposed model still displays some difficulties concerning real world instances, as in the case of the real world asia data set. Setting appropriate priors is not a complete remedy for a profound structural problem with in the model. I suspect that the main problem lies within the simplicity of the generated training set. In particular the assumption that de Finetti's Theorem holds, individuals from the same population are exchangeable. This leads to the noise being simple and easily seperable from the desired signal captured by the significant eigenvalues. Real world instances on the other hand exhibit a more complex structure, especially in the sense that the population structure is usually hierarchical, possibly to an even very low level if one considers the possibility of sampling individuals from the same family (or close relatives). Seperating the desired signal (population structure on the highest hierarchichal level) becomes thus more challenging as the, for the task, insignificant eigenvalues also convey some structure. Exactly this difference is observable when comparing the eigenvalues of synthetic data sets and real world data sets. The insignificant eigenvalues of the synthetic data sets look flat and do not capture any much more structure.\\
-A possibility to make estimates more viable when dealing with real world instances could therefore be, to alter the generative model in a way that it produces a hierarchical population structure. This could be implemented by reapplying the algorithm recursively in such a fasion that for every population, further subpopulations (with decreasing F-values) are determined, until the single individual is reached. Of course further prior assumptions about the subpopulations would have to be made, however since the task is to solely provide some complexer structure, which is to be exhibited in the decay of the lower eigenvalues, conservative assumptions should suffice.\\
+The proposed boosted model still displays some difficulties concerning real world instances, as in the case of the real world asia data set. Setting appropriate priors is not a complete remedy for a profound structural problem within the model. I suspect that the main problem lies inherentyl in the simplicity of the generated training set. In particular, the assumption that de Finetti's Theorem holds, meaning individuals from the same population are exchangeable. This leads to the noise being simple and easily seperable from the desired signal captured by the significant eigenvalues.\\
+Real world instances on the other hand exhibit a more complex structure, especially in the sense that the population structure is usually hierarchicaly structured, possibly to an very low level, if one considers the possibility of sampling individuals from the same family (or close relatives). Seperating the desired signal (population structure on the highest hierarchical level) becomes thus more challenging as the for the task insignificant eigenvalues also convey some structure. Exactly this difference is observable when comparing the eigenvalues of synthetic data sets and real world data sets. The insignificant eigenvalues of the synthetic data sets look flat and do not convey any more structure.\\
+A possibility to make estimates more viable when dealing with real world instances could therefore be, to alter the generative model in a way that it produces a hierarchical population structure. This could be implemented by reapplying the algorithm recursively in such a fashion that for every population, further subpopulations (with decreasing F-values) are determined, until the single individual is reached. Of course further prior assumptions about the subpopulations would have to be made, however since the task is to solely provide some more complex substructure, which is to be exhibited in the decay of the lower eigenvalues, conservative assumptions should suffice.\\
 Further factors that could influence the quality of predictions include the dimension ratio $l/n$ (number of loci $l$, number of samples $n$) of typical genotype matrices. Usually $l/n >> 1$ holds, resulting in the standard covariance estimator being ill-suited \parencite{ledoit2004well, schafer2005shrinkage}.\\
-Also the generative model possess various hyperparameters that can be tuned according to assumptions made about the nature of genotype data (F-value, minimum cluster size, number o samples, number of loci, ...). Especially the assumptions made about the generated cluster should be investigated further. What clustering qualities are necessary such that the number of clusters on the highest hierarchical level is displayed by the significant eigenvalues?\\
-As a conclusion, the boosted model has proven to be a scalable method, even for limited computational rescources, to estimate the number of populations in SNP genotype data. Most other methods are very elaborate, for solely estimating the number of populations and require several extensive runs that might not be possible with limited computing power. The quality of the estimates have shown to be satisfactory, but could possibly be greatly improved with the points stated above.\\ 
+Also the generative model possess various hyperparameters that can be tuned according to assumptions made about the nature of genotype data (F-value, minimum cluster size, number of samples, number of loci, etc.). Especially the assumptions made about the generated cluster should be investigated further. What clustering qualities are necessary such that the number of clusters on the highest hierarchical level is displayed by the significant eigenvalues?\\
+As a conclusion, the boosted model has proven to be a scalable method, even for limited computational rescources, to estimate the number of populations in SNP genotype data. Most other methods are very elaborate, for solely estimating the number of populations and require several extensive runs that might not be possible with limited computing power. The quality of the estimates have shown to be satisfactory, but could possibly be greatly improved by the points stated above.\\ 
 
 \printbibliography
 
